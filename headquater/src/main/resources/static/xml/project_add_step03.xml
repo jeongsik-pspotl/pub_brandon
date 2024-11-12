@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false"><![CDATA[
+			 scwin.hybrid_server_config_select_yn = false;
+			 scwin.platformType = "";
+			 scwin.workspace_name = localStorage.getItem("__workspace_name__");
+			 scwin.createProjectToFlag_yn = false;
+			 serverinfo_itemIdx = 0;
+			 scwin.onpageload = function () {
+				 common.setScopeObj(scwin);
+				 // ToolTip
+				 $(".tooltip_box .ico_tip").click(function () {
+					 $(this).siblings(".tip_desc").toggleClass("on").parent().parent().siblings().children().children(".tip_desc").removeClass("on");
+				 });
+				 $p.parent().btn_proejct_step04.setDisabled(true);
+				 $p.parent().btn_proejct_step05.setDisabled(true);
+
+				 scwin.initPage();
+			 };
+
+			 scwin.onpageunload = function () {
+
+			 };
+
+			 scwin.initPage = function () {
+				 // project 생성 status loading bar 진행 사항 표시하기...
+				 var buildproj_json = $p.parent().dtl_build_project_step1.getRowJSON(0);
+
+				 scwin.platformType = buildproj_json.platform;
+				 if (scwin.platformType == "Android") {
+					 // form_wrap_ios.hide();
+
+				 } else {
+					 // form_wrap_android.hide();
+
+				 }
+
+				 btn_next.hide();
+				 input_appname_1.setDisabled(true);
+
+			 };
+
+			 scwin.createBuildProject = function () {
+
+				 var buildproj_json = $p.parent().dtl_build_project_step1.getRowJSON(0);
+				 var buildsetting_json = $p.parent().dtl_build_project_step2.getRowJSON(0);
+
+				 var templateCheck = buildproj_json.template_version;
+
+				 var serverConfigArray = [];
+				 var server1Json = {};
+
+				 server1Json.Name = input_appname_1.getValue();
+				 server1Json.AppID = input_appid_1.getValue();
+				 server1Json.ServerURL = input_serverurl_1.getValue();
+
+				 serverConfigArray.push(server1Json);
+
+				 for (var i = 0; i < serverinfo_itemIdx; i++) {
+
+					 var servertempJson = {};
+
+					 var server_name = $p.getComponentById("myid_name_input_" + i);
+					 var server_app_id = $p.getComponentById("myid_app_id_input_" + i);
+					 var server_url = $p.getComponentById("myid_server_url_input_" + i);
+
+					 if (server_name != null) {
+						 servertempJson.Name = server_name.getValue();
+					 }
+
+					 if (server_app_id != null) {
+						 servertempJson.AppID = server_app_id.getValue();
+					 }
+
+					 if (server_url != null) {
+						 servertempJson.ServerURL = server_url.getValue();
+						 serverConfigArray.push(servertempJson);
+					 }
+
+				 }
+
+                 var message = common.getLabel("lbl_not_select");
+				 if (templateCheck == "" || templateCheck == message) { //선택안함
+					 scwin.setBuildSetting(buildproj_json, buildsetting_json, serverConfigArray); // server Config Array 값 추가
+				 } else {
+					 scwin.setTemplateProjectCopy(buildproj_json, buildsetting_json, serverConfigArray);
+
+				 }
+
+			 };
+
+			 scwin.btn_prev_onclick = function (e) {
+				 $p.parent().scwin.selected_step(2);
+			 };
+
+			 scwin.btn_next_onclick = function (e) {
+				 if (scwin.createProjectToFlag_yn) {
+					 $p.parent().scwin.selected_step(4);
+				 } else {
+                     var message = common.getLabel("lbl_project_add_step03_js_move_plugin_page");
+					 alert(message); //프로젝트 생성되어야 플러그인 설정 화면에 이동 할 수 있습니다
+				 }
+
+			 };
+
+			 scwin.webSocketCallback = function (obj) {
+				 // msg type 추가
+				 //console.log(" project add websocket ");
+				 switch (obj.MsgType) {
+					 case "HV_MSG_CONNETCION_CHECK_INFO_FROM_HEADQUATER" :
+						 scwin.setBranchProjectCreateSyncStatus(obj);
+						 break;
+					 case "HV_MSG_PROJECT_CREATE_GITHUB_CLONE_INFO_FROM_HEADQUATER" :
+						 scwin.setBranchProjectCreateSyncStatus(obj);
+						 break;
+					 case "HV_MSG_WINDOWS_CONFIG_LIST_INFO_FROM_HEADQUATER" :
+						 // scwin.setWindowsConfigListStatus(obj);
+						 break;
+					 case "HV_MSG_PROJECT_TEMPLATE_STATUS_INFO_FROM_HEADQUATER":
+						 scwin.setBranchProjectCreateSyncStatus(obj);
+						 break;
+					 default :
+						 break;
+				 }
+			 };
+
+			 scwin.setBranchProjectCreateSyncStatus = function (obj) {
+				 // git sync return
+				 switch (obj.gitStatus) {
+					 case "GITCLONE":
+                         var message = common.getLabel("lbl_git_clone");
+						 WebSquare.layer.showProcessMessage(message); //Git Clone
+						 break;
+					 case "SVNCHECKOUT":
+                         var message = common.getLabel("lbl_svn_checkout");
+						 WebSquare.layer.showProcessMessage(message); //Svn Checkout
+						 break;
+					 case "APPICONUNZIP":
+                         var message = common.getLabel("lbl_app_icon_uploading");
+						 WebSquare.layer.showProcessMessage(message);
+						 break;
+					 case "FILEUPLOAD":
+                         var message = common.getLabel("lbl_signingkey_uploading");
+						 WebSquare.layer.showProcessMessage(message); //SigningKey Uploading
+						 // scwin.sendBranchSigningKeyAPI(obj);
+						 break;
+					 case "CONFIG":
+                         var message = common.getLabel("lbl_app_config_setting");
+						 WebSquare.layer.showProcessMessage(message);
+						 break;
+					 case "GITCOMMIT":
+                         var message = common.getLabel("lbl_git_commit");
+						 WebSquare.layer.showProcessMessage(message); //Git Commit
+						 break;
+					 case "GITADD":
+                         var message = common.getLabel("lbl_git_add");
+						 WebSquare.layer.showProcessMessage(message); //Git Add
+						 break;
+					 case "GITPUSH":
+                         var message = common.getLabel("lbl_git_push");
+						 WebSquare.layer.showProcessMessage(message); //Git Push
+						 break;
+					 case "SVNADD":
+                         var message = common.getLabel("lbl_svn_add");
+						 WebSquare.layer.showProcessMessage(message); //Svn Add
+						 break;
+					 case "MKDIR":
+                         var message = common.getLabel("lbl_project_dir_create");
+						 WebSquare.layer.showProcessMessage(message); //Project Directory Create
+						 break;
+					 case "GITBARE":
+                         var message = common.getLabel("lbl_git_bare_init");
+						 WebSquare.layer.showProcessMessage(message); //Git Bare init
+						 break;
+					 case "PROJCOPY":
+                         var message = common.getLabel("lbl_project_zip_copy");
+						 WebSquare.layer.showProcessMessage(message); //Project Zip File Copy
+						 break;
+					 case "DONE":
+						 WebSquare.layer.hideProcessMessage();
+                         var message = common.getLabel("lbl_project_add_step03_js_created_project");
+						 alert(message); //프로젝트 생성 완료
+						 if (obj.projectDirPath == null) {
+
+						 } else {
+							 $p.parent().dtl_build_project_step1.setCellData(0, "project_dir_path", obj.projectDirPath);
+						 }
+
+
+						 // flag yn 처리
+						 scwin.btn_project_step4_checkYn = true;
+						 scwin.createProjectToFlag_yn = true;
+						 btn_create_project_trigger.setDisabled(true);
+						 btn_next.show();
+
+						 break;
+					 default :
+						 break;
+				 }
+
+			 };
+
+			 scwin.sendBranchSigningKeyAPI = function (obj) {
+
+				 $.ajax({
+					 url: "/api/singingkey/profilesend",
+					 type: "post",
+					 accept: "application/json",
+					 contentType: "application/json; charset=utf-8",
+					 data: JSON.stringify(obj),
+					 dataType: "json",
+					 success: function (r, status) {
+						 if (status === "Created") {
+							 //console.log("status success ");
+							 // alert("status success ");
+
+						 }
+
+					 }
+					 , error: function (request, status, error) {
+						 if (request.status == 200) {
+
+						 } else {
+							 alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n");
+						 }
+
+					 }
+				 });
+
+			 };
+
+			 scwin.setBuildSetting = function (buildproj_json, buildsetting_json, serverConfigArray) {
+
+
+				 var build_all_in_json = {};
+
+				 build_all_in_json.workspace_group_role_id = localStorage.getItem("__workspace_group_role_id__"); //
+
+				 build_all_in_json.buildProject = buildproj_json;
+				 build_all_in_json.buildSetting = buildsetting_json;
+				 build_all_in_json.serverConfig = serverConfigArray;
+
+				 var options = {};
+				 options.action = "/manager/build/project/create/vcs";
+				 options.mode = "asynchronous";
+				 options.mediatype = "application/json";
+				 options.requestData = JSON.stringify(build_all_in_json);
+				 options.method = "POST";
+
+				 options.success = function (e) {
+					 var data = e.responseJSON;
+					 if ((e.responseStatusCode === 200 || e.responseStatusCode === 201) && data != null) {
+
+						 var build_id = data[0].build_id;
+						 $p.parent().dtl_build_project_step1.setCellData(0, "project_id", build_id);
+						 localStorage.setItem("__create_build_id__", build_id);
+						 btn_create_project_trigger.setDisabled(true);
+
+					 } else {
+                         var message = common.getLabel("lbl_failed_create_project");
+						 alert(message); //프로젝트 생성 실패
+					 }
+				 };
+
+				 options.error = function (e) {
+					 alert("code:" + e.responseStatusCode + "\n" + "message:" + e.responseText + "\n" + "error:" + e.requestBody);
+					 //$p.url("/login.xml");
+				 };
+
+				 $p.ajax(options);
+
+			 };
+
+			 scwin.setTemplateProjectCopy = function (buildproj_json, buildsetting_json, serverConfigArray) {
+
+
+				 var build_all_in_json = {};
+
+				 build_all_in_json.workspace_group_role_id = localStorage.getItem("__workspace_group_role_id__"); // localstorage 방식 제거 해야함.
+
+				 if (scwin.platformType == "Android") {
+					 build_all_in_json.packageName = "";
+					 //$p.parent().dtl_build_project_step2.setCellData(0, "all_package_name", input_packagename.getValue());
+				 } else if (scwin.platformType == "iOS") {
+					 build_all_in_json.packageName = ""; // input_projectname.getValue();
+					 //$p.parent().dtl_build_project_step2.setCellData(0, "all_package_name", input_projectname.getValue());
+				 }
+
+				 build_all_in_json.buildProject = buildproj_json;
+				 build_all_in_json.buildSetting = buildsetting_json;
+				 build_all_in_json.serverConfig = serverConfigArray;
+
+				 var options = {};
+				 options.action = "/manager/build/project/create/templateProject";
+				 options.mode = "asynchronous";
+				 options.mediatype = "application/json";
+				 options.requestData = JSON.stringify(build_all_in_json);
+				 options.method = "POST";
+
+				 options.success = function (e) {
+					 var data = e.responseJSON;
+					 if ((e.responseStatusCode === 200 || e.responseStatusCode === 201) && data != null) {
+
+						 var build_id = data[0].build_id;
+						 $p.parent().dtl_build_project_step1.setCellData(0, "project_id", build_id);
+						 localStorage.setItem("__create_build_id__", build_id);
+						 btn_create_project_trigger.setDisabled(true);
+
+					 } else {
+                         var message = common.getLabel("lbl_failed_create_project");
+						 alert(message); //프로젝트 생성 실패
+					 }
+				 };
+
+				 options.error = function (e) {
+					 alert("code:" + e.responseStatusCode + "\n" + "message:" + e.responseText + "\n");
+					 //$p.url("/login.xml");
+				 };
+
+				 $p.ajax(options);
+
+			 };
+
+			 scwin.checkData = function () {
+
+				 var packageName = "";
+
+				 var server_name_1 = input_appname_1.getValue();
+
+				 var app_id1 = input_appid_1.getValue();
+
+				 var server_URL1 = input_serverurl_1.getValue();
+
+				 var appIDCheck1 = "";
+				 var appIDCheckAll = "";
+
+
+
+				 // name, server, appid 정보
+				 // server name 빈칸
+				 if (common.isEmptyStr(server_name_1)) {
+                     var message = common.getLabel("lbl_check_server_name");
+					 alert(message);
+					 return false;
+				 }
+
+				 // app id 빈칸
+				 if (common.isEmptyStr(app_id1)) {
+                     var message = common.getLabel("lbl_input_appid");
+					 alert(message);
+					 return false;
+				 }
+
+				 // server url 빈칸
+				 if (common.isEmptyStr(server_URL1)) {
+                     var message = common.getLabel("lbl_project_add_step03_js_input_server_url");
+					 alert(message); //server URL 입력하세요
+					 return false;
+				 }
+
+				 // server url 자릿수 제한
+				 if (common.getCheckInputLength(server_URL1, server_URL1.length, 200)) {
+
+					 return false;
+				 }
+
+				 // package name 한글 입력
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_KOR", packageName) && scwin.platformType == "Android") {
+                     var message = common.getLabel("lbl_package_name_kor_rule");
+					 alert(packageName + " : " + message);
+					 return false;
+				 }
+
+				 // project name 한글 입력
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_KOR", packageName) && scwin.platformType == "iOS") {
+					var message = common.getLabel("lbl_proejct_name_kor_rule");
+                    alert(packageName + " : " + message);
+					return false;
+				 }
+
+				 // server name 한글 입력
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_KOR", server_name_1)) {
+                     var message = common.getLabel("lbl_server_name_kor_rule");
+					 alert(server_name_1 + " : " + message);
+					 return false;
+				 }
+
+				 // server url 빈칸
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_KOR", server_URL1)) {
+                     var message = common.getLabel("lbl_project_add_step03_js_check_server_url_kor");
+					 alert(server_URL1 + " : " + message); //server URL 형식에 한글은 입력할 수 없습니다
+					 return false;
+				 }
+
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_SPC", packageName) && scwin.platformType == "Android") {
+                     var message = common.getLabel("lbl_package_name_special_char_rule");
+					 alert(packageName + " : " + message);
+					 return false;
+				 }
+
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_SPC", packageName) && scwin.platformType == "iOS") {
+                     var message = common.getLabel("lbl_project_name_special_char_rule");
+					 alert(packageName + " : " + message);
+					 return false;
+				 }
+
+				 if (common.checkAllInputText("CHECK_INPUT_TYPE_SPC", server_name_1)) {
+                     var message = common.getLabel("lbl_server_name_special_char_rule");
+					 alert(server_name_1 + " : " + message);
+					 return false;
+				 }
+
+				 appIDCheck1 = app_id1.split("\.");
+
+				 // appID 1 check
+				 if (appIDCheck1.length >= 3 || appIDCheck1.length >= 4) {
+					 for (var i = 0; i < appIDCheck1.length; i++) {
+						 var strAppID = appIDCheck1[i];
+
+						 var check_app_id_str = common.checkAllInputText("CHECK_INPUT_TYPE_APP_ID2", strAppID);
+
+						 if (!check_app_id_str) {
+                             var message = common.getLabel("lbl_appid_check_form");
+							 alert(app_id + " : " + message);
+							 return false;
+						 }
+					 }
+
+				 } else {
+                     var message = common.getLabel("lbl_appid_check_form");
+					 alert(app_id1 + " : " + message);
+					 return false;
+				 }
+
+				 for (var i = 0; i < serverinfo_itemIdx; i++) {
+
+					 var servertempJson = {};
+
+					 var server_name = $p.getComponentById("myid_name_input_" + i);
+					 var server_app_id = $p.getComponentById("myid_app_id_input_" + i);
+					 var server_url = $p.getComponentById("myid_server_url_input_" + i);
+
+					 if (server_name != null) {
+						 servertempJson.Name = server_name.getValue();
+					 }
+
+					 if (server_app_id != null) {
+						 servertempJson.AppID = server_app_id.getValue();
+					 }
+
+					 if (server_url != null) {
+						 servertempJson.ServerURL = server_url.getValue();
+					 }
+
+					 // server name 한글 입력
+					 if (common.checkAllInputText("CHECK_INPUT_TYPE_KOR", servertempJson.Name)) {
+                         var message = common.getLabel("lbl_project_add_step03_js_check_server_name_kor");
+						 alert(servertempJson.Name + " : " + message); //server Name 형식에 한글은 입력할 수 없습니다
+						 return false;
+					 }
+
+					 // server url 빈칸
+					 if (common.checkAllInputText("CHECK_INPUT_TYPE_KOR", servertempJson.ServerURL)) {
+                         var message = common.getLabel("lbl_project_add_step03_js_check_server_url_kor");
+						 alert(servertempJson.ServerURL + " : " + message); //server URL 형식에 한글은 입력할 수 없습니다
+						 return false;
+					 }
+
+					 if (common.checkAllInputText("CHECK_INPUT_TYPE_SPC", servertempJson.Name)) {
+                         var message = common.getLabel("lbl_server_name_special_char_rule");
+						 alert(servertempJson.Name + " : " + message);
+						 return false;
+					 }
+
+					 if (server_app_id != null) {
+						 appIDCheckAll = servertempJson.AppID.split("\.");
+
+						 if (appIDCheckAll.length >= 3 || appIDCheckAll.length >= 4) {
+							 for (var i = 0; i < appIDCheckAll.length; i++) {
+								 var strAppID = appIDCheckAll[i];
+
+								 var check_app_id_str = common.checkAllInputText("CHECK_INPUT_TYPE_APP_ID2", strAppID);
+
+								 if (!check_app_id_str) {
+                                     var message = common.getLabel("lbl_appid_check_form");
+									 alert(servertempJson.AppID + " : " + message);
+									 return false;
+								 }
+							 }
+
+						 } else {
+                             var message = common.getLabel("lbl_appid_check_form");
+							 alert(servertempJson.AppID + " : " + message);
+							 return false;
+						 }
+					 }
+
+				 }
+
+				 return true;
+
+			 };
+
+			 scwin.btn_append_input_android_bundle_id_onclick = function (e) {
+
+				 // 이전 방식으로 하는 게 아나리 웹스퀘어 api 호출 방식으로 처리하기
+				 var group_ul1 = WebSquare.util.dynamicCreate("myid_group_ul_" + serverinfo_itemIdx, "group", {tagname: "ul"}, group_server_info_main);
+
+				 var group_li1 = WebSquare.util.dynamicCreate("myid_group_li_1_" + serverinfo_itemIdx, "group", {tagname: "li"}, group_ul1);
+
+				 var append_output_name = WebSquare.util.dynamicCreate("myid_name_" + serverinfo_itemIdx, "textbox", {className: "w2textbox form_name"}, group_li1);
+                 var message_name = common.getLabel("lbl_name");
+				 append_output_name.setLabel(message_name);
+				 var append_output_name_inputbox = WebSquare.util.dynamicCreate("myid_name_input_" + serverinfo_itemIdx, "input", {}, group_li1);
+
+				 var group_li2 = WebSquare.util.dynamicCreate("myid_group_li_2_" + serverinfo_itemIdx, "group", {tagname: "li"}, group_ul1);
+
+				 var append_output_app_id_input = WebSquare.util.dynamicCreate("myid_app_id_" + serverinfo_itemIdx, "textbox", {className: "w2textbox form_name"}, group_li2);
+				 var message_appid = common.getLabel("lbl_appid");
+                 append_output_app_id_input.setLabel(message_appid);
+				 var append_output_app_id = WebSquare.util.dynamicCreate("myid_app_id_input_" + serverinfo_itemIdx, "input", {}, group_li2);
+
+
+				 var group_li3 = WebSquare.util.dynamicCreate("myid_group_li_3_" + serverinfo_itemIdx, "group", {tagname: "li"}, group_ul1);
+
+				 var append_output_server_url = WebSquare.util.dynamicCreate("myid_server_url_" + serverinfo_itemIdx, "textbox", {className: "w2textbox form_name"}, group_li3);
+				 var message_server_url = common.getLabel("lbl_serverurl");
+                 append_output_server_url.setLabel(message_server_url); //Server URL
+				 var group_ipt_box3_1 = WebSquare.util.dynamicCreate("myid_group_ipt_box_3_" + serverinfo_itemIdx, "group", {className: "ipt_box"}, group_li3);
+				 var append_output_server_url_input = WebSquare.util.dynamicCreate("myid_server_url_input_" + serverinfo_itemIdx, "input", {}, group_ipt_box3_1);
+				 var append_output_server_url_trigger = WebSquare.util.dynamicCreate("myid_server_url_trigger_" + serverinfo_itemIdx, "trigger", {className: "btn_cm"}, group_ipt_box3_1);
+				 var message_dash = common.getLabel("lbl_dash");
+                 append_output_server_url_trigger.setLabel(message_dash); //-
+				 // server info
+				 // trigger, onclick 기능 추가 -> 삭제 기능
+				 append_output_server_url_trigger.bind("onclick", function (e) {
+					 var save_group_ul1 = group_ul1;
+
+					 save_group_ul1.remove();
+
+				 });
+
+				 // itemIdx++ 형식으로 id 채번 하기
+				 serverinfo_itemIdx++;
+
+			 };
+
+			 scwin.btn_trigger_group_delete_onclick = function (e) {
+
+			 };
+
+
+			 scwin.btn_getbuildproject_add_onclick = function () {
+				 if (scwin.checkData()) {
+                     var message = common.getLabel("lbl_confirm_create_project");
+					 if (confirm(message)) {
+						 scwin.createBuildProject();
+					 } else {
+
+					 }
+
+				 }
+
+			 };
+			 ]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group class="gallery_box" id="" style="">
+			<xf:group class="dfbox" id="" style="">
+				<w2:textbox class="gal_tit fl" id="" label="" style="" useLocale="true" localeRef="lbl_project_add_step03_title"></w2:textbox>
+				<xf:group class="fr">
+					<w2:textbox class="txt_chk" id="" label="" style="" useLocale="true" localeRef="lbl_confirm_create_project"></w2:textbox>
+					<xf:trigger class="btn_cm type1" id="btn_create_project_trigger" style="" type="button" ev:onclick="scwin.btn_getbuildproject_add_onclick" useLocale="true" localeRef="lbl_create">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group>
+    		<xf:group class="gal_body" id="" style="">
+<!--				<xf:group id="form_wrap_android" style="" class="form_wrap">-->
+<!--					<xf:group id="" style="" class="" tagname="ul">-->
+<!--						<xf:group id="" style="" class="" tagname="li">-->
+<!--							<w2:textbox id="" style="" class="form_name" label="Package Name"></w2:textbox>-->
+<!--							<xf:input adjustMaxLength="false" id="input_packagename" style="" initValue=""></xf:input>-->
+<!--						</xf:group>-->
+<!--					</xf:group>-->
+<!--				</xf:group>-->
+<!--				<xf:group id="form_wrap_ios" style="" class="form_wrap">-->
+<!--					<xf:group id="" style="" class="" tagname="ul">-->
+<!--						<xf:group id="" style="" class="" tagname="li">-->
+<!--							<w2:textbox id="" style="" class="form_name" label="Project Name"></w2:textbox>-->
+<!--							<xf:input adjustMaxLength="false" id="input_projectname" style="" initValue=""></xf:input>-->
+<!--						</xf:group>-->
+<!--					</xf:group>-->
+<!--				</xf:group>-->
+    			<xf:group id="group_server_info_main" style="" class="form_wrap">
+    				<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_name"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style=""
+										   toolTip="tooltip" toolTipDisplay="true" useLocale="true" tooltipLocaleRef="lbl_wmatrix_server_name">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input adjustMaxLength="false" id="input_appname_1" style="" initValue="Release"></xf:input>
+						</xf:group>
+    					<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+    							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_appid"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true" useLocale="true" tooltipLocaleRef="lbl_wmatrix_used_appid" >
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+    						<xf:input adjustMaxLength="false" id="input_appid_1" style="" initValue=""></xf:input>
+    					</xf:group>
+    					<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_server_address"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true" useLocale="true" tooltipLocaleRef="lbl_wmatrix_server_address">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:group id="" style="" class="ipt_box" tagname="">
+								<xf:input adjustMaxLength="false" id="input_serverurl_1" style=""></xf:input>
+								<xf:trigger id="" style="" class="btn_cm" type="button" ev:onclick="scwin.btn_append_input_android_bundle_id_onclick" useLocale="true" localeRef="lbl_plus">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<w2:anchor class="gal_prev" id="btn_prev" outerDiv="false" style="" ev:onclick="scwin.btn_prev_onclick" useLocale="true" localeRef="lbl_prev">
+    				<xf:label><![CDATA[]]></xf:label>
+    			</w2:anchor>
+    			<w2:anchor class="gal_next" id="btn_next" outerDiv="false" style="" ev:onclick="scwin.btn_next_onclick" useLocale="true" localeRef="lbl_next">
+    				<xf:label><![CDATA[]]></xf:label>
+    			</w2:anchor>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

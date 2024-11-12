@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13">
+  <g id="ico_error" transform="translate(-111.667 19)">
+    <circle id="타원_207" data-name="타원 207" cx="6.5" cy="6.5" r="6.5" transform="translate(111.667 -19)" fill="#e74c3c"/>
+    <path id="close" d="M5.329,6.035,2.5,3.207,3.207,2.5,6.036,5.329,8.864,2.5l.707.707L6.742,6.036,9.571,8.865l-.707.707L6.035,6.743,3.206,9.572,2.5,8.864Z" transform="translate(112.167 -18.5)" fill="#fff" fill-rule="evenodd"/>
+  </g>
+</svg>

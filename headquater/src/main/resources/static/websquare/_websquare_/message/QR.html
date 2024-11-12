@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+	<head>
+	<meta http-equiv="expires" content="0" />
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title>Source</title>
+    <style type="text/css">
+		body		{ background-color:#F6F4F1; margin-top:0pt; margin-left:0pt; margin-right:0pt }
+		#title 		{ margin-left:5pt;  padding-top:5pt; height:22pt; color:#B3550A; font-size:9pt; font-family:굴림; line-height:14pt; visibility:visible }
+		#main 		{ margin-left:0pt; text-align:center; visibility:visible; font-family:monospace; tab-size:4}
+		#sub 		{ text-align:center; padding-top:7px; visibility:visible }
+	</style>
+	<script type="text/javascript" src="../externalJS/jquery/jquery-1.10.2.min.js"></script>
+	<script type="text/javascript" src="../externalJS/qrcode/qrcode.min.js"></script>
+	<script type="text/javascript">
+		try {
+		    var domain = getParameter("domain");  
+		    if(domain) {
+		        document.domain = domain;   
+		    }
+		} catch (e) {
+			opener.WebSquare.exception.printStackTrace(e);
+		}
+		
+		window.onload = function () {
+			setTimeout(doInit,300);
+		};
+
+		window.onresize = function() {
+			var height = (document.documentElement.clientHeight - 95);   //-title, sub
+			if( height < 200 ) {
+				height = 200;
+			}
+			document.getElementById("main").style.height = height + "px";
+		};
+
+
+		function doInit() {
+			var height = (document.documentElement.clientHeight - 95);   //-title, sub
+			if( height < 200 ) {
+				height = 200;
+			}
+			document.getElementById("main").style.height = height + "px";     
+			document.getElementById("title").innerHTML = "<img src='images/bullet_info.gif' style='vertical-align:middle; margin-right:5px' /><b>" + opener.WebSquare.language.getMessage( "E_viewQR_title" ) + "<br/>&nbsp;&nbsp;주소</b> : <input id='address' size='60'>&nbsp;<button id='btnMk' onclick='makeQR();'>make QRCode</button>";
+
+	        var qrAddr = getParameter("qrAddr");
+	        qrAddr = decodeURIComponent(qrAddr);
+	        qrAddr = opener.WebSquare.text.BASE64Decode(qrAddr);
+	        var addrInput = document.getElementById("address");
+			addrInput.value = qrAddr;
+			
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: qrAddr,
+                width: 250,
+                height: 250,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });			
+		}
+
+		function makeQR() {
+			var dom = document.getElementById("address");
+			var address = trim(dom.value);
+			if (address != "") {
+				var targetDom = document.getElementById("qrcode");
+				targetDom.innerHTML = "";
+	            var qrcode = new QRCode(document.getElementById("qrcode"), {
+	                text: address,
+	                width: 250,
+	                height: 250,
+	                colorDark : "#000000",
+	                colorLight : "#ffffff",
+	                correctLevel : QRCode.CorrectLevel.H
+	            });		
+			}
+		}
+
+		function getParameter(param) {
+		    var ret = "";
+		    try {
+	            var paramObj = {};
+	            var srch = location.search.substring(1);
+	            var arrayOfSrch = srch.split("&");
+	            for (var i = 0; i < arrayOfSrch.length; i++) {
+	                var tmpArray = arrayOfSrch[i].split("=");
+	                if (tmpArray.length == 2) {
+	                    paramObj[trim(tmpArray[0])] = trim(tmpArray[1]);
+	                }
+	            }
+		        ret = paramObj[param];
+		    } catch (e) {
+		        ret = "";
+		    }
+		    if (ret == null || typeof ret == 'undefined') {
+		        ret = '';
+		    }
+		    return ret;
+		}
+
+		function trim(str) {
+		    if (typeof str == "undefined" && str == null) return "";
+		    var leftTrimRegExp = new RegExp("^\\s\\s*");
+		    var rightTrimRegExp = new RegExp("\\s\\s*$");
+		    str = str.replace(leftTrimRegExp, '').replace(rightTrimRegExp, '');
+		    return str;
+		}
+	</script>
+</head>
+<body>
+	<div id="title"></div>
+	<div id="main" style='overflow:auto;width:98%; margin-left:3px;margin-top:20px;border:4px #d7d7d7; border-style:solid; text-align:center;font-size:9pt;' contentEditable="false"><div id="qrcode" style="margin-left: 188px;margin-top: 70px;"></div></div>
+	<div id="sub">
+		<input type="button" class="Button1" value=" close " onClick="self.close()" />
+	</div>
+</body>
+</html>

@@ -1,0 +1,126 @@
+spring:
+  profiles:
+    active : docker
+---
+spring:
+  profiles: docker
+#  devtools:
+#    livereload:
+#      enabled: true
+#    restart:
+#      enabled: true
+  freemarker:
+    cache: false
+  jackson:
+   time-zone: Asia/Seoul
+  # JDBC Connection url for the database
+  datasource:
+    #      jdbc-url: jdbc:mariadb:replication://localhost:3307/whive?useUnicode=true&serverTimezone=Asia/Seoul,localhost:3308/whive?useUnicode=true&serverTimezone=Asia/Seoul
+    #      username: root
+    #      password: password
+    #      jdbc:mariadb://127.0.0.1/W_Hive?characterEncoding=UTF-8&serverTimezone=UTC
+    # ENC(ZSx0fLcJh9hLLGTHaEovWHNfFsaAlIERUIieJ1fYphbIjTlSu0w3oai0o78Wc9BcAoVUeQZpI3HDbVEHTwiSdfp4lMg/bTPy+VXvXNLidU/fOwIxD/UjQA==)
+    url: ${whive-config.jdbc-url}
+    username: ${whive-config.jdbc-id}
+    password: ${whive-config.jdbc-pwd}
+    driverClassName: org.mariadb.jdbc.Driver
+    validationTimeout: 300000
+    #   test-while-idle: true
+    #   validation-query: SELECT 1
+    #   time-between-eviction-runs-millis: 60000
+    connectionTimeout: 30000
+    idleTimeout: 600000
+    maxLifetime: 1800000
+  #   hikari:
+  #     idle-timeout: 600000
+  #     validationTimeout: 300000
+  servlet:
+    session:
+      timeout: 43200m      # 60m * 24h * 30d
+      tracking-modes: cookie
+      cookie:
+        max-age: 43200m    # 60m * 24h * 30d
+        name: SID
+        http-only: true
+        secure: true
+    multipart:
+      maxFileSize: -1
+      maxRequestSize: 128MB
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    emailname: ${whive-config.mail-id}
+    emailpassword: ${whive-config.mail-pwd}
+    whiveDomain: "https://dev.w-hive.io"
+    properties:
+      mail:
+        smtp:
+          socketFactory.class: javax.net.ssl.SSLSocketFactory
+          auth: true
+          starttls:
+            enable: true
+server:
+  port: 9095 # 9095, 9098
+whive:
+  password: "test"
+  distribution:
+    macPassword: "xptmxm"
+    deployLogPath: "/Users/jeongsikkim/Documents/w-hive-logfile/"
+    deployExportDownloadPath: "/Users/jeongsikkim/w-hive/manager/exportdownload/"
+    deployDownloadTempPath: "/Users/jeongsikkim/Documents/headquater_download_temp/"
+    deployProvisionfilePath: "/Users/jeongsikkim/profileSet/"
+    deployQRCodeUrlPath: "AppFileDir/"
+    localgitUrl: "git-admin@localhost:/Users/git-admin/GitRepo/"
+    localsvnUrl: "svn+ssh://127.0.0.1/Users/svn-admin/SvnRepo/"
+  server:
+    whubTarget: "http://192.168.150.94:1337"
+    type: "onpremiss"
+  hazelcast:
+    config: classpath:/hazelcast.yaml
+    cluster:
+      use: true
+  jwt:
+    secret: ${whive-config.jwt-secret}
+logging:
+  config:
+    classpath: logback-spring.xml
+  file: "/Users/jeongsikkim/logs"
+  level:
+    root: INFO
+    #    org.springframework.boot: DEBUG
+    org.springframework.web: INFO
+    com.inswave.whive: INFO
+cloud:
+  aws:
+    credentials:
+      accessKey: ${whive-config.aws-access-key}
+      secretKey: ${whive-config.aws-secret-key}
+    s3:
+      bucket: whive-dev-bucket
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+defaultBinaryBufferSize: 65536
+maxBinaryBufferSize: 67108864
+
+awsParameterStorePropertySource:
+  enabled: true
+
+whive-config:
+  jdbc-url: ${/whive/config/jdbc.url}
+  jdbc-id: ${/whive/config/jdbc.id}
+  jdbc-pwd: ${/whive/config/jdbc.pwd}
+  jwt-secret: ${/whive/config/jwt-secret}
+  aws-access-key: ${/whive/config/aws-access-key}
+  aws-secret-key: ${/whive/config/aws-secret-key}
+  mail-id: ${/whive/config/mail-id}
+  mail-pwd: ${/whive/config/mail-pwd}

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/btn.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+
+        	/**
+        		참고사이트
+        		https://codepen.io/teamturret/pen/KwyVQx
+
+        		dom구조가 복잡하여 보류
+        		https://tympanus.net/Development/ProgressButtonStyles/
+        	*/
+
+			scwin.onpageload = function() {
+	
+			};
+		
+			scwin.btn1_onclick = function(e) {
+                var _this = this;
+			    if(!(_this.hasClass("active"))){
+                    _this.addClass("active");
+
+			        setTimeout(function(){
+                        // _this.removeClass("active");
+                        // _this.removeClass("active");
+                        //_this.addClass("active");
+                        btn1_progress.changeClass("progress-0","progress-50");
+			        },10000);
+
+			    }
+			};
+			
+			scwin.btn2_onclick = function(e) {
+			    if(!(this.hasClass("active"))){
+			        this.addClass("active");
+			        var _this = this;
+			        setTimeout(function(){
+			            _this.removeClass("active");
+			        },10000);
+			    }
+			};
+
+			scwin.btn3_onclick = function(e) {
+			    if(!(this.hasClass("active"))){
+			        this.addClass("active");
+			        var _this = this;
+			        setTimeout(function(){
+			            _this.removeClass("active");
+			        },10000);
+			    }
+			};
+
+			scwin.btn4_onclick = function(e){
+				if(!(btn4.hasClass("active"))){
+                    btn4.addClass("active");
+			        var _this = this;
+			        setTimeout(function(){
+                        btn2_progress.changeClass("progress-0","progress-100");
+			            // _this.removeClass("active");
+			        },10000);
+			    }
+			};
+
+
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    <xf:group class="row" id="">
+    	<xf:group style="" class="progress-btn" id="btn1" ev:onclick="scwin.btn1_onclick">
+    		<w2:attributes>
+                    <w2:data-progress-style>fill-back</w2:data-progress-style>
+              </w2:attributes>
+    		<xf:group style="" id="" class="btn" text="" useLocale="true" localeRef="lbl_building"></xf:group>
+    		<xf:group style="" id="btn1_progress" class="progress-0"></xf:group>
+    	</xf:group>
+<!--    	<xf:group style="" class="progress-btn" id="btn2" ev:onclick="scwin.btn2_onclick">-->
+<!--    		<w2:attributes>-->
+<!--                    <w2:data-progress-style>fill-bottom</w2:data-progress-style>-->
+<!--              </w2:attributes>-->
+<!--    		<xf:group style="" id="" class="btn" text="클린중"></xf:group>-->
+<!--    		<xf:group style="" id="" class="progress"></xf:group>-->
+<!--    	</xf:group>-->
+<!--    	<xf:group style="" class="progress-btn" id="btn3" ev:onclick="scwin.btn3_onclick">-->
+<!--    		<w2:attributes>-->
+<!--                    <w2:data-progress-style>fill-top</w2:data-progress-style>-->
+<!--              </w2:attributes>-->
+<!--    		<xf:group style="" id="" class="btn" text="앱업로드중"></xf:group>-->
+<!--    		<xf:group style="" id="" class="progress"></xf:group>-->
+<!--    	</xf:group>-->
+    	<xf:group style="" class="progress-btn" id="btn4" ev:onclick="scwin.btn4_onclick">
+    		<w2:attributes>
+                    <w2:data-progress-style>indefinite</w2:data-progress-style>
+              </w2:attributes>
+    		<xf:group style="" id="" class="btn" text="" useLocale="true" localeRef="lbl_build_complete"></xf:group>
+    		<xf:group style="" id="btn2_progress" class="progress-0"></xf:group>
+    	</xf:group>
+    </xf:group>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/base.css" type="text/css"?>
+<?xml-stylesheet href="/cm/css/contents.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate/>
+		<xf:model>
+			<xf:instance>
+				<data xmlns=""/>
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+			</w2:dataCollection>
+			<w2:workflowCollection>
+			</w2:workflowCollection>
+		</xf:model>
+		<script type="text/javascript" lazy="false"><![CDATA[
+			scwin.btn_cancel_onclick = function() {
+				$p.url("/login.xml");
+			};
+
+			scwin.btn_check_email_onclick = function() {
+				const email = register_email.getValue();
+
+				if (common.isEmptyStr(email)) {
+					const message = common.getLabel("lbl_email_whitespace");
+					alert(message);
+					return false;
+				}
+
+				if (!common.checkAllInputText("CHECK_INPUT_TYPE_EMAIL", email)) {
+					const message = common.getLabel("lbl_register_checkEmail");
+					common.win.alert(message);
+					return false;
+				}
+
+				scwin.select_user_login_id_send_email(email);
+			};
+
+            scwin.select_user_login_id_send_email = function(email) {
+                let data = {};
+                data.email = email;
+
+                const url = common.uri.checkUserIdSendEmail;
+                const method = "POST";
+                const headers = {"Content-Type": "application/json"};
+
+                common.http.fetch(url, method, headers, data)
+						.then(async (res) => {
+                            if (Array.isArray(res)) {
+								if (res[0].checkUserID == "success_email") {
+									const message = common.getLabel("lbl_user_login_id_send_email_sendId");
+                                    await common.win.alert(message);
+								} else {
+									const message = common.getLabel("lbl_not_exist_whive_email");
+									await common.win.alert(message);
+                                    $p.url("/login.xml");
+								}
+							}
+						})
+						.catch(err => {
+                            common.win.alert("message : " + err.responseText);
+						});
+			};
+
+			]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group style="" id="" class="login_main_wrap whive" adaptive="layout" adaptiveThreshold="1024" tagname="">
+
+			<xf:group class="deco1" id="" style="">
+				<xf:group class="ani1" id="" style=""></xf:group>
+				<xf:group class="ani2" id="" style=""></xf:group>
+			</xf:group>
+			<xf:group style="" id="" class="login_container register" adaptive="layout" adaptiveThreshold="1024">
+				<xf:group style="" id="" class="login_contents " adaptive="layout" adaptiveThreshold="1024" tagname="">
+					<xf:group class="login_header" id="" style="">
+						<xf:group class="logo" id="" style="" tabIndex="" tagname="h1">
+							<w2:anchor id="" outerDiv="false" style="" tabIndex="" toolTip="" userData2="" userData3="">
+								<xf:label></xf:label>
+							</w2:anchor>
+							<w2:textbox id="" label="" style="" tagname="span" useLocale="true" localeRef="lbl_find_id"></w2:textbox>
+						</xf:group>
+					</xf:group>
+					<xf:group style="" id="" class="login_info">
+						<xf:group class="login_item user" id="" style="">
+							<w2:textbox id="" label="" style="" tagname="span" useLocale="true" localeRef="lbl_email"></w2:textbox>
+							<xf:input id="register_email" adjustMaxLength="false" class="cont_user">
+							</xf:input>
+							<xf:trigger class="btn_login_close hidden" id="" type="anchor">
+								<xf:label></xf:label>
+							</xf:trigger>
+						</xf:group>
+						<w2:textbox class="warning_txt" id="" label="출력텍스트입니다." style="display: none;" tagname="span"></w2:textbox>
+						<xf:group id="" class="btnbox">
+							<w2:anchor outerDiv="false" style="" href="" id="" class="btn_login" useLocale="true" localeRef="lbl_do_send" ev:onclick="scwin.btn_check_email_onclick">
+								<xf:label><![CDATA[]]></xf:label>
+							</w2:anchor>
+							<w2:anchor outerDiv="false" style="" id="" href="" class="btn_login btn_cancel" useLocale="true" localeRef="lbl_cancel" ev:onclick="scwin.btn_cancel_onclick">
+								<xf:label><![CDATA[]]></xf:label>
+							</w2:anchor>
+
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

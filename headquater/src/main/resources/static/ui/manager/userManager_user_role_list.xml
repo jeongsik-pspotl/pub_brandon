@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map">
+				<w2:dataList id="__role_list_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="role_id" name="role_id" dataType="text"></w2:column>
+						<w2:column id="role_name" name="role_name" dataType="text"></w2:column>
+						<w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+						<w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+
+				scwin.onpageload = function() {
+
+					scwin.getRoleListInfo();
+					$('.acd_tit').click(function() {
+						var acdbox = $(this).closest('.acdbox');
+
+						acdbox.toggleClass('on');
+						if(acdbox.hasClass("on")){
+							acdbox.find('.acd_congrp').slideDown();
+						}else {
+							acdbox.find('.acd_congrp').slideUp();
+						}
+					});
+			};
+
+			scwin.getRoleListInfo = async () => {
+				let url = common.uri.getUesrRoleListAll;
+				let method = "GET";
+				let headers = {"Content-Type": "application/json"};
+
+				const response = await common.http.fetchGet(url, method, headers, {});
+				const data = await response.json();
+
+				scwin.userRoleListSetting(data);
+			};
+
+            scwin.userRoleListSetting = function(data){
+
+				var domainArr = [];
+
+				for (var row in data) {
+					var temp = {};
+
+					temp["role_id"] = data[row].role_id;
+					temp["role_name"] = data[row].role_name;
+					temp["created_date"]= data[row].created_date;
+					// temp["member_role"] = data[row].member_role;
+					// temp["member_name"]	= data[row].member_name;
+
+					// temp["updated_date"]= data[row].updated_date;
+					// temp["last_login_date"]= data[row].last_login_date;
+					//
+					domainArr.push(temp);
+
+				}
+
+				let distict = common.unique(domainArr, 'role_id');
+				__role_list_data__.setJSON(distict);
+				let role_manager = __role_list_data__.getAllJSON();
+
+				let count = 0;
+
+				for(let idx in role_manager){
+
+					let buildbtnInx = generator_user_role_setting_list.insertChild();
+
+					let txt_role_name = generator_user_role_setting_list.getChild(count,"user_role_name");
+					let roleDetailadd = generator_user_role_setting_list.getChild(count,"role_detail_by_roleID");
+					let roleDetailSettingAdd = generator_user_role_setting_list.getChild(count,"btn_role_detail_setting");
+
+					// workspace detail view : workspace_id, workspace_name, role_code_name param 전달
+					roleDetailadd.setUserData("role_id",role_manager[idx].role_id);
+					roleDetailadd.setUserData("role_name",role_manager[idx].role_name);
+					// domainDetailadd.setUserData("member_role",domain_manager[idx].status); // member role
+
+					roleDetailSettingAdd.setUserData("role_id",role_manager[idx].role_id);
+					roleDetailSettingAdd.setUserData("role_name",role_manager[idx].role_name);
+					// domainDetailSettingAdd.setUserData("member_role",domain_manager[idx].status); // member role
+
+					txt_role_name.setValue(role_manager[idx].role_name);
+					count++;
+
+				}
+
+			};
+
+			scwin.create_UserRoleDetail_onclick = function(){
+				let data = {};
+				data.member_setting_mode = "detailcreate";
+
+				const menuKey = $p.top().scwin.convertMenuCodeToMenuKey("m0403010000");
+				$p.top().scwin.add_tab(menuKey, null, data);
+
+			};
+
+				scwin.grp_list_role_detail_by_roleID_onclick = function(e){
+
+					let role_id = this.getUserData("role_id");
+					let role_name = this.getUserData("role_name");
+
+					let data = {};
+					data.role_id = role_id;
+					data.role_name = role_name;
+					data.member_setting_mode = "detailview";
+
+					const menuKey = $p.top().scwin.convertMenuCodeToMenuKey("m0403010000");
+					$p.top().scwin.add_tab(menuKey, null, data);
+
+				};
+
+
+
+
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="" style="" tagname="h2" useLocale="true"  localeRef="lbl_userManager_role"></w2:textbox>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group class="contents_inner bottom nosch" id="">
+    			<xf:group id="" class="acdgrp">
+    				<xf:group id="" class="acd_list" tagname="ul">
+    					<xf:group id="" class="acdbox" tagname="li">
+    						<xf:group style="" id="" class="acd_titgrp">
+    							<xf:group style="" id="" class="acdtitbox">
+    								<w2:textbox tagname="p" style="" id="" label="" class="acd_tit" useLocale="true"  localeRef="lbl_userManager_permission"></w2:textbox>
+    								<xf:group style="" id="" class="acdtit_subbox">
+    									<xf:trigger style="" id="" type="button" class="btn_cm add" ev:onclick="scwin.create_UserRoleDetail_onclick">
+    										<xf:label><![CDATA[생성]]></xf:label>
+    									</xf:trigger>
+    								</xf:group>
+    							</xf:group>
+    							<xf:group style="" id="" class="ectgrp">
+    								<xf:group id="" class="ectbox">
+    									<w2:span style="" id="" label="android" class="ico_android"></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    								<xf:group class="ectbox" id="" style="">
+    									<w2:span class="ico_ios" id="" label="IOS" style=""></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    							</xf:group>
+
+    						</xf:group>
+							<xf:group style="" id="" class="acd_congrp">
+							<w2:generator style="" id="generator_user_role_setting_list" class="acd_itemgrp">
+									<xf:group style="" id="" class="acd_itembox">
+										<xf:group id="" class="acd_item">
+											<xf:group style="" id="role_detail_by_roleID" class="acd_txtbox" ev:onclick="scwin.grp_list_role_detail_by_roleID_onclick">
+												<w2:span style="" label="" id="" class=""></w2:span>
+												<w2:textbox style="" id="user_role_name" label="item txt" class="acd_itemtxt"></w2:textbox>
+											</xf:group>
+											<xf:group id="" class="acd_icobox">
+												<w2:anchor outerDiv="false" tooltip="" style="" id="btn_role_detail_setting"
+														   class="btn_cm icon btn_i_setting" ev:onclick="scwin.grp_list_role_detail_by_roleID_onclick" useLocale="true" localeRef="lbl_setting">
+													<xf:label><![CDATA[]]></xf:label>
+												</w2:anchor>
+											</xf:group>
+										</xf:group>
+									</xf:group>
+							</w2:generator>
+							</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

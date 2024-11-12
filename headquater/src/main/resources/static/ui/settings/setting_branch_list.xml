@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+			scwin.onpageload = function () {
+				scwin.getDomainListInfo();
+
+				// $('.acd_tit').click(function () {
+				// 	var acdbox = $(this).closest('.acdbox');
+                //
+				// 	acdbox.toggleClass('on');
+				// 	if (acdbox.hasClass("on")) {
+				// 		acdbox.find('.acd_congrp').slideDown();
+				// 	} else {
+				// 		acdbox.find('.acd_congrp').slideUp();
+				// 	}
+				// });
+			};
+
+			scwin.grp_builder_onclick = function(e){
+				const acdbox = $('#'+this.render.id);
+				acdbox.toggleClass('on');
+				if (acdbox.hasClass("on")) {
+					acdbox.find('.acd_congrp').slideDown();
+				} else {
+					acdbox.find('.acd_congrp').slideUp();
+				}
+			};
+
+			scwin.getDomainListInfo = async function () {
+				let url = common.uri.getBranchSettingAll;
+				let method = "GET";
+				let headers = {"Content-Type": "application/json"};
+
+				const response = await common.http.fetchGet(url, method, headers, {});
+				const data = await response.json();
+
+				scwin.builderListSetting(data);
+			};
+
+			scwin.builderListSetting = function (builderData) {
+				let count = 0;
+
+				for (const [idx, data] of builderData.entries()) {
+					generator_builder_setting_list.insertChild();
+
+					let builderName = generator_builder_setting_list.getChild(count, "builder_setting_name");
+					let builderDetailadd = generator_builder_setting_list.getChild(count, "builder_detail_bybuilderID");
+					let builderDetailSettingAdd = generator_builder_setting_list.getChild(count, "btn_builder_detail_setting");
+
+					// workspace detail view : workspace_id, workspace_name, role_code_name param 전달
+					builderDetailadd.setUserData("builder_id", data.builder_id);
+					builderDetailadd.setUserData("builder_name", data.builder_name);
+
+					builderDetailSettingAdd.setUserData("builder_id", data.builder_id);
+					builderDetailSettingAdd.setUserData("builder_name", data.builder_name);
+
+					builderName.setValue(data.builder_name);
+					count++;
+				}
+			};
+
+			scwin.create_branchSetting_onclick = function () {
+				const builder_setting_mode = "detailcreate";
+
+				let data = {};
+				data.builder_setting_mode = builder_setting_mode;
+
+				// Builder Create
+				const menuKey = $p.top().scwin.convertMenuCodeToMenuKey("m0301010000");
+				$p.top().scwin.add_tab(menuKey, null, data);
+			};
+
+			scwin.builder_detail_onclick = function () {
+				const builder_id = this.getUserData("builder_id");
+				const builder_name = this.getUserData("builder_name");
+				const builder_setting_mode = "detailview";
+
+				let data = {};
+				data.builder_id = builder_id;
+				data.builder_name = builder_name;
+				data.builder_setting_mode = builder_setting_mode;
+
+				// Builder Detail
+				const menuKey = $p.top().scwin.convertMenuCodeToMenuKey("m0301010000");
+				$p.top().scwin.add_tab(menuKey, null, data);
+			};
+			]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="" style="" tagname="h2" useLocale="true" localeRef="lbl_builder_setting"></w2:textbox>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group class="contents_inner bottom nosch" id="">
+    			<xf:group id="" class="acdgrp">
+    				<xf:group id="" class="acd_list" tagname="ul">
+    					<xf:group id="grp_builder" class="acdbox" tagname="li" ev:onclick="scwin.grp_builder_onclick">
+    						<xf:group style="" id="" class="acd_titgrp">
+    							<xf:group style="" id="" class="acdtitbox">
+    								<w2:textbox tagname="p" style="" id="" label="" class="acd_tit" useLocale="true" localeRef="lbl_builder_list"></w2:textbox>
+    								<xf:group style="" id="" class="acdtit_subbox">
+    									<xf:trigger style="" id="" type="button" class="btn_cm add" useLocale="true" localeRef="lbl_create" ev:onclick="scwin.create_branchSetting_onclick">
+    										<xf:label><![CDATA[]]></xf:label>
+    									</xf:trigger>
+    								</xf:group>
+    							</xf:group>
+       						</xf:group>
+							<w2:group style="" id="" class="acd_congrp">
+								<w2:generator style="" id="generator_builder_setting_list" class="acd_itemgrp">
+									<xf:group style="" id="" class="acd_itembox">
+										<xf:group id="" class="acd_item">
+											<xf:group style="" id="builder_detail_bybuilderID" class="acd_txtbox" ev:onclick="scwin.builder_detail_onclick">
+												<w2:span style="" label="" id="" class=""></w2:span>
+												<w2:textbox style="" id="builder_setting_name" label="item txt" class="acd_itemtxt"></w2:textbox>
+											</xf:group>
+											<xf:group id="" class="acd_icobox">
+												<w2:anchor outerDiv="false" tooltip="tooltip" id="btn_builder_detail_setting"
+														   class="btn_cm icon btn_i_setting" ev:onclick="scwin.builder_detail_onclick"
+														   useLocale="true" localeRef="lbl_setting" tooltipDisplay="true" tooltipLocaleRef="lbl_builder_detail">
+													<xf:label><![CDATA[]]></xf:label>
+												</w2:anchor>
+											</xf:group>
+										</xf:group>
+									</xf:group>
+								</w2:generator>
+							</w2:group>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+    </body>
+</html>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map">
+                <w2:dataList id="dtl_steps" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="INDEX" name="INDEX" dataType="text"></w2:column>
+                        <w2:column id="FRAMEID" name="FRAMEID" dataType="text"></w2:column>
+                        <w2:column id="FRAMESRC" name="FRAMESRC" dataType="text"></w2:column>
+                        <w2:column id="MENUID" name="MENUID" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                    <w2:data use="true">
+                        <w2:row>
+                            <INDEX><![CDATA[1]]></INDEX>
+                            <FRAMEID><![CDATA[wfm_project_add_step1]]></FRAMEID>
+                            <FRAMESRC><![CDATA[/ui/works/project_add_step01.xml]]></FRAMESRC>
+                            <MENUID><![CDATA[grp_step1]]></MENUID>
+                        </w2:row>
+                        <w2:row>
+                            <INDEX><![CDATA[2]]></INDEX>
+                            <FRAMEID><![CDATA[wfm_project_add_step2]]></FRAMEID>
+                            <FRAMESRC><![CDATA[/ui/works/project_add_step02.xml]]></FRAMESRC>
+                            <MENUID><![CDATA[grp_step2]]></MENUID>
+                        </w2:row>
+                        <w2:row>
+                            <INDEX><![CDATA[3]]></INDEX>
+                            <FRAMEID><![CDATA[wfm_project_add_step3]]></FRAMEID>
+                            <FRAMESRC><![CDATA[/ui/works/project_add_step03.xml]]></FRAMESRC>
+                            <MENUID><![CDATA[grp_step3]]></MENUID>
+                        </w2:row>
+                    </w2:data>
+                </w2:dataList>
+                <w2:dataList id="dtl_build_project_step1" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="project_id" name="project_id" dataType="text"></w2:column>
+                        <w2:column id="workspace_id" name="workspace_id" dataType="text"></w2:column>
+                        <w2:column id="favorite" name="favorite" dataType="text"></w2:column>
+                        <w2:column id="project_name" name="project_name" dataType="text"></w2:column>
+                        <w2:column id="product_type" name="product_type" dataType="text"></w2:column>
+                        <w2:column id="platform" name="platform" dataType="text"></w2:column>
+                        <w2:column id="platform_language" name="platform_language" dataType="text"></w2:column>
+                        <w2:column id="status" name="status" dataType="text"></w2:column>
+                        <w2:column id="description" name="description" dataType="text"></w2:column>
+                        <w2:column id="template_version" name="template_version" dataType="text"></w2:column>
+                        <w2:column id="project_dir_path" name="project_dir_path" dataType="text"></w2:column>
+                        <w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+                        <w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+                        <w2:column id="project_etc1" name="project_etc1" dataType="text"></w2:column>
+                        <w2:column id="builder_id" name="builder_id" dataType="text"></w2:column>
+                        <w2:column id="vcs_id" name="vcs_id" dataType="text"></w2:column>
+                        <w2:column id="ftp_id" name="ftp_id" dataType="text"></w2:column>
+                        <w2:column id="key_id" name="key_id" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_build_project_step2" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="platform_type" name="platform_type" dataType="text"></w2:column>
+                        <w2:column id="target" name="target" dataType="text"></w2:column>
+                        <w2:column id="app_id" name="app_id" dataType="text"></w2:column>
+                        <w2:column id="app_name" name="app_name" dataType="text"></w2:column>
+                        <w2:column id="app_version" name="app_version" dataType="text"></w2:column>
+                        <w2:column id="app_version_code" name="app_version_code" dataType="text"></w2:column>
+                        <w2:column id="server_URL" name="server_URL" dataType="text"></w2:column>
+                        <w2:column id="package_name" name="package_name" dataType="text"></w2:column>
+                        <w2:column id="test_url" name="test_url" dataType="text"></w2:column>
+                        <w2:column id="min_target_version" name="min_target_version" dataType="text"></w2:column>
+                        <w2:column id="zip_file_name" name="zip_file_name" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_plugin_add_installed_step3" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="installed_plugin_module" name="installed_plugin_module" dataType="text"></w2:column>
+                        <w2:column id="installed_plugin_version" name="installed_plugin_version" dataType="text"></w2:column>
+                        <w2:column id="installed_plugin_name" name="installed_plugin_name" dataType="text"></w2:column>
+                        <w2:column id="installed_plugin_type" name="installed_plugin_type" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_plugin_add_available_step3" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="available_plugin_module" name="available_plugin_module" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_version" name="available_plugin_version" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_name" name="available_plugin_name" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_type" name="available_plugin_type" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_plugin_add_available_premium_step3" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="available_plugin_module" name="available_plugin_module" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_version" name="available_plugin_version" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_name" name="available_plugin_name" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_type" name="available_plugin_type" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_build_project_step4" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="platform_type" name="platform_type" dataType="text"></w2:column>
+                        <w2:column id="target" name="target" dataType="text"></w2:column>
+                        <w2:column id="app_id" name="app_id" dataType="text"></w2:column>
+                        <w2:column id="app_name" name="app_name" dataType="text"></w2:column>
+                        <w2:column id="app_version" name="app_version" dataType="text"></w2:column>
+                        <w2:column id="app_version_code" name="app_version_code" dataType="text"></w2:column>
+                        <w2:column id="server_URL" name="server_URL" dataType="text"></w2:column>
+                        <w2:column id="package_name" name="package_name" dataType="text"></w2:column>
+                        <w2:column id="test_url" name="test_url" dataType="text"></w2:column>
+                        <w2:column id="all_keyfile_debug_path" name="all_keyfile_debug_path" dataType="text"></w2:column>
+                        <w2:column id="all_keyfile_password" name="all_keyfile_password" dataType="text"></w2:column>
+                        <w2:column id="all_keyfile_release_path" name="all_keyfile_release_path" dataType="text"></w2:column>
+                        <w2:column id="key_alias" name="key_alias" dataType="text"></w2:column>
+                        <w2:column id="key_password" name="key_password" dataType="text"></w2:column>
+                        <w2:column id="keystore_file_name" name="keystore_file_name" dataType="text"></w2:column>
+                        <w2:column id="zip_file_name" name="zip_file_name" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                </w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+
+            scwin.btn_project_step1_checkYn = false;
+            scwin.btn_project_step2_checkYn = false;
+            scwin.btn_project_step3_checkYn = false;
+            scwin.btn_project_step4_checkYn = false;
+
+            scwin.txt_project_all_step_platform = "Android";
+            scwin.txt_project_all_step_project_name = "";
+
+            const message_warning = common.getLabel("lbl_project_add_js_warning");
+
+            scwin.paramData = {};
+
+            scwin.onpageload = function() {
+                scwin.paramData = $p.getParameter("tabParam");
+                scwin.selected_step(1);
+            };
+
+            scwin.selected_step = function(selected){
+                var jsonData = dtl_steps.getAllJSON();
+                for(var obj in jsonData){
+                    var row = jsonData[obj];
+                    if(row.INDEX == selected){
+                        var temp = $p.getComponentById(row.FRAMEID);
+                        if(temp.getSrc() == ""){
+                            var obj = {
+                                "dataObject": {
+                                    "type" : "json",
+                                    "name" : "wframeParam",
+                                    "data" : scwin.paramData
+                                }
+                            };
+                            temp.setSrc(row.FRAMESRC, obj);
+                        }
+                        $p.getComponentById(row.FRAMEID).show();
+                    } else {
+                        $p.getComponentById(row.FRAMEID).hide();
+                    }
+                }
+            };
+
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+		<w2:wframe id="wfm_project_add_step1" style="display:block;width:100%;height:100%;" src="" scope="true"></w2:wframe>
+	    <w2:wframe id="wfm_project_add_step2" style="display:none;" src="" scope="true"></w2:wframe>
+	   	<w2:wframe id="wfm_project_add_step3" style="display:none;" src="" scope="true"></w2:wframe>
+    </body>
+</html>

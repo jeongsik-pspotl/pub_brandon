@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head meta_vertical_guides="" meta_horizontal_guides="42">
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+			scwin.onpageload = function () {
+				const profiles = $p.getParameter("keyParam");
+
+				if (!!profiles) {
+					const profilesJson = JSON.parse(profiles.ios_profiles_json);
+
+					if (Array.isArray(profilesJson) && profilesJson.length > 0) {
+						ios_profile_first.setValue(profilesJson[0].profiles_key_name);
+						ios_distribution_type_first.setValue(profilesJson[0].profiles_build_type);
+
+						let profileName = common.util.findFileName(profilesJson[0].profiles_path);
+						before_ios_provisioning_profile_first.setValue(profileName);
+
+						if (profilesJson.length > 1) {
+							for (let profileCnt = 1; profileCnt < profilesJson.length; profileCnt++) {
+								const genId = gen_ios_profile.insertChild();
+
+								gen_ios_profile.getChild(genId, "ios_profile").setValue(profilesJson[profileCnt].profiles_key_name);
+								gen_ios_profile.getChild(genId, "ios_distribution_type").setValue(profilesJson[profileCnt].profiles_build_type);
+
+								profileName = common.util.findFileName(profilesJson[profileCnt].profiles_path);
+								gen_ios_profile.getChild(genId, "before_ios_provisioning_profile").setValue(profileName);
+							}
+						}
+					}
+				}
+			};
+
+			scwin.addProfileOnclick = function () {
+				gen_ios_profile.insertChild();
+			};
+
+			scwin.delProfileOnclick = function () {
+				gen_ios_profile.removeChild(this.getGeneratedIndex());
+			};
+			]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="tblbox" id="" style="">
+    		<xf:group adaptive="layout" adaptiveThreshold="800" class="w2tb tbl" id="" style="" tagname="table">
+    			<w2:attributes>
+    				<w2:summary></w2:summary>
+    			</w2:attributes>
+    			<xf:group tagname="colgroup">
+    				<xf:group style="width:180px;" tagname="col"></xf:group>
+    				<xf:group style="" tagname="col"></xf:group>
+    			</xf:group>
+    			<xf:group style="" tagname="tr">
+    				<xf:group class="w2tb_th req" style="" tagname="th">
+    					<xf:group class="tooltipbox" id="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_profile_name"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" useLocale="true" tooltip="tooltip" tooltipDisplay="true" tooltipLocaleRef="lbl_profile_name"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" style="" tagname="td">
+    					<xf:group class="flex" id="">
+    						<xf:input class="" id="ios_profile_first" style="width:100%;"></xf:input>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group tagname="tr">
+    				<xf:group class="w2tb_th " tagname="th">
+    					<w2:attributes>
+    						<w2:scope>row</w2:scope>
+    					</w2:attributes>
+    					<xf:group class="tooltipbox" id="" style="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_signingkey_setting_ios_profiles_deploy_type"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_profiles_distribute_type" tooltip="tooltip">
+    						</w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" tagname="td">
+    					<w2:attributes></w2:attributes>
+    					<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false" useLocale="true" useItemLocale="true"
+    						disabledClass="w2selectbox_disabled" id="ios_distribution_type_first" ref="" style="width: 100%;" submenuSize="auto">
+    						<xf:choices>
+								<xf:item>
+									<xf:label><![CDATA[lbl_signingkey_setting_ios_profiles_development]]></xf:label>
+									<xf:value><![CDATA[development]]></xf:value>
+								</xf:item>
+								<xf:item>
+									<xf:label><![CDATA[lbl_signingkey_setting_ios_profiles_app_store]]></xf:label>
+									<xf:value><![CDATA[app-store]]></xf:value>
+								</xf:item>
+								<xf:item>
+									<xf:label><![CDATA[lbl_signingkey_setting_ios_profiles_enterprise]]></xf:label>
+									<xf:value><![CDATA[enterprise]]></xf:value>
+								</xf:item>
+    						</xf:choices>
+    					</xf:select1>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group tagname="tr">
+    				<xf:group class="w2tb_th " tagname="th">
+    					<w2:attributes>
+    						<w2:scope>row</w2:scope>
+    					</w2:attributes>
+    					<xf:group class="tooltipbox" id="" style="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_signingkey_setting_ios_profiles_provisioning"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" tooltip="tooltip" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_profiles_distribute_profile">
+    						</w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" tagname="td">
+						<xf:group class="upload_grp">
+							<w2:attributes></w2:attributes>
+							<xf:group class="flex" id="" style="">
+								<w2:attributes></w2:attributes>
+								<w2:textbox id="before_ios_provisioning_profile_first"></w2:textbox>
+								<input type="file" id="ios_provisioning_profile_first" style="width:20%;" onchange="common.util.inputFileChange(this)"></input>
+								<xf:trigger class="btn_cm icon btn_i_plus" type="button" ev:onclick="scwin.addProfileOnclick">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+						</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+		<w2:generator id="gen_ios_profile" style="">
+			<xf:group class="tblbox">
+				<xf:group adaptive="layout" adaptiveThreshold="800" class="w2tb tbl" id="" style="" tagname="table">
+					<w2:attributes>
+						<w2:summary></w2:summary>
+					</w2:attributes>
+					<xf:group tagname="colgroup">
+						<xf:group style="width:180px;" tagname="col"></xf:group>
+						<xf:group style="" tagname="col"></xf:group>
+					</xf:group>
+					<xf:group style="" tagname="tr">
+						<xf:group class="w2tb_th req" style="" tagname="th">
+							<xf:group class="tooltipbox" id="">
+								<w2:textbox useLocale="true" localeRef="lbl_profile_name"></w2:textbox>
+								<w2:textbox class="ico_tip" tagname="span" useLocale="true" tooltip="tooltip" tooltipDisplay="true" tooltipLocaleRef="lbl_profile_name"></w2:textbox>
+							</xf:group>
+						</xf:group>
+						<xf:group class="w2tb_td" style="" tagname="td">
+							<xf:group class="flex" id="">
+								<xf:input class="" id="ios_profile" style="width:100%;"></xf:input>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group class="w2tb_th " tagname="th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<xf:group class="tooltipbox" id="" style="">
+								<w2:textbox label="" useLocale="true" localeRef="lbl_signingkey_setting_ios_profiles_deploy_type"></w2:textbox>
+								<w2:textbox class="ico_tip" tagname="span" tooltip="tooltip" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_profiles_distribute_type">
+								</w2:textbox>
+							</xf:group>
+						</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<w2:attributes></w2:attributes>
+							<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false" useLocale="true" useItemLocale="true"
+										disabledClass="w2selectbox_disabled" id="ios_distribution_type" ref="" style="width: 100%;" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[lbl_signingkey_setting_ios_profiles_development]]></xf:label>
+										<xf:value><![CDATA[development]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[lbl_signingkey_setting_ios_profiles_app_store]]></xf:label>
+										<xf:value><![CDATA[app-store]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[lbl_signingkey_setting_ios_profiles_enterprise]]></xf:label>
+										<xf:value><![CDATA[enterprise]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+					</xf:group>
+					<xf:group tagname="tr">
+						<xf:group class="w2tb_th " tagname="th">
+							<w2:attributes>
+								<w2:scope>row</w2:scope>
+							</w2:attributes>
+							<xf:group class="tooltipbox" id="" style="">
+								<w2:textbox label="" useLocale="true" localeRef="lbl_signingkey_setting_ios_profiles_provisioning"></w2:textbox>
+								<w2:textbox class="ico_tip" tagname="span" tooltip="tooltip" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_profiles_distribute_profile">
+								</w2:textbox>
+							</xf:group>
+						</xf:group>
+						<xf:group class="w2tb_td" tagname="td">
+							<w2:attributes></w2:attributes>
+							<xf:group class="upload_grp">
+								<xf:group class="flex" id="" style="">
+									<w2:textbox id="before_ios_provisioning_profile"></w2:textbox>
+									<input type="file" id="ios_provisioning_profile" style="width:20%;" onchange="common.util.inputFileChange(this)"></input>
+									<xf:trigger class="btn_cm icon btn_i_minus" id="" style="" type="button" ev:onclick="scwin.delProfileOnclick">
+										<xf:label><![CDATA[]]></xf:label>
+									</xf:trigger>
+								</xf:group>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+		</w2:generator>
+    </body>
+</html>

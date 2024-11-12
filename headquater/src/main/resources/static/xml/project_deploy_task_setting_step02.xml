@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false">
+			 <![CDATA[
+	scwin.platformType = "";
+	scwin.onpageload = function() {
+		common.setScopeObj(scwin);
+
+		var deployTaskData = $p.parent().$p.parent().__deploytask_data__.getAllJSON();
+		scwin.platformType = deployTaskData[0].platform;
+
+        if(scwin.platformType == "Android"){
+			grp_android.show();
+            grp_iOS.hide();
+
+		}else if(scwin.platformType == "iOS"){
+			grp_iOS.show();
+			grp_android.hide();
+
+		}
+
+		scwin.initPage();
+
+	};
+	
+	scwin.onpageunload = function() {
+
+	};
+
+	scwin.initPage = function(){
+		// var build_project_json = $p.parent().dtl_build_setting_step1.getAllJSON();
+		// 환경설정 List 조회
+
+		// TODO : test deploy task api
+		scwin.searchStep1Data();
+
+
+	};
+
+	scwin.selectBuildProject = function(build_project_json){
+		step1_input_projectname.setValue(build_project_json[0].project_name);
+		step1_select_platform.setText(build_project_json[0].platform, false);
+		step1_txtarea_desc.setValue(build_project_json[0].description);
+
+        //
+		$p.parent().scwin.txt_project_all_step_platform = build_project_json[0].platform;
+
+		// project setting localStorage data set!
+		localStorage.setItem("buildProjectName",build_project_json[0].project_name);
+		localStorage.setItem("buildPlatform",build_project_json[0].platform);
+		localStorage.setItem("projectsetting_pid",build_project_json[0].project_id);
+		localStorage.setItem("_platform_",step1_select_platform.getValue());
+
+	};
+
+
+	scwin.searchStep1Data = function(){
+
+		var obj = $p.parent().scwin.getResultDeployConfigData;
+
+		if(scwin.platformType == "Android"){
+			// console.log(obj);
+			step2_android_input_short_description.setValue(obj.short_description);
+			step2_android_input_full_description.setValue(obj.full_description);
+			step2_android_input_title.setValue(obj.title);
+			step2_android_input_video.setValue(obj.video);
+
+		}else if(scwin.platformType == "iOS"){
+			console.log(obj);
+			step2_ios_input_apple_tv_privacy_policy.setValue(obj.apple_tv_privacy_policy);
+			step2_ios_input_copyright.setValue(obj.copyright);
+			step2_ios_input_demo_password.setValue(obj.demo_password);
+			step2_ios_input_demo_user.setValue(obj.demo_user);
+			step2_ios_input_description.setValue(obj.description);
+			step2_ios_input_email_address.setValue(obj.email_address);
+			step2_ios_input_first_name.setValue(obj.first_name);
+			step2_ios_input_keywords.setValue(obj.keywords);
+			step2_ios_input_last_name.setValue(obj.last_name);
+			step2_ios_input_marketing_url.setValue(obj.marketing_url);
+			step2_ios_input_name.setValue(obj.name);
+			step2_ios_input_notes.setValue(obj.notes);
+			step2_ios_input_phone_number.setValue(obj.phone_number);
+			step2_ios_input_primary_category.setValue(obj.primary_category);
+			step2_ios_input_primary_first_sub_category.setValue(obj.primary_first_sub_category);
+			step2_ios_input_primary_second_sub_category.setValue(obj.primary_second_sub_category);
+			step2_ios_input_privacy_url.setValue(obj.privacy_url);
+			step2_ios_input_promotional_text.setValue(obj.promotional_text);
+			step2_ios_input_release_notes.setValue(obj.release_notes);
+			step2_ios_input_secondary_category.setValue(obj.secondary_category);
+			step2_ios_input_secondary_first_sub_category.setValue(obj.secondary_first_sub_category);
+			step2_ios_input_secondary_second_sub_category.setValue(obj.secondary_second_sub_category);
+			step2_ios_input_subtitle.setValue(obj.subtitle);
+			step2_ios_input_support_url.setValue(obj.support_url);
+
+
+		}
+
+	};
+
+
+	scwin.saveStep1Data = function(){
+
+		var deployTaskData = $p.parent().$p.parent().__deploytask_data__.getAllJSON();
+		var project_name = "";//step1_input_projectname.getValue();
+		var platform = "";//step1_select_platform.getValue();
+		// var build_server_url = step1_input_buildserver.getValue();
+
+		var description = "";//step1_txtarea_desc.getValue();
+
+		// workspace id 값 세팅
+		var local_workspace_id = deployTaskData[0].workspace_pkid; // change to data list
+		var local_buildproject_id = deployTaskData[0].project_pkid; // change to data list
+
+		var deployMetadataSetJson = {};
+
+
+
+        if(scwin.platformType == "Android"){
+
+			deployMetadataSetJson.full_description = step2_android_input_full_description.getValue();
+			deployMetadataSetJson.short_description = step2_android_input_short_description.getValue();
+			deployMetadataSetJson.title = step2_android_input_title.getValue();
+			deployMetadataSetJson.video = step2_android_input_video.getValue();
+
+
+        }else if(scwin.platformType == "iOS"){
+
+			deployMetadataSetJson.primary_category = step2_ios_input_primary_category.getValue();
+			deployMetadataSetJson.copyright = step2_ios_input_copyright.getValue();
+			deployMetadataSetJson.primary_first_sub_category = step2_ios_input_primary_first_sub_category.getValue();
+			deployMetadataSetJson.primary_second_sub_category = step2_ios_input_primary_second_sub_category.getValue();
+			deployMetadataSetJson.secondary_category = step2_ios_input_secondary_category.getValue();
+			deployMetadataSetJson.secondary_first_sub_category = step2_ios_input_primary_first_sub_category.getValue();
+			deployMetadataSetJson.secondary_second_sub_category = step2_ios_input_secondary_second_sub_category.getValue();
+			deployMetadataSetJson.name = step2_ios_input_name.getValue();
+			deployMetadataSetJson.keywords = step2_ios_input_keywords.getValue();
+			deployMetadataSetJson.apple_tv_privacy_policy = step2_ios_input_apple_tv_privacy_policy.getValue();
+			deployMetadataSetJson.description = step2_ios_input_description.getValue();
+			deployMetadataSetJson.marketing_url = step2_ios_input_marketing_url.getValue();
+			deployMetadataSetJson.privacy_url = step2_ios_input_privacy_url.getValue();
+			deployMetadataSetJson.promotional_text = step2_ios_input_promotional_text.getValue();
+			deployMetadataSetJson.release_notes = step2_ios_input_release_notes.getValue();
+			deployMetadataSetJson.subtitle = step2_ios_input_subtitle.getValue();
+			deployMetadataSetJson.support_url = step2_ios_input_support_url.getValue();
+			deployMetadataSetJson.demo_password = step2_ios_input_demo_password.getValue();
+			deployMetadataSetJson.demo_user = step2_ios_input_demo_user.getValue();
+			deployMetadataSetJson.email_address = step2_ios_input_email_address.getValue();
+			deployMetadataSetJson.first_name = step2_ios_input_first_name.getValue();
+			deployMetadataSetJson.last_name = step2_ios_input_last_name.getValue();
+			deployMetadataSetJson.notes = step2_ios_input_notes.getValue();
+			deployMetadataSetJson.phone_number = step2_ios_input_phone_number.getValue();
+
+
+		}
+
+
+
+		var data = {};
+		data.project_id = parseInt(local_buildproject_id);
+		data.workspace_id = parseInt(local_workspace_id);
+		data.project_name = project_name;
+		data.platform = platform;
+		data.description = description;
+		data.status = 1; // build project 사용여부 옵션 기능 추가시 필요.
+		data.deployMetadataSetJson = deployMetadataSetJson;
+
+		var options = {};
+		options.action = "/manager/deploy/setting/update/metadata";
+		options.mode = "synchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data),
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if ((e.responseStatusCode === 200 || e.responseStatusCode === 201)&& data != null) {
+
+
+			} else {
+				// alert("Deploy Setting 생성 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+			//$p.url("/login.xml");
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.btn_ios_prev_onclick = function(e){
+		$p.parent().scwin.selected_step(1);
+	};
+
+    scwin.btn_android_prev_onclick = function(e){
+		$p.parent().scwin.selected_step(1);
+	};
+
+    scwin.btn_ios_next_onclick = function(e){
+		// 저장 플레그 추가
+		scwin.saveStep1Data();
+	};
+
+	scwin.btn_android_next_onclick = function(e){
+		// 저장 플레그 추가
+		scwin.saveStep1Data();
+	};
+
+	scwin.btn_next_onclick = function(e){
+	    // 저장 플레그 추가
+		scwin.saveStep1Data();
+
+
+	};
+
+	scwin.webSocketCallback = function (obj) {
+
+		switch (obj.MsgType) {
+			case "HV_MSG_DEPLOY_METADATA_UPDATE_STATUS_INFO_FROM_HEADQUATER":
+				scwin.setDeployMatadataUpdateStatus(obj);
+                break;
+			default :
+				break;
+		}
+	};
+
+    scwin.getDeployTaskDataSearchStatus = function(obj){
+
+		switch (obj.status) {
+			case "readdata":
+				var message = common.getLabel("lbl_app_config_list");
+				WebSquare.layer.showProcessMessage(message);
+				break;
+			case "CONFIGUPDATE" :
+
+				break;
+			case "DONE" :
+
+				// step1_select_platform.setValue(build_project_json[0].platform, false);
+				if(scwin.platformType == "Android"){
+
+
+				}else if(scwin.platformType == "iOS"){
+
+
+				}
+
+				// alert("Deplay Task Config 조회 했습니다.");
+				WebSquare.layer.hideProcessMessage();
+				break;
+			case "SUCCESSFUL":
+
+				break;
+			case "FAILED":
+				break;
+			default :
+				break;
+		}
+
+	};
+
+	scwin.setDeployMatadataUpdateStatus = function(obj){
+
+		switch (obj.status) {
+			case "setMetadata":
+				var message = common.getLabel("lbl_app_config_list");
+				WebSquare.layer.showProcessMessage(message);
+				break;
+			case "DONE" :
+
+				alert("Deplay Metadata Config 수정 했습니다.");
+				WebSquare.layer.hideProcessMessage();
+				$p.parent().scwin.selected_step(3);
+				break;
+			case "SUCCESSFUL":
+
+				break;
+			case "FAILED":
+				break;
+			default :
+				break;
+		}
+
+	};
+
+	function changeToolTipContentSettingStep1 (componentId, label) {
+		let platform = localStorage.getItem("_platform_");
+		switch (platform) {
+			case "Android":
+                var message = common.getLabel("lbl_sign_profile_tip");
+				return message
+			case "iOS":
+                var message = common.getLabel("lbl_ios_sign_profile");
+				return message
+			default:
+				return ""
+		}
+		
+	};
+	
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group class="dfbox" id="" style="">
+			<w2:textbox class="gal_tit fl" id="" label="" style="" useLocale="true" localeRef=""></w2:textbox>
+			<xf:group class="fr" id="fr_grp_proj_save" style="">
+				<w2:textbox label="" id="" style="" class="txt_chk" useLocale="true" localeRef=""></w2:textbox>
+				<xf:trigger id="btn_vcspull_1" style="" class="btn_cm" type="button" ev:onclick="scwin.btn_next_onclick"
+							useLocale="true" localeRef="lbl_save">
+					<xf:label><![CDATA[]]></xf:label>
+				</xf:trigger>
+			</xf:group>
+		</xf:group>
+		<xf:group class="gallery_box iOS" id="grp_iOS" style="">
+<!--			<xf:group class="dfbox" id="" style="">-->
+<!--				<w2:textbox class="gal_tit fl" id="" label="" style="" useLocale="true" localeRef=""></w2:textbox>-->
+<!--				<xf:group class="fr" id="fr_grp_proj_save" style="">-->
+<!--					<w2:textbox label="" id="" style="" class="txt_chk" useLocale="true" localeRef=""></w2:textbox>-->
+<!--					<xf:trigger id="btn_vcspull_1" style="" class="btn_cm" type="button" ev:onclick="scwin.btn_next_onclick"-->
+<!--								useLocale="true" localeRef="lbl_save">-->
+<!--						<xf:label><![CDATA[]]></xf:label>-->
+<!--					</xf:trigger>-->
+<!--				</xf:group>-->
+<!--			</xf:group>-->
+    		<xf:group class="gal_body" id="" style="">
+    			<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_apple_tv_privacy_policy"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_apple_tv_privacy_policy">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_apple_tv_privacy_policy" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_skip_submission" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_copyright"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_copyright">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_copyright" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_skip_waiting_for_build_processing" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_demo_password"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_demo_password">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_demo_password" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_distribute_only" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_demo_user"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_demo_user">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_demo_user" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_uses_non_exempt_encryption" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_description"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_distribute_external">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_description" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_distribute_external" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_email_address"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_expire_previous_builds">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_email_address" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_expire_previous_builds" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_first_name"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_first_name">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_first_name" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_reject_build_waiting_for_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_keywords"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_keywords">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_keywords" style="" adjustMaxLength="false"></xf:input>
+<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_last_name"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_last_name">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_last_name" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_marketing_url"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_marketing_url">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_marketing_url" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_name"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_name">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_name" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_notes"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_notes">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_notes" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_phone_number"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_phone_number">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_phone_number" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_primary_category"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_primary_category">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_primary_category" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_primary_first_sub_category"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_primary_first_sub_category">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_primary_first_sub_category" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_primary_second_sub_category"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_primary_second_sub_category">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_primary_second_sub_category" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_privacy_url"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_privacy_url">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_privacy_url" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_promotional_text"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_promotional_text">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_promotional_text" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_release_notes"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_release_notes">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_release_notes" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_secondary_category"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_secondary_category">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_secondary_category" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_secondary_first_sub_category"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_secondary_first_sub_category">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_secondary_first_sub_category" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_secondary_second_sub_category"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_secondary_second_sub_category">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_secondary_second_sub_category" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_subtitle"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_subtitle">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_subtitle" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_ios_support_url"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_ios_support_url">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_ios_input_support_url" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+					</xf:group>
+					<w2:anchor class="gal_prev" id="btn_ios_prev" outerDiv="false" style="" ev:onclick="scwin.btn_ios_prev_onclick">
+    					<xf:label><![CDATA[이전]]></xf:label>
+    				</w2:anchor>
+    			<w2:anchor class="gal_next" id="btn_ios_next" outerDiv="false" style="" ev:onclick="scwin.btn_ios_next_onclick" useLocale="true" localeRef="lbl_next">
+    				<xf:label><![CDATA[]]></xf:label>
+    			</w2:anchor>
+			</xf:group>
+    	</xf:group>
+		</xf:group>
+		<xf:group class="gallery_box android" id="grp_android" style="">
+
+			<xf:group class="gal_body" id="" style="">
+				<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_short_description"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_short_description">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_android_input_short_description" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_skip_submission" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_full_description"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_full_description">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_android_input_full_description" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_skip_waiting_for_build_processing" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_title"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_title">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_android_input_title" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_distribute_only" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_video"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_video">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:input id="step2_android_input_video" style="" adjustMaxLength="false"></xf:input>
+							<!--							<xf:input id="step1_input_uses_non_exempt_encryption" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+					</xf:group>
+
+					<w2:anchor class="gal_prev" id="btn_android_prev" outerDiv="false" style="" ev:onclick="scwin.btn_android_prev_onclick">
+						<xf:label><![CDATA[이전]]></xf:label>
+					</w2:anchor>
+					<w2:anchor class="gal_next" id="btn_android_next" outerDiv="false" style="" ev:onclick="scwin.btn_android_next_onclick" useLocale="true" localeRef="lbl_next">
+	    				<xf:label><![CDATA[]]></xf:label>
+	    			</w2:anchor>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+    </body>
+</html>

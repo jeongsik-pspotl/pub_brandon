@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:type>COMPONENT</w2:type>
+		<w2:buildDate />
+		<w2:MSA />
+		<xf:model>
+			<w2:dataCollection baseNode="map" />
+			<w2:workflowCollection />
+		</xf:model>
+		<w2:layoutInfo />
+		<w2:publicInfo method="" />
+		<script lazy="false" type="text/javascript"><![CDATA[
+			scwin.onpageload = function() {
+				scwin.paramData = $p.getParameter("tabParam");
+				const obj = {
+					"dataObject": {
+						"type" : "json",
+						"name" : "wframeParam",
+						"data" : scwin.paramData
+					}
+				};
+				const path = $p.parent().scwin.convertMenuCodeToPath("m0100040100");
+				wfm_project_import_step1.setSrc(path,obj);
+			};
+]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload">
+		<xf:group class="sub_contents" id="" style="">
+			<xf:group class="contents_inner top nosch" id="" style="">
+				<xf:group class="pgtbox" id="" style="">
+					<xf:group class="pgtbox_inner" id="">
+						<w2:textbox class="" id="" label="" style="" tagname="h2" localeRef="lbl_project_import" useLocale="true"></w2:textbox>
+					</xf:group>
+					<xf:group class="step_bar" id="" tagname="ul">
+						<xf:group class="on" id="" tagname="li">
+							<w2:anchor id="" outerDiv="false" style="" localeRef="lbl_project_import" useLocale="true">
+								<xf:label><![CDATA[]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+			<xf:group id="" class="contents_inner bottom nosch">
+				<w2:wframe src="" style="" id="wfm_project_import_step1" scope="true"></w2:wframe>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

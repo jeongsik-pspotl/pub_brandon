@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head meta_horizontal_guides="7" meta_vertical_guides="NaN">
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+				<w2:dataList id="__branch_setting_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="branch_id" name="branch_id" dataType="text"></w2:column>
+						<w2:column id="role_code_id" name="role_code_id" dataType="text"></w2:column>
+						<w2:column id="branch_user_id" name="branch_user_id" dataType="text"></w2:column>
+						<w2:column id="branch_name" name="branch_name" dataType="text"></w2:column>
+						<w2:column id="session_status" name="session_status" dataType="text"></w2:column>
+						<w2:column id="session_type" name="session_type" dataType="text"></w2:column>
+						<w2:column id="create_date" name="create_date" dataType="text"></w2:column>
+						<w2:column id="update_date" name="update_date" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="__vcs_setting_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="vcs_id" name="vcs_id" dataType="text"></w2:column>
+						<w2:column id="role_code_id" name="role_code_id" dataType="text"></w2:column>
+						<w2:column id="vcs_type" name="vcs_type" dataType="text"></w2:column>
+						<w2:column id="vcs_name" name="vcs_name" dataType="text"></w2:column>
+						<w2:column id="vcs_url" name="vcs_url" dataType="text"></w2:column>
+						<w2:column id="vcs_user_id" name="vcs_user_id" dataType="text"></w2:column>
+						<w2:column id="vcs_user_pwd" name="vcs_user_pwd" dataType="text"></w2:column>
+						<w2:column id="create_date" name="create_date" dataType="text"></w2:column>
+						<w2:column id="update_date" name="update_date" dataType="text"></w2:column>
+						<w2:column id="admin_id" name="admin_id" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="__ftp_setting_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="ftp_id" name="ftp_id" dataType="text"></w2:column>
+						<w2:column id="role_code_id" name="role_code_id" dataType="text"></w2:column>
+						<w2:column id="ftp_name" name="ftp_name" dataType="text"></w2:column>
+						<w2:column id="ftp_url" name="ftp_url" dataType="text"></w2:column>
+						<w2:column id="ftp_type" name="ftp_type" dataType="text"></w2:column>
+						<w2:column id="ftp_etc1" name="ftp_etc1" dataType="text"></w2:column>
+						<w2:column id="ftp_etc2" name="ftp_etc2" dataType="text"></w2:column>
+						<w2:column id="create_date" name="create_date" dataType="text"></w2:column>
+						<w2:column id="update_date" name="update_date" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="__key_setting_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="key_id" name="key_id" dataType="text"></w2:column>
+						<w2:column id="key_name" name="key_name" dataType="text"></w2:column>
+						<w2:column id="key_type" name="key_type" dataType="text"></w2:column>
+						<w2:column id="platform" name="platform" dataType="text"></w2:column>
+						<w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+						<w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false"><![CDATA[
+	scwin.onpageload = function() {
+		common.setScopeObj(scwin);
+		scwin.initPage();
+	};
+	
+	scwin.onpageunload = function() {
+
+	};
+
+	scwin.initPage = function(){
+		scwin.getBranchListInfo();
+
+		scwin.getVCSListInfo();
+
+		scwin.getFTPListInfo();
+
+		scwin.getSigningKeyInfo();
+
+		var settingPageViewData = $p.parent().wfm_main.getUserData("settingsData");
+
+		if(settingPageViewData == "builder"){
+
+			vcs_view.hide();
+			FTP_view.hide();
+			signingkey_view.hide();
+
+		}else if(settingPageViewData == "vcs"){
+			builder_view.hide();
+			FTP_view.hide();
+			signingkey_view.hide();
+
+		}else if(settingPageViewData == "FTP"){
+			builder_view.hide();
+			vcs_view.hide();
+			signingkey_view.hide();
+
+		}else if(settingPageViewData == "signingkey"){
+			builder_view.hide();
+			vcs_view.hide();
+			FTP_view.hide();
+		}
+
+	}
+
+	scwin.getBranchListInfo = function (){
+		var options = {};
+
+		options.action = "/manager/branchSetting/getAll";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "GET";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+
+				var settingBranch = [];
+
+				for (var row in data) {
+					var temp = {};
+
+					temp["branch_id"] = data[row].builder_id;
+					temp["role_code_id"] = data[row].role_code_id;
+					temp["branch_user_id"] = data[row].builder_user_id;
+					temp["branch_name"]	= data[row].builder_name;
+					temp["session_status"] = data[row].session_status;
+					temp["session_type"] = data[row].session_type;
+					temp["created_date"]= data[row].created_date;
+					temp["updated_date"]= data[row].updated_date;
+
+					settingBranch.push(temp);
+
+				}
+
+				var distict = common.unique(settingBranch, 'branch_id');
+				// __workspace_data__.setJSON(distict);
+				__branch_setting_data__.setJSON(distict);
+				var branch_setting = __branch_setting_data__.getAllJSON();
+				// __Sample_data__.setJSON(tempProj);
+
+				// generator_branch_setting_list
+				scwin.getBranchSettingList(branch_setting);
+				// $p.parent().wfm_main.setSrc("/xml/main.xml");
+
+			} else {
+				// alert("가져오기 화면 이동 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+	};
+
+	scwin.getBranchSettingList = function(branch_setting) {
+		var count = 0;
+
+		for(var idx in branch_setting){
+			var buildbtnInx = generator_branch_setting_list.insertChild();
+
+			var txt_proj_name = generator_branch_setting_list.getChild(count,"branch_setting_name");
+			var branchSettingDetailadd = generator_branch_setting_list.getChild(count,"branch_detail_byBranchID");
+			var builderSettingDetailBtn = generator_branch_setting_list.getChild(count,"btn_builder_detail"); //  btn_builder_detail
+
+			branchSettingDetailadd.setUserData("branch_id",branch_setting[idx].branch_id);
+
+			builderSettingDetailBtn.setUserData("branch_id",branch_setting[idx].branch_id);
+
+			txt_proj_name.setValue(branch_setting[idx].branch_name);
+			count++;
+
+		}
+	};
+
+	scwin.getVCSListInfo = function() {
+		var options = {};
+
+		options.action = "/manager/vcs/search/profileListAll";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "GET";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+
+				var settingVCS = [];
+
+				for (var row in data) {
+					var temp = {};
+
+					temp["vcs_id"] = data[row].vcs_id;
+					temp["role_code_id"] = data[row].role_code_id;
+					temp["vcs_type"] = data[row].vcs_type;
+					temp["vcs_user_id"] = data[row].vcs_user_id;
+					temp["vcs_user_pwd"] = data[row].vcs_user_pwd;
+					temp["vcs_name"]	= data[row].vcs_name;
+					temp["vcs_url"]	= data[row].vcs_url;
+					temp["session_status"] = data[row].session_status;
+					temp["session_type"] = data[row].session_type;
+					temp["created_date"]= data[row].created_date;
+					temp["updated_date"]= data[row].updated_date;
+					temp["admin_id"] = data[row].admin_id;
+
+					settingVCS.push(temp);
+
+				}
+
+				var distict = common.unique(settingVCS, 'vcs_id');
+				// __workspace_data__.setJSON(distict);
+				__vcs_setting_data__.setJSON(distict);
+				var vcs_setting = __vcs_setting_data__.getAllJSON();
+				// __Sample_data__.setJSON(tempProj);
+
+				// generator_branch_setting_list
+				scwin.getVCSSettingList(vcs_setting);
+				// $p.parent().wfm_main.setSrc("/xml/main.xml");
+
+			} else {
+				// alert("가져오기 화면 이동 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+	};
+
+
+	scwin.getVCSSettingList = function(vcs_setting) {
+		var count = 0;
+
+		for(var idx in vcs_setting){
+			   // super admin
+				var buildbtnInx = generator_vcs_setting_list.insertChild();
+				var txt_vcs_setting_name = generator_vcs_setting_list.getChild(count,"vcs_setting_name");
+				var vcsSettingDetailadd = generator_vcs_setting_list.getChild(count,"vcs_detail_byVCSID");
+				var vcsSettingType = generator_vcs_setting_list.getChild(count,"vcs_setting_type");
+
+				vcsSettingDetailadd.setUserData("vcs_id",vcs_setting[idx].vcs_id);
+
+				if(vcs_setting[idx].vcs_type == "git"){
+					var label = common.getLabel("lbl_git");
+					vcsSettingType.setValue(label);
+				}else if(vcs_setting[idx].vcs_type == "localgit"){
+					var label = common.getLabel("lbl_settings_repo");
+					vcsSettingType.setValue(label);
+				}else if(vcs_setting[idx].vcs_type == "svn"){
+					var label = common.getLabel("lbl_settings_svn");
+					vcsSettingType.setValue(label);
+				}
+
+				txt_vcs_setting_name.setValue(vcs_setting[idx].vcs_name);
+				count++;
+
+
+		}
+	};
+
+	scwin.getFTPListInfo = function() {
+		var options = {};
+
+		options.action = "/manager/ftp/setting/searchAll";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "GET";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+
+				var settingFTP = [];
+
+				for (var row in data) {
+					var temp = {};
+
+					temp["ftp_id"] = data[row].ftp_id;
+					temp["role_code_id"] = data[row].role_code_id;
+					temp["ftp_name"] = data[row].ftp_name;
+					temp["ftp_url"] = data[row].ftp_url;
+					temp["ftp_type"] = data[row].ftp_type;
+					temp["ftp_etc1"]	= data[row].ftp_etc1;
+					temp["ftp_etc2"]	= data[row].ftp_etc2;
+					temp["created_date"] = data[row].created_date;
+					temp["updated_date"] = data[row].updated_date;
+
+					settingFTP.push(temp);
+
+				}
+
+				var distict = common.unique(settingFTP, 'ftp_id');
+
+				__ftp_setting_data__.setJSON(distict);
+				var ftp_setting = __ftp_setting_data__.getAllJSON();
+
+
+				scwin.getFTPSettingList(ftp_setting);
+
+			} else {
+				// alert("가져오기 화면 이동 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+	};
+
+
+	scwin.getFTPSettingList = function(ftp_setting) {
+		var count = 0;
+
+		for(var idx in ftp_setting){
+			var buildbtnInx = generator_ftp_setting_list.insertChild();
+
+			var txt_ftp_setting_name = generator_ftp_setting_list.getChild(count,"ftp_setting_name");
+			var ftpSettingDetailadd = generator_ftp_setting_list.getChild(count,"ftp_detail_byFTPID");
+
+			ftpSettingDetailadd.setUserData("ftp_id",ftp_setting[idx].ftp_id);
+
+			txt_ftp_setting_name.setValue(ftp_setting[idx].ftp_name);
+			count++;
+
+		}
+	};
+
+	scwin.getSigningKeyInfo = function(){
+
+	    // role code 가 admin 일 경우
+		var options = {};
+
+		options.action = "/manager/mCert/common/selectAll";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+
+				var settingSigningFileList = [];
+
+				for (var row in data) {
+					var temp = {};
+
+					temp["key_id"] = data[row].key_id;
+					temp["key_name"] = data[row].key_name;
+                    temp["key_type"] = data[row].key_type;
+					temp["platform"] = data[row].platform;
+					temp["created_date"] = data[row].created_date;
+					temp["updated_date"] = data[row].updated_date;
+
+					settingSigningFileList.push(temp);
+
+				}
+
+				var distict = common.unique(settingSigningFileList, 'key_id');
+
+				__key_setting_data__.setJSON(distict);
+				var key_setting = __key_setting_data__.getAllJSON();
+
+
+				scwin.getKeySettingList(key_setting);
+
+			} else {
+				// alert("가져오기 화면 이동 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+e.status+"\n"+"message:"+e.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.getKeySettingList = function(key_setting){
+
+		var count = 0;
+
+		for(var idx in key_setting){
+			var buildbtnInx = generator_signingkey_setting_list.insertChild();
+
+			var txt_key_setting_name = generator_signingkey_setting_list.getChild(count,"key_setting_name");
+			var spen_key_setting_platform = generator_signingkey_setting_list.getChild(count,"key_setting_platfrom");
+			var keySettingDetailadd = generator_signingkey_setting_list.getChild(count,"detail_byKeyID");
+            var txt_key_setting_type = generator_signingkey_setting_list.getChild(count,"key_setting_type");
+
+			keySettingDetailadd.setUserData("key_id",key_setting[idx].key_id);
+			keySettingDetailadd.setUserData("platform",key_setting[idx].platform);
+
+            if(key_setting[idx].platform == "Android"){
+				spen_key_setting_platform.addClass("ico_and");
+			}else if(key_setting[idx].platform == "iOS"){
+				spen_key_setting_platform.addClass("ico_ios");
+			}
+
+			if(key_setting[idx].key_type == "build"){
+				var label = common.getLabel("lbl_settings_dev");
+				txt_key_setting_type.setValue(label);
+
+			}else if(key_setting[idx].key_type == "deploy"){
+				var label = common.getLabel("lbl_operate");
+				txt_key_setting_type.setValue(label);
+			}
+
+
+
+			txt_key_setting_name.setValue(key_setting[idx].key_name);
+			count++;
+
+		}
+
+
+	};
+
+	scwin.grp_list_detail_onclick = function(){
+
+		var controlList = this.parentControl.parentControl.childControlList;
+		for(var idx in controlList){
+			if(controlList[idx] === this.parentControl){
+				this.parentControl.toggleClass("on");
+			} else {
+				controlList[idx].removeClass("on");
+			}
+		}
+
+	};
+
+	scwin.grp_list_branchdetail_byBranchID_onclick = function(e){
+
+		var branch_id = this.getUserData("branch_id");
+
+		localStorage.setItem("_branch_id_",branch_id);
+		localStorage.setItem("_branch_setting_mode_","detailview"); // or detailcreate
+
+		// var datacheck = e.id.getAttributeNode("txt_buildproj_pkid");
+		// localStorage.setItem("build_project_pk_id",platform);
+		$p.parent().wfm_main.setSrc("/xml/setting_branch_detail.xml");
+
+	};
+
+	scwin.create_branchSetting_onclick = function(){
+
+		localStorage.setItem("_branch_setting_mode_","detailcreate");
+		$p.parent().wfm_main.setSrc("/xml/setting_branch_detail.xml");
+	};
+
+	scwin.grp_list_vcsdetail_byVCSID_onclick = function(e){
+
+		var vcs_id = this.getUserData("vcs_id");
+
+		localStorage.setItem("_vcs_id_",vcs_id);
+		localStorage.setItem("_vcs_setting_mode_","detailview"); // or detailcreate
+
+		// var datacheck = e.id.getAttributeNode("txt_buildproj_pkid");
+		// localStorage.setItem("build_project_pk_id",platform);
+		$p.parent().wfm_main.setSrc("/xml/setting_vcs_detail.xml");
+
+	};
+
+	scwin.create_vcsSetting_onclick = function(){
+
+		localStorage.setItem("_vcs_setting_mode_","detailcreate");
+		$p.parent().wfm_main.setSrc("/xml/setting_vcs_detail.xml");
+	};
+
+	scwin.grp_list_ftpdetail_byFTPID_onclick = function(e){
+
+		var ftp_id = this.getUserData("ftp_id");
+
+		localStorage.setItem("_ftp_id_",ftp_id);
+		localStorage.setItem("_ftp_setting_mode_","detailview"); // or detailcreate
+
+		// var datacheck = e.id.getAttributeNode("txt_buildproj_pkid");
+		// localStorage.setItem("build_project_pk_id",platform);
+		$p.parent().wfm_main.setSrc("/xml/setting_ftp_detail.xml");
+
+	};
+
+	scwin.btn_create_signingkey_onclick = function(e){
+
+		localStorage.setItem("_key_setting_mode_","detailcreate");
+		$p.parent().wfm_main.setSrc("/xml/setting_signingkey_detail.xml");
+
+	};
+
+	scwin.grp_list_signingKey_detail_byID_onclick = function(e){
+
+		var signingkey_id = this.getUserData("key_id");
+		var platform = this.getUserData("platform");
+
+		localStorage.setItem("_key_id_",signingkey_id);
+		localStorage.setItem("_platform_",platform);
+		localStorage.setItem("_key_setting_mode_","detailview"); // or detailcreate
+
+		// var datacheck = e.id.getAttributeNode("txt_buildproj_pkid");
+		// localStorage.setItem("build_project_pk_id",platform);
+		$p.parent().wfm_main.setSrc("/xml/setting_signingkey_detail.xml");
+
+	};
+
+	scwin.create_ftpSetting_onclick = function(){
+
+		localStorage.setItem("_ftp_setting_mode_","detailcreate");
+		$p.parent().wfm_main.setSrc("/xml/setting_ftp_detail.xml");
+	};
+
+	]]></script>
+    </head>
+	<body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group class="sub_contents" id="" style="">
+			<xf:group id="" style="" class="white_board">
+				<xf:group style="" id="" class="work">
+					<xf:group style="" id="" class="pgtbox">
+						<w2:textbox style="" id="" label="" class="pgt_tit fl" useLocale="true" localeRef="lbl_settings_settings"></w2:textbox>
+					</xf:group>
+					<xf:group class="fav_list">
+							<!-- Branch start -->
+						<xf:group tagname="ul" id="builder_view">
+							<xf:group tagname="li" style="" id="" class="item on">
+								<xf:group tagname="" style="cursor:pointer;" id="" class="fav_link" ev:onclick="scwin.grp_list_detail_onclick">
+									<xf:group style="" id="" class="left">
+										<xf:select ref="" appearance="full" style="" id="" selectedindex="-1" rows="" renderType="checkboxgroup"
+												   cols="">
+											<xf:choices>
+											</xf:choices>
+										</xf:select>
+										<w2:textbox tagname="span" style="" id="" label="Builder"
+													class="txt_date" useLocale="true" localeRef="">
+										</w2:textbox>
+										<xf:group style="" id="" class="fav_cont">
+											<xf:group style="" id="" class="grp_build">
+												<xf:trigger type="button" style="" id="" class="btn_cm" ev:onclick="scwin.create_branchSetting_onclick"
+															useLocale="true" localeRef="lbl_regist">
+													<xf:label><![CDATA[]]></xf:label>
+												</xf:trigger>
+											</xf:group>
+										</xf:group>
+									</xf:group>
+									<xf:group style="" id="" class="right">
+<!--										<w2:anchor outerDiv="false" style="" id="" class="btn_android">-->
+<!--											<xf:label><![CDATA[Android<span>0</span>]]></xf:label>-->
+<!--										</w2:anchor>-->
+									</xf:group>
+								</xf:group>
+								<xf:group style="" id="" class="pgtbox">
+									<xf:group class="fr" id="" style="">
+<!--										<xf:group style="" id="" class="fav_cont">-->
+<!--											<xf:group style="" id="" class="grp_build">-->
+<!--												<xf:trigger type="button" style="" id="" class="btn_cm" ev:onclick="scwin.create_branchSetting_onclick">-->
+<!--													<xf:label><![CDATA[생성]]></xf:label>-->
+<!--												</xf:trigger>-->
+<!--											</xf:group>-->
+<!--										</xf:group>-->
+									</xf:group>
+								</xf:group>
+									<w2:generator style="" id="generator_branch_setting_list" class="fav_cont">
+											<xf:group style="" id="" class="item">
+												<xf:group style="" id="" class="item_gp">
+														<xf:group style="cursor:pointer;" id="branch_detail_byBranchID" class="dev_tit" ev:onclick="scwin.grp_list_branchdetail_byBranchID_onclick">
+															<w2:span style="" id="" label="" class=""></w2:span>
+															<w2:textbox style="cursor:pointer;" id="branch_setting_name" label="" class="txt_name"></w2:textbox>
+														</xf:group>
+														<xf:group style="" id="" class="dev_link">
+															<xf:group style="" id="" class="grp_link">
+		<!--														<w2:anchor outerDiv="false" style="" id="" class="btn_i_play" ev:onclick="scwin.btn_build_onclick">-->
+		<!--															<xf:label><![CDATA[build]]></xf:label>-->
+		<!--														</w2:anchor>-->
+																<w2:anchor outerDiv="false" style="" id="btn_builder_detail" class="btn_i_option" ev:onclick="scwin.grp_list_branchdetail_byBranchID_onclick"
+																		   useLocale="true" localeRef="lbl_setting">
+																	<xf:label><![CDATA[]]></xf:label>
+																</w2:anchor>
+		<!--														<w2:anchor outerDiv="false" style="" id="" class="btn_i_reset" ev:onclick="scwin.btn_history_onclick">-->
+		<!--															<xf:label><![CDATA[history]]></xf:label>-->
+		<!--														</w2:anchor>-->
+															</xf:group>
+														</xf:group>
+												</xf:group>
+											</xf:group>
+									</w2:generator>
+
+							</xf:group>
+						</xf:group>
+						<!-- Branch end -->
+						<!-- VCS start -->
+						<xf:group tagname="ul" id="vcs_view">
+						<xf:group tagname="li" style="" id="" class="on">
+							<xf:group tagname="" style="cursor:pointer;" id="" class="fav_link" ev:onclick="scwin.grp_list_detail_onclick">
+								<xf:group style="" id="" class="left">
+									<xf:select ref="" appearance="full" style="" id="" selectedindex="-1" rows="" renderType="checkboxgroup"
+											   cols="">
+										<xf:choices>
+										</xf:choices>
+									</xf:select>
+									<w2:textbox tagname="span" style="" id="" label="" class="txt_date" toolTip="tooltip" toolTipDisplay="true"
+												useLocale="true" localeRef="lbl_settings_versionTool" tooltipLocaleRef="lbl_settings_tool">
+									</w2:textbox>
+									<xf:group style="" id="" class="fav_cont">
+										<xf:group style="" id="" class="grp_build">
+											<xf:trigger type="button" style="" id="" class="btn_cm" ev:onclick="scwin.create_vcsSetting_onclick"
+														useLocale="true" localeRef="lbl_regist">
+												<xf:label><![CDATA[]]></xf:label>
+											</xf:trigger>
+										</xf:group>
+									</xf:group>
+								</xf:group>
+								<xf:group style="" id="" class="right">
+<!--									<w2:anchor outerDiv="false" style="" id="" class="btn_android">-->
+<!--										<xf:label><![CDATA[Android<span>0</span>]]></xf:label>-->
+<!--									</w2:anchor>-->
+								</xf:group>
+							</xf:group>
+							<xf:group style="" id="" class="pgtbox">
+								<xf:group class="fr" id="" style="">
+
+								</xf:group>
+							</xf:group>
+								<w2:generator style="" id="generator_vcs_setting_list" class="fav_cont">
+										<xf:group style="" id="" class="item">
+									<xf:group style="" id="" class="item_gp">
+											<xf:group style="cursor:pointer;" id="vcs_detail_byVCSID" class="dev_tit" ev:onclick="scwin.grp_list_vcsdetail_byVCSID_onclick">
+												<w2:span style="" id="" label="" class=""></w2:span>
+												<w2:textbox style="cursor:pointer;" id="vcs_setting_name" label="" class="txt_name"></w2:textbox>
+												<w2:textbox style="" id="vcs_setting_type" label="" class="txt_name"></w2:textbox>
+											</xf:group>
+											<xf:group style="" id="" class="dev_link">
+												<xf:group style="" id="" class="grp_link">
+<!--													<w2:anchor outerDiv="false" style="" id="" class="btn_i_option" ev:onclick="scwin.btn_setting_onclick">-->
+<!--														<xf:label><![CDATA[setting]]></xf:label>-->
+<!--													</w2:anchor>-->
+												</xf:group>
+											</xf:group>
+										</xf:group>
+										</xf:group>
+								</w2:generator>
+						</xf:group>
+						</xf:group>
+						<!-- VCS end -->
+						<!-- FTP start -->
+						<xf:group tagname="ul" id="FTP_view">
+						<xf:group tagname="li" style="" id="" class="on">
+							<xf:group tagname="" style="cursor:pointer;" id="" class="fav_link" ev:onclick="scwin.grp_list_detail_onclick">
+								<xf:group style="" id="" class="left">
+									<xf:select ref="" appearance="full" style="" id="" selectedindex="-1" rows="" renderType="checkboxgroup"
+											   cols="">
+										<xf:choices>
+										</xf:choices>
+									</xf:select>
+									<w2:textbox tagname="span" style="" id="" label=""
+												class="txt_date" useLocale="true" localeRef="lbl_settings_ftp">
+									</w2:textbox>
+									<xf:group style="" id="" class="fav_cont">
+										<xf:group style="" id="" class="grp_build">
+											<xf:trigger type="button" style="" id="" class="btn_cm" ev:onclick="scwin.create_ftpSetting_onclick"
+														useLocale="true" localeRef="lbl_regist">
+												<xf:label><![CDATA[]]></xf:label>
+											</xf:trigger>
+										</xf:group>
+									</xf:group>
+								</xf:group>
+								<xf:group style="" id="" class="right">
+<!--									<w2:anchor outerDiv="false" style="" id="" class="btn_android">-->
+<!--										<xf:label><![CDATA[Android<span>0</span>]]></xf:label>-->
+<!--									</w2:anchor>-->
+								</xf:group>
+							</xf:group>
+							<xf:group style="" id="" class="pgtbox">
+								<xf:group class="fr" id="" style="">
+
+								</xf:group>
+							</xf:group>
+								<w2:generator style="" id="generator_ftp_setting_list" class="fav_cont">
+										<xf:group style="" id="" class="item">
+									<xf:group style="" id="" class="item_gp">
+											<xf:group style="cursor:pointer;" id="ftp_detail_byFTPID" class="dev_tit" ev:onclick="scwin.grp_list_ftpdetail_byFTPID_onclick">
+												<w2:span style="" id="" label="" class=""></w2:span>
+												<w2:textbox style="cursor:pointer;" id="ftp_setting_name" label="" class="txt_name"></w2:textbox>
+											</xf:group>
+											<xf:group style="" id="" class="dev_link">
+												<xf:group style="" id="" class="grp_link">
+<!--													<w2:anchor outerDiv="false" style="" id="" class="btn_i_option" ev:onclick="scwin.btn_setting_onclick">-->
+<!--														<xf:label><![CDATA[setting]]></xf:label>-->
+<!--													</w2:anchor>-->
+												</xf:group>
+											</xf:group>
+										</xf:group>
+										</xf:group>
+								</w2:generator>
+						</xf:group>
+						</xf:group>
+						<!-- FTP end -->
+						<xf:group tagname="ul" id="signingkey_view">
+						<xf:group tagname="li" style="" id="" class="on">
+							<xf:group tagname="" style="cursor:pointer;" id="" class="fav_link" ev:onclick="scwin.grp_list_detail_onclick">
+								<xf:group style="" id="" class="left">
+									<xf:select ref="" appearance="full" style="cursor:pointer;" id="" selectedindex="-1" rows="" renderType="checkboxgroup"
+											   cols="">
+										<xf:choices>
+										</xf:choices>
+									</xf:select>
+									<w2:textbox tagname="span" style="" id="" label=""
+												class="txt_date" useLocale="true" localeRef="lbl_certification">
+									</w2:textbox>
+									<xf:group style="" id="" class="fav_cont">
+										<xf:group style="" id="" class="grp_build">
+											<xf:trigger type="button" style="" id="" class="btn_cm" ev:onclick="scwin.btn_create_signingkey_onclick"
+														useLocale="true" localeRef="lbl_regist">
+												<xf:label><![CDATA[]]></xf:label>
+											</xf:trigger>
+										</xf:group>
+									</xf:group>
+								</xf:group>
+								<xf:group style="" id="" class="right">
+<!--									<w2:anchor outerDiv="false" style="" id="" class="btn_android">-->
+<!--										<xf:label><![CDATA[Android<span>0</span>]]></xf:label>-->
+<!--									</w2:anchor>-->
+								</xf:group>
+							</xf:group>
+							<xf:group style="" id="" class="pgtbox">
+								<xf:group class="fr" id="" style="">
+
+								</xf:group>
+							</xf:group>
+								<w2:generator style="" id="generator_signingkey_setting_list" class="fav_cont">
+
+										<xf:group style="" id="" class="item">
+											<xf:group style="" id="" class="item_gp">
+											<xf:group style="" id="detail_byKeyID" class="dev_tit" ev:onclick="scwin.grp_list_signingKey_detail_byID_onclick">
+												<w2:span style="" id="key_setting_platfrom" label="" class=""></w2:span>
+												<w2:textbox style="cursor:pointer;" id="key_setting_name" label="" class="txt_name"></w2:textbox>
+												<w2:textbox style="" id="key_setting_type" label="" class="txt_name"></w2:textbox>
+											</xf:group>
+											<xf:group style="" id="" class="dev_link">
+<!--												<xf:group style="" id="" class="grp_link">-->
+<!--													<w2:anchor outerDiv="false" style="" id="" class="btn_i_play" ev:onclick="scwin.btn_build_onclick">-->
+<!--														<xf:label><![CDATA[build]]></xf:label>-->
+<!--													</w2:anchor>-->
+<!--													<w2:anchor outerDiv="false" style="" id="" class="btn_i_option" ev:onclick="scwin.btn_setting_onclick">-->
+<!--														<xf:label><![CDATA[setting]]></xf:label>-->
+<!--													</w2:anchor>-->
+<!--													<w2:anchor outerDiv="false" style="" id="" class="btn_i_reset" ev:onclick="scwin.btn_history_onclick">-->
+<!--														<xf:label><![CDATA[history]]></xf:label>-->
+<!--													</w2:anchor>-->
+<!--												</xf:group>-->
+											</xf:group>
+										</xf:group>
+									</xf:group>
+								</w2:generator>
+						</xf:group>
+					</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>view - W-Matrix</title>
+    
+    <meta name="description" content="W-Matrix javascript Android API Site" />
+    
+    
+    
+    <meta property="og:title" content="W-Hybrid"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="./src/img/W-Matrix-logo.png"/>
+    <meta property="og:site_name" content="W-Matrix"/>
+    <meta property="og:url" content="https://docs.inswave.com"/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="wrap">
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="$h.html">$h</a><ul class='methods'></ul></li><li><a href="$h.app.html">app</a><ul class='methods'></ul></li><li><a href="$h.audioRecorder.html">audioRecorder</a><ul class='methods'></ul></li><li><a href="$h.barcode.html">barcode</a><ul class='methods'></ul></li><li><a href="$h.biometric.html">biometric</a><ul class='methods'></ul></li><li><a href="$h.camera.html">camera</a><ul class='methods'></ul></li><li><a href="$h.contents.html">contents</a><ul class='methods'></ul></li><li><a href="$h.device.html">device</a><ul class='methods'></ul></li><li><a href="$h.geolocation.html">geolocation</a><ul class='methods'></ul></li><li><a href="$h.inappbrowser.html">inappbrowser</a><ul class='methods'></ul></li><li><a href="$h.license.html">license</a><ul class='methods'></ul></li><li><a href="$h.misc.html">misc</a><ul class='methods'></ul></li><li><a href="$h.network.html">network</a><ul class='methods'></ul></li><li><a href="$h.paint.html">paint</a><ul class='methods'></ul></li><li><a href="$h.screenRecorder.html">screenRecorder</a><ul class='methods'></ul></li><li><a href="$h.view.html">view</a><ul class='methods'></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">view</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="$h.html">$h</a>.</span>
+        
+        view
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Inswave Systems</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+                <div class="description usertext"><p>toast,snack bar,notification과같은 네이티브뷰를 호출하는 API를 제공한다.</p></div>
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".notification"><span class="type-signature">(static) </span>notification<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>message 를 notification 으로 보여준다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+var opt = {"title": "Notification Title", "message": "Showing notification message.", "icon" : "adsfdasfadsf==", action : "alert('종료');" };
+$h.view.notification(callback, opt);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p>
+<ul>
+<li>title        [String]       Notification 에 보여줄 Title 문구.</li>
+<li>message      [String]       Notification 에 보여줄 Message 문구.</li>
+<li>icon         [String]       Notification 에 보여줄 Icon Image. (Base64 형태의 String 값.)</li>
+<li>ldpi: 48x48 px *0.75</li>
+<li>mdpi: 64x64 px *1.00</li>
+<li>hdpi: 96x96 px *1.50</li>
+<li>xhdpi: 128x128 px *2.00</li>
+<li>xxhdpi: 192x192 px *3.00
+action       [String]       실행 할 javascript.</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".snackBar"><span class="type-signature">(static) </span>snackBar<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>message 를 팝업(SnackBar)으로 보여준다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+var opt = {"message": "Showing snack message.", "time" : 0, action : { "buttonText" : "앱 종료", "onClickEvent" : "alert('종료');" } };
+$h.view.snackBar(callback, opt);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p>
+<ul>
+<li>message        [String]       팝업 (SnackBar)로 보여줄 메세지.</li>
+<li>time           [Int]          0: Short Time, 1: Long Time. (default: 0 - action 이 있는 경우 해당 옵션은 무시한다.)</li>
+<li>action         {Object} action - object</li>
+<li>buttonText     [String]       SnackBar 상호작용 버튼에 보여질 텍스트.</li>
+<li>onClickEvent   [String]       상호작용 버튼 클릭 시 실행 될 javascript.</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".toast"><span class="type-signature">(static) </span>toast<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>message 를 팝업(toast)으로 보여준다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+var opt = {"message": "Showing toast message.", "time" : 0};
+$h.view.toast(callback, opt);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p>
+<ul>
+<li>message        [String]       팝업 (toast)로 보여줄 메세지.</li>
+<li>time           [Int]          0: Short Time, 1: Long Time. (default: 0)</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Apr 08 2022 11:14:38 GMT+0900 (대한민국 표준시) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

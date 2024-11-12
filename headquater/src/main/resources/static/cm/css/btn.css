@@ -1,0 +1,567 @@
+/*.w2group{background-color:transparent}*/
+.row {
+	display: flex;
+	justify-content: space-around;
+	margin-top: 50px;
+}
+.progress-btn {
+	position: relative;
+	width: 450px;
+	height: 23px;
+	display: inline-block;
+	/*background: #703d8e !important;*/
+	background: #F0F0F2 !important;
+	font-family: "RobotoDraft","Roboto",sans-serif;
+	color: #fff;
+	font-weight: normal;
+	font-size: 12px;
+	/*transition: all 0.4s ease;*/
+}
+.progress-btn:not(.active) {
+	cursor: pointer;
+}
+
+.progress-btn .btn {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	line-height: 23px;
+	text-align: center;
+	z-index: 10;
+	opacity: 1;
+}
+
+.progress-btn .progress {
+	width: 0%;
+	z-index: 5;
+	/*background: #60327f;*/
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-0 {
+	width: 0%;
+	z-index: 5;
+	/*background: #60327f;*/
+	background: #00ad83;
+	opacity: 2;
+	/*transition: all 0.3s ease;*/
+}
+.progress-btn .progress-15 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-30 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-45 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-60 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-75 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-90 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-50 {
+	width: 50%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn .progress-100 {
+	width: 100%;
+	z-index: 5;
+	background: #00ad83;
+	opacity: 2;
+	transition: all 0.3s ease;
+}
+.progress-btn.active .progress {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	/*animation: progress-anim-from-to 10s ease;*/
+	animation: progress-anim-from-to;
+
+}
+.progress-btn.active .progress-0 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-50 10s ease 0s;
+
+}
+.progress-btn.active .progress-15 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-15 10s ease 0s;
+
+}
+.progress-btn.active .progress-30 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-30 10s ease 0s;
+
+}
+.progress-btn.active .progress-45 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-45 10s ease 0s;
+
+}
+.progress-btn.active .progress-60 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-60 10s ease 0s;
+
+}
+.progress-btn.active .progress-75 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-75 10s ease 0s;
+
+}
+.progress-btn.active .progress-90 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-90 10s ease 0s;
+
+}
+.progress-btn.active .progress-50 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-100 10s ease 0s;
+
+}
+.progress-btn.active .progress-100 {
+	opacity: 1;
+	/*animation: progress-anim 10s ease 0s;*/
+	animation: progress-anim-from-to-100;
+
+}
+.progress-btn[='indefinite'].active .progress-0 {
+	animation: progress-indefinite-anim-0 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-15 {
+	animation: progress-indefinite-anim-15 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-30 {
+	animation: progress-indefinite-anim-30 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-45 {
+	animation: progress-indefinite-anim-45 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-60 {
+	animation: progress-indefinite-anim-60 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-75 {
+	animation: progress-indefinite-anim-75 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-90 {
+	animation: progress-indefinite-anim-90 10s infinite linear 0s;
+}
+
+.progress-btn[='indefinite'].active .progress-100 {
+	animation: progress-indefinite-anim-90 10s infinite linear 0s;
+}
+
+.progress-btn[data-progress-style='fill-bottom'].active .progress, .progress-btn[data-progress-style='fill-top'].active .progress {
+	height: 10px;
+}
+.progress-btn[data-progress-style='indefinite-circle'].active .progress {
+	animation: dash 2s ease infinite,
+	           rotate 2s linear infinite;
+}
+
+.progress-btn[data-progress-style='indefinite-circle'].active {
+	width: 50px;
+}
+
+.progress-btn[data-progress-style='fill-back'] .progress-0 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+}
+.progress-btn[data-progress-style='fill-back'] .progress-50 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 50%;
+}
+.progress-btn[data-progress-style='fill-back'] .progress-100 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+}
+.progress-btn[data-progress-style='fill-bottom'] .progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 0;
+}
+.progress-btn[data-progress-style='fill-top'] .progress {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	height: 0;
+}
+.progress-btn[data-progress-style='indefinite'] .progress-0 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 0%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	background: #00ad83;
+	/*#00ad83, #a888c5*/
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-15 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 15%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	background: #00ad83;
+	/*background: #9775AA;*/
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-30 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 30%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	/*background: #7d2ae8;*/
+	background: #00ad83;
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-45 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 45%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	/*background: #7d2ae8;*/
+	background: #00ad83;
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-60 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 60%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	/*background: #7d2ae8;*/
+	background: #00ad83;
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-75 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 75%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	/*background: #7d2ae8;*/
+	background: #00ad83;
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-90 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 90%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	/*background: #7d2ae8;*/
+	background: #00ad83;
+}
+
+.progress-btn[data-progress-style='indefinite'] .progress-100 {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	/*background: url("data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2750%27%20height%3D%27100%27%20viewBox%3D%270%200%205%2010%27%3E%0A%09%3Crect%20width%3D%27110%25%27%20x%3D%27-5%25%27%20y%3D%27-5%25%27%20height%3D%27110%25%27%20fill%3D%27transparent%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%271%27%20x2%3D%277%27%20y2%3D%2710%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%276%27%20x2%3D%277%27%20y2%3D%2715%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%09%3Cline%20x1%3D%27-2%27%20y1%3D%27-4%27%20x2%3D%277%27%20y2%3D%275%27%20stroke%3D%27%23829DFF%27%20stroke-width%3D%272%27%2F%3E%0A%3C%2Fsvg%3E");*/
+	/*background: #7d2ae8;*/
+	background: #00ad83;
+}
+.progress-btn[data-progress-style='indefinite-circle'] .progress {
+	width: 40px;
+	height: 40px;
+	background: transparent;
+	position: absolute;
+	top: 5px;
+	left: calc(50% - 20px);
+}
+.progress-btn[data-progress-style='indefinite-circle'].active .btn {
+	opacity: 0;
+}
+
+.circle-loader {
+	fill: transparent;
+	stroke: #eee;
+	stroke-width: 5;
+}
+
+
+
+
+@keyframes dash {
+	0% {
+		stroke-dasharray: 1,95;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 85,95;
+		stroke-dashoffset: -25;
+	}
+	100% {
+		stroke-dasharray: 85,95;
+		stroke-dashoffset: -93;
+	}
+}
+
+@keyframes rotate {
+	0% {transform: rotate(0deg); }
+	100% {transform: rotate(360deg); }
+}
+
+@keyframes progress-anim {
+	0% {
+		width: 0%;
+	}
+	5% {
+		width: 8%;
+	}
+	10% {
+		width: 15%;
+	}
+	30% {
+		width: 40%;
+	}
+	50% {
+		width: 55%;
+	}
+	80% {
+		width: 75%;
+	}
+	95% {
+		width: 85%;
+	}
+	100% {
+		width: 100%;
+	}
+}
+
+@keyframes progress-anim-from-to {
+	0% {
+		width: 0%;
+	}
+	100% {
+		  width: 99%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-15 {
+	from {
+		width: 0%;
+	} to {
+		  width: 15%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-30 {
+	from {
+		width: 15%;
+	} to {
+		  width: 30%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-45 {
+	from {
+		width: 30%;
+	} to {
+		  width: 45%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-60 {
+	from {
+		width: 45%;
+	} to {
+		  width: 60%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-75 {
+	from {
+		width: 60%;
+	} to {
+		  width: 75%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-90 {
+	from {
+		width: 75%;
+	} to {
+		  width: 90%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-50 {
+	from {
+		width: 0%;
+	} to {
+		width: 50%;
+	}
+
+}
+
+@keyframes progress-anim-from-to-build-100 {
+	from {
+		width: 90%;
+	} to {
+		  width: 99%;
+	  }
+
+}
+
+@keyframes progress-anim-from-to-100 {
+	from {
+		width: 50%;
+	} to {
+		width: 99%;
+	}
+
+}
+
+@keyframes progress-indefinite-anim {
+	0% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 100% 0%;
+	}
+}
+
+@keyframes progress-indefinite-anim-0 {
+	0% {
+		background-position: 0% 0%;
+	}
+	15% {
+		background-position: 15% 0%;
+	}
+}
+
+@keyframes progress-indefinite-anim-15 {
+	15% {
+		background-position: 15% 0%;
+	}
+	30% {
+		background-position: 30% 0%;
+	}
+}
+
+@keyframes progress-indefinite-anim-30 {
+	30% {
+		background-position: 30% 0%;
+	}
+	45% {
+		background-position: 45% 0%;
+	}
+}
+
+
+@keyframes progress-indefinite-anim-45 {
+	45% {
+		background-position: 45% 0%;
+	}
+	60% {
+		background-position: 60% 0%;
+	}
+}
+
+@keyframes progress-indefinite-anim-60 {
+	60% {
+		background-position: 60% 0%;
+	}
+	75% {
+		background-position: 75% 0%;
+	}
+}
+
+@keyframes progress-indefinite-anim-75 {
+	75% {
+		background-position: 75% 0%;
+	}
+	90% {
+		background-position: 90% 0%;
+	}
+}
+
+@keyframes progress-indefinite-anim-90 {
+	90% {
+		background-position: 90% 0%;
+	}
+	100% {
+		background-position: 99% 0%;
+	}
+}

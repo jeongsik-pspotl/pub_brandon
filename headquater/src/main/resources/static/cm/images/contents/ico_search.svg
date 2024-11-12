@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="grid_search" transform="translate(-696 -106)">
+    <rect id="사각형_2009" data-name="사각형 2009" width="16" height="16" transform="translate(696 106)" fill="rgba(255,164,164,0)"/>
+    <path id="search" d="M11.118,10.6,8.324,7.787a4.071,4.071,0,1,0-.537.537L10.6,11.118ZM1.865,5.2A3.331,3.331,0,1,1,5.2,8.527,3.331,3.331,0,0,1,1.865,5.2Z" transform="translate(697.882 107.882)"/>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12.003" height="12" viewBox="0 0 12.003 12">
+  <g id="servicetest_w" transform="translate(-414.999 -278)">
+    <rect id="사각형_1740" data-name="사각형 1740" width="12" height="12" transform="translate(415 278)" fill="none"/>
+    <g id="그룹_2442" data-name="그룹 2442" transform="translate(415 278)">
+      <g id="그룹_2441" data-name="그룹 2441">
+        <path id="패스_6639" data-name="패스 6639" d="M12.8,3H3.2A1.276,1.276,0,0,0,2,4.333v9.333A1.276,1.276,0,0,0,3.2,15h9.6A1.276,1.276,0,0,0,14,13.667V4.333A1.276,1.276,0,0,0,12.8,3Zm0,10.667H3.2V4.333h9.6Z" transform="translate(-2 -3)" fill="#fff" fill-rule="evenodd"/>
+        <path id="패스_6640" data-name="패스 6640" d="M16.446,9.947,15.594,9l-1.9,2.113-.846-.947-.846.94L13.692,13Z" transform="translate(-6 -5)" fill="#fff" fill-rule="evenodd"/>
+        <rect id="사각형_1459" data-name="사각형 1459" width="3" height="1.333" transform="translate(1.8 2.667)" fill="#fff"/>
+        <rect id="사각형_1460" data-name="사각형 1460" width="3" height="1.333" transform="translate(1.8 5.333)" fill="#fff"/>
+        <rect id="사각형_1461" data-name="사각형 1461" width="3" height="1.333" transform="translate(1.8 8)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

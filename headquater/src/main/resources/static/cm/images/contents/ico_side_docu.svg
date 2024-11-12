@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12">
+  <g id="menumanage_w" transform="translate(-583 -278)">
+    <rect id="사각형_1744" data-name="사각형 1744" width="12" height="12" transform="translate(583 278)" fill="none"/>
+    <path id="Menu_Manage_icon" data-name="Menu Manage_icon" d="M8.333,5.667h4V7h-4Zm0,2.667h4V9.667h-4Zm0,2.667h4v1.333h-4ZM5.667,5.667H7V7H5.667Zm0,2.667H7V9.667H5.667Zm0,2.667H7v1.333H5.667ZM14.4,3H3.6a.6.6,0,0,0-.6.6V14.4a.644.644,0,0,0,.6.6H14.4a.707.707,0,0,0,.6-.6V3.6a.644.644,0,0,0-.6-.6Zm-.733,10.667H4.333V4.333h9.333Z" transform="translate(580 275)" fill="#fff"/>
+  </g>
+</svg>

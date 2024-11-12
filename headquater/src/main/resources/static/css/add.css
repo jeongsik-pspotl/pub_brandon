@@ -1,0 +1,155 @@
+.beta-notice {
+}
+
+.beta-notice.hide {
+    display: none;
+}
+
+.beta-notice.show {
+    display: block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 100vh;
+    width: 100vw;
+    margin: 0 0 0 0;
+}
+
+.beta-notice .wrapper {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    opacity: 0;
+    transition: opacity ease-in 1s;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem 0 0 0;
+}
+
+.beta-notice .image-wrapper {
+    width: 50vw;
+    height: 50vh;
+    background-image: url("../images/temp2/W-Hive-logo.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: contain;
+    position: relative;
+    margin: 0 0 1rem 0;
+}
+
+.beta-notice .image-wrapper .hive-symbol {
+
+}
+
+.beta-notice .wrapper .beta-text {
+    color: white;
+    font-weight: bold;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.beta-notice .wrapper .beta-text .main-title {
+    font-size: 2rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.beta-notice .wrapper .beta-text .sub-title {
+    font-size: 2rem;
+    margin: 0.5rem 0 0 0;
+}
+
+.beta-notice .wrapper .beta-text p span {
+    font-size: 1rem;
+    margin: 0 0 0 0.4rem;
+}
+
+.beta-notice .button-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0 0 0;
+}
+
+.beta-notice .button-wrapper button.btn {
+    margin: 0 1rem 0 1rem;
+    border: 0;
+    padding: 0;
+    border-radius: 28px;
+    background-color: hsl(248, 39%, 39.2%);
+    cursor: pointer;
+    outline-offset: 4px;
+    position: relative;
+}
+
+@media screen and (max-width: 900px) {
+    .beta-notice .image-wrapper {
+        height: 25vh;
+        background-image: url("../images/temp2/W-Hive-logo.png");
+        background-attachment: unset;
+    }
+
+    .beta-notice .wrapper .beta-text .main-title {
+        font-size: 1rem;
+        margin: 0.5rem 0 0 0;
+    }
+}
+
+.beta-notice .button-wrapper button.btn:hover .front {
+    transform: translateY(-10px);
+    transition: transform 0.25s cubic-bezier(.3, .7, .4, 1.5);
+}
+.beta-notice .button-wrapper button.btn:active .front {
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+}
+.beta-notice .button-wrapper button.btn:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.beta-notice .button-wrapper button.btn .front {
+    min-width: 80px;
+    height: 32px;
+    display: block;
+    border-radius: 28px;
+    line-height: 32px;
+    background-color: white;
+    transform: translateY(-8px);
+    transition: transform 0.4s cubic-bezier(.3, .7, .4, 1);
+}
+
+.beta-notice .button-wrapper button.btn .front a {
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: normal;
+    color: black;
+}
+
+.beta-notice .button-wrapper button.btn .shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    background: hsl(0deg 0% 0% / 0.25);
+    transform: translateY(2px);
+    filter: blur(4px);
+}
+
+.beta-notice .button-wrapper button.btn .edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    background: lightgrey;
+}
+

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+		<script type="text/javascript" lazy="false"><![CDATA[
+		scwin.onpageload = function() {
+			scwin.check_user_emailYN = false;
+			scwin.oParams =  scwin.getUrlParams();
+
+			secssion_label_id.setLabel("W-Hive 탈퇴 이후에는 " + oParams.email + " 계정 아이디로 더 이상 해당 서비스를 진행하실 수 없습니다.");
+		};
+
+		scwin.btn_secssion_user_onclick = function() {
+			let data = {};
+			data.email = scwin.oParams.email;
+
+			scwin.secssionUser(data);
+        };
+
+		scwin.btn_back_to_login_onclick = function() {
+			$p.url("/login.xml");
+		};
+
+		scwin.secssionUser = function(data){
+			const url = common.uri.resignResult;
+            const method = "POST";
+            const headers = {"Content-Type": "application/json"};
+
+            common.http.fetch(url, method, headers, data)
+					.then(res => {
+                        if(Array.isArray(res)) {
+                            if(res[0].secssionResult === "success") {
+                                const message = common.getLabel("lbl_secssion_success");
+                                common.win.alert(message);
+                                $p.url("/manager/member/logout");
+							} else {
+                                const message = common.getLabel("lbl_secssion_fail");
+                                common.win.alert(message);
+							}
+						}
+					})
+					.catch(err => {
+						common.win.alert("code:" + err.responseStatusCode + "\nmessage:" + err.responseText + "\nerror:" + err.requestBody);
+					});
+		};
+
+		scwin.getUrlParams = function () {
+			let params = {};
+			window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) {
+				params[key] = value;
+			});
+			return params;
+		};
+
+		scwin.deleteCookie = function(name) {
+			document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+		};
+
+		]]></script>
+    </head>
+	<body ev:onpageload="scwin.onpageload">
+		<xf:group style="" id="" class="login_main_wrap whive" adaptive="layout" adaptiveThreshold="1024" tagname="">
+			<xf:group class="deco1" id="" style="">
+				<xf:group class="ani1" id="" style=""></xf:group>
+				<xf:group class="ani2" id="" style=""></xf:group>
+			</xf:group>
+			<xf:group style="" id="" class="login_container register delete " adaptive="layout" adaptiveThreshold="1024">
+				<xf:group style="" id="" class="login_contents " adaptive="layout" adaptiveThreshold="1024" tagname="">
+					<xf:group class="login_header" id="" style="">
+						<xf:group class="logo" id="" style="" tabIndex="" tagname="h1">
+							<w2:anchor id="" localeRef="CMMN_LOGIN_LABEL_00002" outerDiv="false" style="" tabIndex="" toolTip="">
+								<xf:label></xf:label>
+							</w2:anchor>
+							<w2:textbox label="" style="background:none;color:#000;border:0;border-radius:0;" tagname="span" useLocale="true" localeRef="lbl_secssion_title"></w2:textbox>
+						</xf:group>
+					</xf:group>
+					<xf:group class="login_info">
+						<xf:group class="login_item" style="text-align: center;">
+							<w2:textbox id="secssion_label_id" label=""	tagname="span" escape="false"></w2:textbox>
+							<w2:textbox escape="false" label="" tagname="p" class="subtxt" useLocale="true" localeRef="lbl_secssion_message2">
+							</w2:textbox>
+						</xf:group>
+						<xf:group id="" class="btnbox">
+							<w2:anchor outerDiv="false" class="btn_login btn_cancel" useLocale="true" localeRef="lbl_cancel" ev:onclick="scwin.btn_back_to_login_onclick">
+								<xf:label><![CDATA[]]></xf:label>
+							</w2:anchor>
+							<w2:anchor outerDiv="false" class="btn_login" useLocale="true" localeRef="lbl_secssion_secssion" ev:onclick="scwin.btn_secssion_user_onclick">
+								<xf:label><![CDATA[]]></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+    </body>
+</html>

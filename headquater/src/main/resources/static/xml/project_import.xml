@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate/>
+		<xf:model>
+			<xf:instance>
+				<data xmlns=""/>
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+				<w2:dataList id="dtl_import_steps" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="INDEX" name="INDEX" dataType="text"></w2:column>
+						<w2:column id="FRAMEID" name="FRAMEID" dataType="text"></w2:column>
+						<w2:column id="FRAMESRC" name="FRAMESRC" dataType="text"></w2:column>
+						<w2:column id="MENUID" name="MENUID" dataType="text"></w2:column>
+					</w2:columnInfo>
+					<w2:data use="true">
+						<w2:row>
+							<INDEX><![CDATA[1]]></INDEX>
+							<FRAMEID><![CDATA[wfm_project_import_step1]]></FRAMEID>
+							<FRAMESRC><![CDATA[/xml/project_import_step01.xml]]></FRAMESRC>
+							<MENUID><![CDATA[grp_step1]]></MENUID>
+						</w2:row>
+					</w2:data>
+				</w2:dataList>
+				<w2:dataList id="dtl_build_import_project_step1" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="project_id" name="project_id" dataType="text"></w2:column>
+						<w2:column id="workspace_id" name="workspace_id" dataType="text"></w2:column>
+						<w2:column id="favorite" name="favorite" dataType="text"></w2:column>
+						<w2:column id="project_name" name="project_name" dataType="text"></w2:column>
+						<w2:column id="product_type" name="product_type" dataType="text"></w2:column>
+						<w2:column id="platform" name="platform" dataType="text"></w2:column>
+						<w2:column id="platform_language" name="platform_language" dataType="text"></w2:column>
+						<w2:column id="status" name="status" dataType="text"></w2:column>
+						<w2:column id="description" name="description" dataType="text"></w2:column>
+						<w2:column id="template_version" name="template_version" dataType="text"></w2:column>
+						<w2:column id="project_dir_path" name="project_dir_path" dataType="text"></w2:column>
+						<w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+						<w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+						<w2:column id="project_etc1" name="project_etc1" dataType="text"></w2:column>
+						<w2:column id="builder_id" name="builder_id" dataType="text"></w2:column>
+						<w2:column id="vcs_id" name="vcs_id" dataType="text"></w2:column>
+						<w2:column id="ftp_id" name="ftp_id" dataType="text"></w2:column>
+						<w2:column id="key_id" name="key_id" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+			<w2:workflowCollection>
+			</w2:workflowCollection>
+		</xf:model>
+		<script type="text/javascript" lazy="false"><![CDATA[
+			scwin.txt_project_all_step_platform = "";
+			scwin.onpageload = function() {
+				common.setScopeObj(scwin);
+			};
+
+			scwin.selected_step = function(selected){
+				var jsonData = dtl_import_steps.getAllJSON();
+				for(var obj in jsonData){
+					var row = jsonData[obj];
+					if(row.INDEX == selected){
+						var temp = $p.getComponentById(row.FRAMEID);
+						if(temp.getSrc() == ""){
+							temp.setSrc(row.FRAMESRC);
+						}
+						$p.getComponentById(row.FRAMEID).show();
+						$p.getComponentById(row.MENUID).addClass("on");
+					} else {
+						$p.getComponentById(row.FRAMEID).hide();
+						$p.getComponentById(row.MENUID).removeClass("on");
+					}
+				}
+			};
+
+			scwin.btn_import_step01_onclick = function(){
+				scwin.selected_step(1);
+			};
+			]]></script>
+	</head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group style="" id="" class="sub_contents">
+    		<xf:group style="" id="" class="white_board">
+    			<xf:group class="pgtbox" id="" style="">
+    				<w2:textbox class="pgt_tit fl" id="" label="Project 가져오기" style=""></w2:textbox>
+
+    			</xf:group>
+    			<xf:group class="step_box" id="" style="" tagname="ul">
+    				<xf:group class="checked on" id="grp_step1" style="" tagname="li">
+    					<w2:span id="" label="1" style=""></w2:span>
+    					<w2:anchor id="btn_proejct_import_step01" outerDiv="false" style="" ev:onclick="scwin.btn_import_step01_onclick">
+    						<xf:label><![CDATA[프로젝트 가져오기]]></xf:label>
+    					</w2:anchor>
+    				</xf:group>
+    			</xf:group>
+    			<w2:wframe id="wfm_project_import_step1" style="display:none;" src="/xml/project_import_step01.xml" scope="true"></w2:wframe>
+    		</xf:group>
+    	</xf:group>
+    </body>
+    
+</html>

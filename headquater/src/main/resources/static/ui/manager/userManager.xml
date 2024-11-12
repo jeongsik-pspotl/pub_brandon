@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+	$('.acd_tit').click(function() {
+        var acdbox = $(this).closest('.acdbox');
+
+        acdbox.toggleClass('on');
+        if(acdbox.hasClass("on")){
+            acdbox.find('.acd_congrp').slideDown();    
+        }else {
+            acdbox.find('.acd_congrp').slideUp();
+        }
+    });
+};]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="Role Manager" style="" tagname="h2"></w2:textbox>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group class="contents_inner bottom nosch" id="">
+    			<xf:group id="" class="acdgrp">
+    				<xf:group id="" class="acd_list" tagname="ul">
+    					<xf:group id="" class="acdbox" tagname="li">
+    						<xf:group style="" id="" class="acd_titgrp">
+    							<xf:group style="" id="" class="acdtitbox">
+    								<w2:textbox tagname="p" style="" id="" label="domain 생성 및 설정" class="acd_tit"></w2:textbox>
+    								<xf:group style="" id="" class="acdtit_subbox">
+    									<xf:trigger style="" id="" type="button" class="btn_cm add">
+    										<xf:label><![CDATA[생성]]></xf:label>
+    									</xf:trigger>
+    								</xf:group>
+    							</xf:group>
+    							<xf:group style="" id="" class="ectgrp">
+    								<xf:group id="" class="ectbox">
+    									<w2:span style="" id="" label="android" class="ico_android"></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    								<xf:group class="ectbox" id="" style="">
+    									<w2:span class="ico_ios" id="" label="IOS" style=""></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    							</xf:group>
+
+    						</xf:group>
+
+    						<xf:group style="" id="" class="acd_congrp">
+    							<xf:group id="" class="acd_itemgrp">
+    								<xf:group id="" class="acd_itembox">
+    									<xf:group id="" class="acd_item">
+    										<xf:group style="" id="" class="acd_txtbox">
+    											<w2:textbox style="" id="" label="item txt" class="acd_itemtxt"></w2:textbox>
+    										</xf:group>
+    										<xf:group id="" class="acd_icobox">
+    											<w2:anchor outerDiv="false" tooltip="domain 상세 목록 이동" style="" id=""
+    												class="btn_cm icon btn_i_setting">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    								<xf:group class="acd_itembox" id="" style="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="domain 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    								<xf:group class="acd_itembox" id="" style="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="domain 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group class="acdgrp" id="" style="">
+    				<xf:group class="acd_list" id="" tagname="ul">
+    					<xf:group class="acdbox" id="" tagname="li">
+    						<xf:group class="acd_titgrp" id="" style="">
+    							<xf:group class="acdtitbox" id="" style="">
+    								<w2:textbox class="acd_tit" id="" label="권한 관리" style="" tagname="p"></w2:textbox>
+    								<xf:group class="acdtit_subbox" id="" style="">
+    									<xf:trigger class="btn_cm add" id="" style="" type="button">
+    										<xf:label><![CDATA[생성]]></xf:label>
+    									</xf:trigger>
+    								</xf:group>
+    							</xf:group>
+    							<xf:group class="ectgrp" id="" style="">
+    								<xf:group class="ectbox" id="">
+    									<w2:span class="ico_android" id="" label="android" style=""></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    								<xf:group class="ectbox" id="" style="">
+    									<w2:span class="ico_ios" id="" label="IOS" style=""></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group class="acd_congrp" id="" style="">
+    							<xf:group class="acd_itemgrp" id="">
+    								<xf:group class="acd_itembox" id="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="권한관리 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    								<xf:group class="acd_itembox" id="" style="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="권한관리 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    								<xf:group class="acd_itembox" id="" style="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="권한관리 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group class="acdgrp" id="" style="">
+    				<xf:group class="acd_list" id="" tagname="ul">
+    					<xf:group class="acdbox" id="" tagname="li">
+    						<xf:group class="acd_titgrp" id="" style="">
+    							<xf:group class="acdtitbox" id="" style="">
+    								<w2:textbox class="acd_tit" id="" label="User List" style="" tagname="p"></w2:textbox>
+    								<xf:group class="acdtit_subbox" id="" style="">
+    									<xf:trigger class="btn_cm add" id="" style="" type="button">
+    										<xf:label><![CDATA[생성]]></xf:label>
+    									</xf:trigger>
+    								</xf:group>
+    							</xf:group>
+    							<xf:group class="ectgrp" id="" style="">
+    								<xf:group class="ectbox" id="">
+    									<w2:span class="ico_android" id="" label="android" style=""></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    								<xf:group class="ectbox" id="" style="">
+    									<w2:span class="ico_ios" id="" label="IOS" style=""></w2:span>
+    									<w2:span class="item_cnt_txt" id="" label="5" style=""></w2:span>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group class="acd_congrp" id="" style="">
+    							<xf:group class="acd_itemgrp" id="">
+    								<xf:group class="acd_itembox" id="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="userList 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    								<xf:group class="acd_itembox" id="" style="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="userList 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    								<xf:group class="acd_itembox" id="" style="">
+    									<xf:group class="acd_item" id="">
+    										<xf:group class="acd_txtbox" id="" style="">
+    											<w2:textbox class="acd_itemtxt" id="" label="item txt" style=""></w2:textbox>
+    										</xf:group>
+    										<xf:group class="acd_icobox" id="">
+    											<w2:anchor class="btn_cm icon btn_i_setting" id="" outerDiv="false" style=""
+    												tooltip="builder 세팅 상세 목록 이동">
+    												<xf:label><![CDATA[Setting]]></xf:label>
+    											</w2:anchor>
+    										</xf:group>
+    									</xf:group>
+    								</xf:group>
+    							</xf:group>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

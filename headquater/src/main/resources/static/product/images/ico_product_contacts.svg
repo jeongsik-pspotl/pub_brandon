@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56" viewBox="0 0 56 56">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="사각형_27024" data-name="사각형 27024" width="56" height="56" transform="translate(937.559 2239)" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip">
+      <use xlink:href="#fill"/>
+    </clipPath>
+    <clipPath id="clip-2">
+      <use xlink:href="#fill-2"/>
+    </clipPath>
+    <clipPath id="clip-3">
+      <use xlink:href="#fill-3"/>
+    </clipPath>
+    <clipPath id="clip-4">
+      <use xlink:href="#fill-4"/>
+    </clipPath>
+  </defs>
+  <g id="마스크_그룹_9345" data-name="마스크 그룹 9345" transform="translate(-937.559 -2239)" clip-path="url(#clip-path)">
+    <g id="그룹_10170" data-name="그룹 10170" transform="translate(618.657 1990.737)">
+      <path id="패스_26478" data-name="패스 26478" d="M334.9,266.228h-4.146v3.521H334.9v2h-4.146v3.521H334.9v1.995h-4.146v3.521H334.9v1.995h-4.146V286.3H334.9v1.995h-4.146v7.533a1.828,1.828,0,0,0,1.826,1.826h31.149a1.829,1.829,0,0,0,1.826-1.826V256.7a1.829,1.829,0,0,0-1.826-1.827H332.577a1.829,1.829,0,0,0-1.826,1.827v7.532H334.9Z" fill="none"/>
+      <rect id="사각형_27164" data-name="사각형 27164" width="2" height="3.521" transform="translate(328.751 277.261)" fill="#090607"/>
+      <rect id="사각형_27165" data-name="사각형 27165" width="2" height="3.521" transform="translate(328.751 271.745)" fill="#090607"/>
+      <rect id="사각형_27166" data-name="사각형 27166" width="2" height="3.521" transform="translate(328.751 266.228)" fill="#090607"/>
+      <path id="패스_26479" data-name="패스 26479" d="M363.726,252.874H332.577a3.826,3.826,0,0,0-3.826,3.827v7.532h2V256.7a1.829,1.829,0,0,1,1.826-1.827h31.149a1.829,1.829,0,0,1,1.826,1.827v39.125a1.829,1.829,0,0,1-1.826,1.826H332.577a1.828,1.828,0,0,1-1.826-1.826v-7.533h-2v7.533a3.826,3.826,0,0,0,3.826,3.826h31.149a3.826,3.826,0,0,0,3.826-3.826V256.7A3.826,3.826,0,0,0,363.726,252.874Z" fill="#090607"/>
+      <rect id="사각형_27167" data-name="사각형 27167" width="2" height="3.521" transform="translate(328.751 282.777)" fill="#090607"/>
+      <g id="사각형_27168" data-name="사각형 27168" transform="translate(326.251 284.303)" fill="none" stroke="#090607" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <rect id="fill" width="6.931" height="1.995" stroke="none"/>
+        <path d="M0,0.995246171951294h6.930953025817871M5.930953025817871,0v1.995246171951294M6.930953025817871,1h-6.930953025817871M1,1.995246171951294v-1.995246171951294" fill="none" clip-path="url(#clip)"/>
+      </g>
+      <g id="사각형_27169" data-name="사각형 27169" transform="translate(326.251 279.021)" fill="none" stroke="#090607" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <rect id="fill-2" width="6.931" height="1.995" stroke="none"/>
+        <path d="M0,0.995246171951294h6.930953025817871M5.930953025817871,0v1.995246171951294M6.930953025817871,1h-6.930953025817871M1,1.995246171951294v-1.995246171951294" fill="none" clip-path="url(#clip-2)"/>
+      </g>
+      <g id="사각형_27170" data-name="사각형 27170" transform="translate(326.251 273.505)" fill="none" stroke="#090607" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <rect id="fill-3" width="6.931" height="1.995" stroke="none"/>
+        <path d="M0,0.995246171951294h6.930953025817871M5.930953025817871,0v1.995246171951294M6.930953025817871,1h-6.930953025817871M1,1.995246171951294v-1.995246171951294" fill="none" clip-path="url(#clip-3)"/>
+      </g>
+      <g id="사각형_27171" data-name="사각형 27171" transform="translate(326.251 268.752)" fill="none" stroke="#090607" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        <rect id="fill-4" width="6.931" height="1.995" stroke="none"/>
+        <path d="M0,0.995246171951294h6.930953025817871M5.930953025817871,0v1.995246171951294M6.930953025817871,1h-6.930953025817871M1,1.995246171951294v-1.995246171951294" fill="none" clip-path="url(#clip-4)"/>
+      </g>
+      <g id="그룹_10169" data-name="그룹 10169">
+        <circle id="타원_346" data-name="타원 346" cx="5.28" cy="5.28" r="5.28" transform="translate(343.708 265.78)" fill="none" stroke="#602b8a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        <path id="사각형_27172" data-name="사각형 27172" d="M4.7,0h8.659a4.7,4.7,0,0,1,4.7,4.7V7.123a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V4.7A4.7,4.7,0,0,1,4.7,0Z" transform="translate(339.538 279.623)" fill="none" stroke="#602b8a" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

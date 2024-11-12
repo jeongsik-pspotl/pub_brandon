@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/pricing/css/admin.css" type="text/css"?>
+<?xml-stylesheet href="/pricing/css/base.css" type="text/css"?>
+<?xml-stylesheet href="/pricing/css/contents.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>COMPONENT</w2:type>
+    	<w2:buildDate />
+    	<w2:MSA />
+    	<xf:model>
+    		<w2:dataCollection baseNode="map">
+    			<w2:dataList baseNode="list" repeatNode="map" id="dataList1" saveRemovedData="true">
+    				<w2:columnInfo>
+    					<w2:column id="col1" name="name1" dataType="text"></w2:column>
+    					<w2:column id="col2" name="name2" dataType="text"></w2:column>
+    					<w2:column id="col3" name="name3" dataType="text"></w2:column>
+    				</w2:columnInfo>
+    				<w2:data use="true">
+    					<w2:row></w2:row>
+    					<w2:row></w2:row>
+    					<w2:row></w2:row>
+    				</w2:data>
+    			</w2:dataList>
+    		</w2:dataCollection>
+    		<w2:workflowCollection />
+    	</xf:model>
+    	<w2:layoutInfo />
+    	<w2:publicInfo method="" />
+		<script type="text/javascript" src="/js/config.js"></script>
+		<script type="text/javascript" src="/js/common.js"></script>
+    	<script type="text/javascript" src="/js/swiper.min.js"></script>
+    	<script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+	/**
+	 * 결제 완료 되면 바로 해당 페이지에 로드 되자마자 결과 값 세팅 하고 화면에 나온다.
+	 */
+			// console.log($p.getFrame().paramObj);
+	var resdata = $p.getParameter('data').res.response;
+	console.log(resdata);
+	var payTypeCd = $p.getParameter('data').payTypeCd;
+	if(payTypeCd == '1') payTypeCd = "1개월 무료"
+	else payTypeCd = "1년"
+	var productData = JSON.parse(resdata.payments.custom_data);
+
+	product_price.setValue(addComma(resdata.payments.amount));
+	product_name.setValue(resdata.payments.name);
+	reg_period.setValue(productData.regDate + "~" + productData.regNextDate + "(" +payTypeCd +")")
+	reg_next_date.setValue(productData.regNextDate);
+
+
+};
+
+scwin.closeBtn_onclick = function(e) {
+    // parentPopupID
+	$p.closePopup($p.getParameter('data').parentPopupID);
+	WebSquare.util.reinitialize(true);
+};
+
+function addComma (value){
+	value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return value;
+};
+
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="layer type04" id="" style="width:600px;">
+
+    		<xf:group class="comp_wrap" id="" style="">
+    			<xf:group class="btnclosebox" id="" style="">
+    				<xf:trigger class="btn_close" ev:onclick="scwin.closeBtn_onclick" id="closeBtn" style="" type="button">
+    					<xf:label><![CDATA[닫기]]></xf:label>
+    				</xf:trigger>
+    			</xf:group>
+    			<xf:group style="" id="" class="comp_box">
+    				<w2:textbox style="" id="" label="결제완료" class="title" tagname="p"></w2:textbox>
+    				<w2:textbox class="sub_txt" id="" label="결제가 성공적으로 완료되었습니다." style="" tagname="p"></w2:textbox>
+    				<xf:group id="" class="txtbox"></xf:group>
+    				<xf:group class="box_info" id="" tagname="ul" style="">
+    					<xf:group id="" tagname="li">
+    						<w2:textbox class="tit" id="" label="결제 금액" style=""></w2:textbox>
+    						<w2:textbox class="" id="product_price" label="" style="" tagname="span" dataType="number"></w2:textbox>
+    						<w2:textbox class="" id="" label="원" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group id="" style="" tagname="li">
+    						<w2:textbox class="tit" id="" label="상품명" style=""></w2:textbox>
+    						<w2:textbox class="" id="product_name" label="" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group id="" style="" tagname="li">
+    						<w2:textbox class="tit" id="" label="이용기간" style=""></w2:textbox>
+    						<w2:textbox class="" id="reg_period" label="" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    					<xf:group id="" style="" tagname="li">
+    						<w2:textbox class="tit" id="" label="다음 자동 결제일" style=""></w2:textbox>
+    						<w2:textbox class="" id="reg_next_date" label="" style="" tagname="span"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group id="" tagname="p">
+    					<w2:textbox tagname="span" style="" id="" label="자세한 결제 내역은" class=""></w2:textbox>
+    					<w2:textbox class="" id="" label="매인화면 &gt; 사용자 정보" style="margin-left: 4px;" tagname="strong"></w2:textbox>
+    					<w2:textbox class="" id="" label="에서 조회하실 수 있습니다." style="" tagname="span"></w2:textbox>
+    				</xf:group>
+    				<xf:group class="btnbox" id="" style="">
+    					<xf:trigger class="btn_org_line" id="" style="display: none;" type="button">
+    						<xf:label><![CDATA[Dashboard]]></xf:label>
+    					</xf:trigger>
+    					<xf:trigger class="btn_org" id="" style="" type="button" ev:onclick="scwin.closeBtn_onclick">
+    						<xf:label><![CDATA[확인]]></xf:label>
+    					</xf:trigger>
+    				</xf:group>
+    				<xf:group class="notibox" id="" style="">
+    					<w2:textbox class="tit" id="" label="유의사항" style=""></w2:textbox>
+    					<w2:textbox class="txt bold" id="" label="자동결제는 1개월(1년) 단위로 구매하신 날과 매월(매년) 동일한 날짜에 결제가 이루어지며 해당 일자가 없는 경우 해당 월의 말일에 결제가 이루어집니다." style=""></w2:textbox>
+    					<w2:textbox class="txt" id="" label="문의사항은 02-2082-1400 또는 whivehelp@inswave.com으로 연락 부탁드립니다." style=""></w2:textbox>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    	
+
+
+
+    </body>
+</html>

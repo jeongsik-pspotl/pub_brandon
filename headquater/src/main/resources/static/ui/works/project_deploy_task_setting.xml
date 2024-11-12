@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map">
+				<w2:dataList id="dtl_steps" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="INDEX" name="INDEX" dataType="text"></w2:column>
+						<w2:column id="FRAMEID" name="FRAMEID" dataType="text"></w2:column>
+						<w2:column id="FRAMESRC" name="FRAMESRC" dataType="text"></w2:column>
+						<w2:column id="MENUID" name="MENUID" dataType="text"></w2:column>
+					</w2:columnInfo>
+					<w2:data use="true">
+						<w2:row>
+							<INDEX><![CDATA[1]]></INDEX>
+							<FRAMEID><![CDATA[wfm_project_deploy_task_setting_step1]]></FRAMEID>
+							<FRAMESRC><![CDATA[/ui/works/project_deploy_task_setting_step01.xml]]></FRAMESRC>
+							<MENUID><![CDATA[grp_step1]]></MENUID>
+						</w2:row>
+						<w2:row>
+							<INDEX><![CDATA[2]]></INDEX>
+							<FRAMEID><![CDATA[wfm_project_deploy_task_setting_step2]]></FRAMEID>
+							<FRAMESRC><![CDATA[/ui/works/project_deploy_task_setting_step02.xml]]></FRAMESRC>
+							<MENUID><![CDATA[grp_step2]]></MENUID>
+						</w2:row>
+						<w2:row>
+							<INDEX><![CDATA[3]]></INDEX>
+							<FRAMEID><![CDATA[wfm_project_deploy_task_setting_step3]]></FRAMEID>
+							<FRAMESRC><![CDATA[/ui/works/project_deploy_task_setting_step03.xml]]></FRAMESRC>
+							<MENUID><![CDATA[grp_step3]]></MENUID>
+						</w2:row>
+					</w2:data>
+				</w2:dataList>
+				<w2:dataList id="dtl_build_setting_step1" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="project_id" name="project_id" dataType="text"></w2:column>
+						<w2:column id="workspace_id" name="workspace_id" dataType="text"></w2:column>
+						<w2:column id="project_name" name="project_name" dataType="text"></w2:column>
+						<w2:column id="product_type" name="product_type" dataType="text"></w2:column>
+						<w2:column id="platform" name="platform" dataType="text"></w2:column>
+						<w2:column id="platform_language" name="platform_language" dataType="text"></w2:column>
+						<w2:column id="target_server" name="target_server" dataType="text"></w2:column>
+						<w2:column id="description" name="description" dataType="text"></w2:column>
+						<w2:column id="status" name="status" dataType="text"></w2:column>
+						<w2:column id="template_version" name="template_version" dataType="text"></w2:column>
+						<w2:column id="project_dir_path" name="project_dir_path" dataType="text"></w2:column>
+						<w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+						<w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+						<w2:column id="builder_id" name="builder_id" dataType="text"></w2:column>
+						<w2:column id="vcs_id" name="vcs_id" dataType="text"></w2:column>
+						<w2:column id="ftp_id" name="ftp_id" dataType="text"></w2:column>
+						<w2:column id="key_id" name="key_id" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+			scwin.getResultDeployConfigData;
+			scwin.txt_project_all_step_platform = "";
+			scwin.onpageload = function() {
+
+				let deployTaskData = $p.parent().__deploytask_data__.getAllJSON();
+
+				let project_id = deployTaskData[0].project_pkid;
+
+
+				scwin.select_build_project_id(project_id);
+				// scwin.select_deploy_setting_id(project_id);
+			};
+
+			scwin.onpageunload = function() {
+
+			};
+
+			scwin.selected_step = function(selected){
+				const jsonData = dtl_steps.getAllJSON();
+				for(let obj in jsonData){
+					const row = jsonData[obj];
+					if(row.INDEX == selected){
+						let temp = $p.getComponentById(row.FRAMEID);
+						if(temp.getSrc() == ""){
+							const obj = {
+								"dataObject": {
+									"type" : "json",
+									"name" : "wframeParam",
+									"data" : scwin.paramData
+								}
+							};
+							temp.setSrc(row.FRAMESRC, obj);
+						}
+						$p.getComponentById(row.FRAMEID).show();
+					} else {
+						$p.getComponentById(row.FRAMEID).hide();
+					}
+				}
+				if(selected == 1) {
+					$p.getComponentById("deployTaskGrp1").addClass("on");
+					$p.getComponentById("deployTaskGrp2").removeClass("on");
+					$p.getComponentById("deployTaskGrp3").removeClass("on");
+				} else if (selected == 2){
+					$p.getComponentById("deployTaskGrp2").addClass("on");
+					$p.getComponentById("deployTaskGrp1").removeClass("on");
+					$p.getComponentById("deployTaskGrp3").removeClass("on");
+				} else if (selected == 3){
+					$p.getComponentById("deployTaskGrp3").addClass("on");
+					$p.getComponentById("deployTaskGrp2").removeClass("on");
+					$p.getComponentById("deployTaskGrp1").removeClass("on");
+				}
+			};
+
+			scwin.select_build_project_id = function(build_id){
+
+				const uri = common.uri.settingProjectConfig(build_id);
+				common.http.fetchGet(uri,"GET",{"Content-Type":"application/json"}).then((res)=>{
+					return res.json();
+				}).then((data)=>{
+					if(data !== null){
+						let buildproj = [];
+						buildproj.push(data);
+
+						let distict = common.unique(buildproj, 'project_id');
+						dtl_build_setting_step1.setJSON(distict);
+
+						const path = $p.top().scwin.convertMenuCodeToPath("m0100030100");
+						if(path != null){
+							wfm_project_deploy_task_setting_step1.setSrc(path);
+						}
+					}
+				}).catch((err)=>{
+					common.win.alert("error:"+err);
+				});
+
+			};
+
+			scwin.select_deploy_setting_id =  function(build_id){
+				// deploy setting cotroller 구현하기
+				$.ajax({
+					url : "/manager/deploy/setting/search/getBuildId/"+parseInt(build_id) ,
+					type : "get",
+					async : false,
+					accept : "application/json",
+					contentType : "application/json; charset=utf-8",
+					success : function(e) {
+						let data = e;
+						//console.log("builprojects success r ");
+						//console.log(data);
+						if(data !== null){
+							let deploysetting = [];
+							let temp = {};
+
+							temp["deploy_id"]	= data.deploy_id;
+							temp["build_id"] = data.build_id;
+							temp["all_package_name"] = data.all_package_name;
+							temp["all_signingkey_id"] = data.all_signingkey_id;
+							temp["apple_issuer_id"] = data.apple_issuer_id;
+							temp["apple_key_id"] = data.apple_key_id;
+							temp["created_date"] = data.created_date;
+							temp["updated_date"] = data.updated_date;
+
+							deploysetting.push(temp);
+							localStorage.setItem("deploy_setting_pid",data.deploy_id);
+							let distict = common.unique(deploysetting, 'deploy_id');
+							wfm_project_deploy_task_setting_step1.setJSON(distict);
+
+						}
+
+					}
+					, error:function(request,status,error){
+						common.win.alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+					}
+				});
+
+			};
+
+			scwin.btn_proejct_deploy_setting_task01_onclick = function(e) {
+				scwin.selected_step(1);
+			};
+
+			scwin.btn_proejct_deploy_setting_task02_onclick = function(e) {
+				scwin.selected_step(2);
+			};
+
+			scwin.btn_proejct_deploy_setting_task03_onclick = function(e) {
+				scwin.selected_step(3);
+			};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="" useLocale="true" localeRef="lbl_project_deploy" style="" tagname="h2"></w2:textbox>
+    				</xf:group>
+    				<xf:group class="step_bar" id="" tagname="ul">
+    					<xf:group class="on" id="deployTaskGrp1" tagname="li">
+    						<w2:anchor id="" outerDiv="false" style="" ev:onclick="scwin.btn_proejct_deploy_setting_task01_onclick" useLocale="true" localeRef="lbl_setting_deploy">
+    							<xf:label><![CDATA[]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    					<xf:group class="" id="deployTaskGrp2" style="" tagname="li">
+    						<w2:anchor id="" outerDiv="false" style="" ev:onclick="scwin.btn_proejct_deploy_setting_task02_onclick" useLocale="true" localeRef="lbl_setting_deploy_metadata">
+    							<xf:label><![CDATA[]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    					<xf:group id="deployTaskGrp3" style="" tagname="li">
+    						<w2:anchor id="" outerDiv="false" style="" ev:onclick="scwin.btn_proejct_deploy_setting_task03_onclick" useLocale="true" localeRef="lbl_setting_deploy_metadata">
+    							<xf:label><![CDATA[]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group class="contents_inner bottom nosch" id="">
+				<w2:wframe id="wfm_project_deploy_task_setting_step1" style="display:block;width:100%;height:100%;" src="" scope="true"></w2:wframe>
+				<w2:wframe id="wfm_project_deploy_task_setting_step2" style="display:none;" src="" scope="true"></w2:wframe>
+				<w2:wframe id="wfm_project_deploy_task_setting_step3" style="display:none;" src="" scope="true"></w2:wframe>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

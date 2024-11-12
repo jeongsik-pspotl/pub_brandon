@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false">
+			 <![CDATA[
+	scwin.platformType = "";
+	scwin.onpageload = function() {
+		common.setScopeObj(scwin);
+		$p.parent().scwin.selected_step(1);
+
+		var deployTaskData = $p.parent().$p.parent().__deploytask_data__.getAllJSON();
+		scwin.platformType = deployTaskData[0].platform;
+
+        if(scwin.platformType == "Android"){
+			grp_android.show();
+            grp_iOS.hide();
+
+		}else if(scwin.platformType == "iOS"){
+			grp_iOS.show();
+			grp_android.hide();
+
+		}
+
+		scwin.initPage();
+
+	};
+	
+	scwin.onpageunload = function() {
+
+	};
+
+	scwin.initPage = function(){
+		// var build_project_json = $p.parent().dtl_build_setting_step1.getAllJSON();
+		// 환경설정 List 조회
+
+		// TODO : test deploy task api
+		scwin.searchStep1Data();
+
+
+	};
+
+	scwin.selectBuildProject = function(build_project_json){
+		step1_input_projectname.setValue(build_project_json[0].project_name);
+		step1_select_platform.setText(build_project_json[0].platform, false);
+		step1_txtarea_desc.setValue(build_project_json[0].description);
+
+        //
+		$p.parent().scwin.txt_project_all_step_platform = build_project_json[0].platform;
+
+		// project setting localStorage data set!
+		localStorage.setItem("buildProjectName",build_project_json[0].project_name);
+		localStorage.setItem("buildPlatform",build_project_json[0].platform);
+		localStorage.setItem("projectsetting_pid",build_project_json[0].project_id);
+		localStorage.setItem("_platform_",step1_select_platform.getValue());
+
+	};
+
+
+	scwin.searchStep1Data = function(){
+
+		var deployTaskData = $p.parent().$p.parent().__deploytask_data__.getAllJSON();
+		var project_name = ""; //step1_input_projectname.getValue();
+		scwin.platformType = deployTaskData[0].platform; //step1_select_platform.getValue();
+		// var build_server_url = step1_input_buildserver.getValue();
+
+		var description = "";//step1_txtarea_desc.getValue();
+
+		// workspace id 값 세팅
+		var local_workspace_id = deployTaskData[0].workspace_pkid; // change to data list
+		var local_buildproject_id = deployTaskData[0].project_pkid; // change to data list
+
+		var data = {};
+		data.project_id = parseInt(local_buildproject_id);
+		data.workspace_id = parseInt(local_workspace_id);
+		data.project_name = project_name;
+		data.platform = scwin.platformType;
+		data.description = description;
+		data.status = 1; // build project 사용여부 옵션 기능 추가시 필요.
+
+		var options = {};
+		options.action = "/manager/deploy/setting/search/task";
+		options.mode = "synchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data),
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if ((e.responseStatusCode === 200 || e.responseStatusCode === 201)&& data != null) {
+
+
+			} else {
+				// alert("Deploy Setting 생성 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+			//$p.url("/login.xml");
+		};
+
+		$p.ajax( options );
+
+	};
+
+
+	scwin.saveStep1Data = function(){
+
+		var deployTaskData = $p.parent().$p.parent().__deploytask_data__.getAllJSON();
+		var project_name = "";//step1_input_projectname.getValue();
+		var platform = "";//step1_select_platform.getValue();
+		// var build_server_url = step1_input_buildserver.getValue();
+
+		var description = "";//step1_txtarea_desc.getValue();
+
+		// workspace id 값 세팅
+		var local_workspace_id = deployTaskData[0].workspace_pkid; // change to data list
+		var local_buildproject_id = deployTaskData[0].project_pkid; // change to data list
+
+		var deployTaskSetJson = {};
+
+
+
+        if(scwin.platformType == "Android"){
+
+			var skip_upload_aab = step1_input_android_skip_upload_aab.getValue();
+			var skip_upload_metadata = step1_input_android_skip_upload_metadata.getValue();
+			var skip_upload_changelogs = step1_input_android_skip_upload_changelogs.getValue();
+			var skip_upload_images = step1_input_android_skip_upload_images.getValue();
+			var skip_upload_screenshots = step1_input_android_skip_upload_screenshots.getValue();
+			var validate_only = step1_input_android_validate_only.getValue();
+			var changes_not_sent_for_review = step1_input_android_changes_not_sent_for_review.getValue();
+			var rescue_changes_not_sent_for_review = step1_input_android_rescue_changes_not_sent_for_review.getValue();
+			var ack_bundle_installation_warning = step1_input_android_ack_bundle_installation_warning.getValue();
+
+			deployTaskSetJson.skip_upload_aab = skip_upload_aab;
+			deployTaskSetJson.skip_upload_metadata = skip_upload_metadata;
+			deployTaskSetJson.skip_upload_changelogs = skip_upload_changelogs;
+			deployTaskSetJson.skip_upload_images = skip_upload_images;
+			deployTaskSetJson.skip_upload_screenshots = skip_upload_screenshots;
+			deployTaskSetJson.validate_only = validate_only;
+			deployTaskSetJson.changes_not_sent_for_review = changes_not_sent_for_review;
+			deployTaskSetJson.rescue_changes_not_sent_for_review = rescue_changes_not_sent_for_review;
+			deployTaskSetJson.ack_bundle_installation_warning = ack_bundle_installation_warning;
+
+        }else if(scwin.platformType == "iOS"){
+
+			var skip_submission = step1_input_skip_submission.getValue();
+			var skip_waiting_for_build_processing = step1_input_skip_waiting_for_build_processing.getValue();
+			var distribute_only =  step1_input_distribute_only.getValue();
+			var uses_non_exempt_encryption = step1_input_uses_non_exempt_encryption.getValue();
+			var distribute_external = step1_input_distribute_external.getValue();
+			var expire_previous_builds = step1_input_expire_previous_builds.getValue();
+			var reject_build_waiting_for_review = step1_input_reject_build_waiting_for_review.getValue();
+			var submit_beta_review = step1_input_submit_beta_review.getValue();
+
+			deployTaskSetJson.skip_submission = skip_submission;
+			deployTaskSetJson.skip_waiting_for_build_processing = skip_waiting_for_build_processing;
+			deployTaskSetJson.distribute_only = distribute_only;
+			deployTaskSetJson.uses_non_exempt_encryption = uses_non_exempt_encryption;
+			deployTaskSetJson.distribute_external = distribute_external;
+			deployTaskSetJson.expire_previous_builds = expire_previous_builds;
+			deployTaskSetJson.reject_build_waiting_for_review = reject_build_waiting_for_review;
+			deployTaskSetJson.submit_beta_review = submit_beta_review;
+		}
+
+
+
+		var data = {};
+		data.project_id = parseInt(local_buildproject_id);
+		data.workspace_id = parseInt(local_workspace_id);
+		data.project_name = project_name;
+		data.platform = platform;
+		data.description = description;
+		data.status = 1; // build project 사용여부 옵션 기능 추가시 필요.
+		data.deployTaskSetJson = deployTaskSetJson;
+
+		localStorage.setItem("__project_name__",data.project_name);
+		localStorage.setItem("__project_id__",data.project_id);
+		localStorage.setItem("__workspace_id__",data.workspace_id);
+
+		var options = {};
+		options.action = "/manager/deploy/setting/update/task";
+		options.mode = "synchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data),
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if ((e.responseStatusCode === 200 || e.responseStatusCode === 201)&& data != null) {
+
+
+			} else {
+				// alert("Deploy Setting 생성 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+			//$p.url("/login.xml");
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.btn_prev_onclick = function(e){
+
+	};
+
+	scwin.btn_next_onclick = function(e){
+	    // 저장 플레그 추가
+		scwin.saveStep1Data();
+
+	};
+
+	scwin.webSocketCallback = function (obj) {
+
+		switch (obj.MsgType) {
+			case "HV_MSG_DEPLOY_TASK_SEARCH_STATUS_INFO_FROM_HEADQUATER" :
+				scwin.getDeployTaskDataSearchStatus(obj);
+				break;
+			case "HV_MSG_DEPLOY_TASK_UPDATE_STATUS_INFO_FROM_HEADQUATER":
+				scwin.setDeployTaskDataUpdateStatus(obj);
+                break;
+			default :
+				break;
+		}
+	};
+
+    scwin.getDeployTaskDataSearchStatus = function(obj){
+
+		switch (obj.status) {
+			case "readdata":
+				var message = common.getLabel("lbl_app_config_list");
+				WebSquare.layer.showProcessMessage(message);
+				break;
+			case "CONFIGUPDATE" :
+
+				break;
+			case "DONE" :
+				console.log(obj);
+
+				// step1_select_platform.setValue(build_project_json[0].platform, false);
+				console.log(scwin.platformType);
+				if(scwin.platformType == "Android"){
+					step1_input_android_skip_upload_aab.setValue(obj.jsonDeploy.SKIP_UPLOAD_AAB, false);
+					step1_input_android_skip_upload_metadata.setValue(obj.jsonDeploy.SKIP_UPLOAD_METADATA, false);
+					step1_input_android_skip_upload_changelogs.setValue(obj.jsonDeploy.SKIP_UPLOAD_CHANGELOGS, false);
+					step1_input_android_skip_upload_images.setValue(obj.jsonDeploy.SKIP_UPLOAD_IMAGES, false);
+					step1_input_android_skip_upload_screenshots.setValue(obj.jsonDeploy.SKIP_UPLOAD_SCREENSHOTS, false);
+					step1_input_android_validate_only.setValue(obj.jsonDeploy.VALIDATE_ONLY, false);
+					step1_input_android_changes_not_sent_for_review.setValue(obj.jsonDeploy.CHANGES_NOT_SENT_FOR_REVIEW, false);
+					step1_input_android_rescue_changes_not_sent_for_review.setValue(obj.jsonDeploy.RESCUE_CHANGES_NOT_SENT_FOR_REVIEW, false);
+					step1_input_android_ack_bundle_installation_warning.setValue(obj.jsonDeploy.ACK_BUNDLE_INSTALLATION_WARNING, false);
+					$p.parent().scwin.getResultDeployConfigData = obj.jsonDeployMetaData;
+
+
+				}else if(scwin.platformType == "iOS"){
+					step1_input_skip_submission.setValue(obj.jsonDeploy.SKIP_SUBMISSION, false);
+					step1_input_skip_waiting_for_build_processing.setValue(obj.jsonDeploy.SKIP_WAITING_FOR_BUILD_PROCESSING, false);
+					step1_input_distribute_only.setValue(obj.jsonDeploy.DISTRIBUTE_ONLY, false);
+					step1_input_uses_non_exempt_encryption.setValue(obj.jsonDeploy.USES_NON_EXEMPT_ENCRYPTION, false);
+					step1_input_distribute_external.setValue(obj.jsonDeploy.DISTRIBUTE_EXTERNAL, false);
+					step1_input_expire_previous_builds.setValue(obj.jsonDeploy.EXPIRE_PREVIOUS_BUILDS, false);
+					step1_input_reject_build_waiting_for_review.setValue(obj.jsonDeploy.REJECT_BUILD_WAITING_FOR_REVIEW, false);
+					step1_input_submit_beta_review.setValue(obj.jsonDeploy.SUBMIT_BETA_REVIEW, false);
+					$p.parent().scwin.getResultDeployConfigData = obj.jsonDeployMetaData;
+
+				}
+
+				// alert("Deplay Task Config 조회 했습니다.");
+				WebSquare.layer.hideProcessMessage();
+				break;
+			case "SUCCESSFUL":
+
+				break;
+			case "FAILED":
+				break;
+			default :
+				break;
+		}
+
+	};
+
+	scwin.setDeployTaskDataUpdateStatus = function(obj){
+
+		switch (obj.status) {
+			case "setEnv":
+				var message = common.getLabel("lbl_app_config_list");
+				WebSquare.layer.showProcessMessage(message);
+				break;
+			case "DONE" :
+
+				// step1_select_platform.setValue(build_project_json[0].platform, false)
+				console.log(scwin.platformType);
+				if(scwin.platformType == "Android"){
+					step1_input_android_skip_upload_aab.setValue(obj.jsonDeploy.SKIP_UPLOAD_AAB, false);
+					step1_input_android_skip_upload_metadata.setValue(obj.jsonDeploy.SKIP_UPLOAD_METADATA, false);
+					step1_input_android_skip_upload_changelogs.setValue(obj.jsonDeploy.SKIP_UPLOAD_CHANGELOGS, false);
+					step1_input_android_skip_upload_images.setValue(obj.jsonDeploy.SKIP_UPLOAD_IMAGES, false);
+					step1_input_android_skip_upload_screenshots.setValue(obj.jsonDeploy.SKIP_UPLOAD_SCREENSHOTS, false);
+					step1_input_android_validate_only.setValue(obj.jsonDeploy.VALIDATE_ONLY, false);
+					step1_input_android_changes_not_sent_for_review.setValue(obj.jsonDeploy.CHANGES_NOT_SENT_FOR_REVIEW, false);
+					step1_input_android_rescue_changes_not_sent_for_review.setValue(obj.jsonDeploy.RESCUE_CHANGES_NOT_SENT_FOR_REVIEW, false);
+					step1_input_android_ack_bundle_installation_warning.setValue(obj.jsonDeploy.ACK_BUNDLE_INSTALLATION_WARNING, false);
+
+
+				}else if(scwin.platformType == "iOS"){
+					step1_input_skip_submission.setValue(obj.jsonDeploy.SKIP_SUBMISSION, false);
+					step1_input_skip_waiting_for_build_processing.setValue(obj.jsonDeploy.SKIP_WAITING_FOR_BUILD_PROCESSING, false);
+					step1_input_distribute_only.setValue(obj.jsonDeploy.DISTRIBUTE_ONLY, false);
+					step1_input_uses_non_exempt_encryption.setValue(obj.jsonDeploy.USES_NON_EXEMPT_ENCRYPTION, false);
+					step1_input_distribute_external.setValue(obj.jsonDeploy.DISTRIBUTE_EXTERNAL, false);
+					step1_input_expire_previous_builds.setValue(obj.jsonDeploy.EXPIRE_PREVIOUS_BUILDS, false);
+					step1_input_reject_build_waiting_for_review.setValue(obj.jsonDeploy.REJECT_BUILD_WAITING_FOR_REVIEW, false);
+					step1_input_submit_beta_review.setValue(obj.jsonDeploy.SUBMIT_BETA_REVIEW, false);
+
+				}
+
+
+				alert("Deplay Task Config 수정 했습니다.");
+				WebSquare.layer.hideProcessMessage();
+				$p.parent().scwin.selected_step(2);
+				break;
+			case "SUCCESSFUL":
+
+				break;
+			case "FAILED":
+				break;
+			default :
+				break;
+		}
+
+	};
+
+	function changeToolTipContentSettingStep1 (componentId, label) {
+		let platform = localStorage.getItem("_platform_");
+		switch (platform) {
+			case "Android":
+                var message = common.getLabel("lbl_sign_profile_tip");
+				return message
+			case "iOS":
+                var message = common.getLabel("lbl_ios_sign_profile");
+				return message
+			default:
+				return ""
+		}
+		
+	};
+	
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group class="dfbox" id="" style="">
+			<w2:textbox class="gal_tit fl" id="" label="" style="" useLocale="true" localeRef=""></w2:textbox>
+			<xf:group class="fr" id="fr_grp_proj_save" style="">
+				<w2:textbox label="" id="" style="" class="txt_chk" useLocale="true" localeRef=""></w2:textbox>
+				<xf:trigger id="btn_vcspull_1" style="" class="btn_cm" type="button" ev:onclick="scwin.btn_next_onclick"
+							useLocale="true" localeRef="lbl_save">
+					<xf:label><![CDATA[]]></xf:label>
+				</xf:trigger>
+			</xf:group>
+		</xf:group>
+		<xf:group class="gallery_box iOS" id="grp_iOS" style="">
+<!--			<xf:group class="dfbox" id="" style="">-->
+<!--				<w2:textbox class="gal_tit fl" id="" label="" style="" useLocale="true" localeRef=""></w2:textbox>-->
+<!--				<xf:group class="fr" id="fr_grp_proj_save" style="">-->
+<!--					<w2:textbox label="" id="" style="" class="txt_chk" useLocale="true" localeRef=""></w2:textbox>-->
+<!--					<xf:trigger id="btn_vcspull_1" style="" class="btn_cm" type="button" ev:onclick="scwin.btn_next_onclick"-->
+<!--								useLocale="true" localeRef="lbl_save">-->
+<!--						<xf:label><![CDATA[]]></xf:label>-->
+<!--					</xf:trigger>-->
+<!--				</xf:group>-->
+<!--			</xf:group>-->
+    		<xf:group class="gal_body" id="" style="">
+    			<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_task_skip_submission"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_task_skip_submission">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_skip_submission" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_skip_submission" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_skip_waiting_for_build_processing"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_skip_waiting_for_build_processing">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_skip_waiting_for_build_processing" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_skip_waiting_for_build_processing" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_distribute_only"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_distribute_only">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_distribute_only" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_distribute_only" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_uses_non_exempt_encryption"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_uses_non_exempt_encryption">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_uses_non_exempt_encryption" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_uses_non_exempt_encryption" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_distribute_external"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_distribute_external">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_distribute_external" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_distribute_external" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_expire_previous_builds"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_expire_previous_builds">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_expire_previous_builds" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_expire_previous_builds" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_reject_build_waiting_for_review"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_reject_build_waiting_for_review">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_reject_build_waiting_for_review" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_reject_build_waiting_for_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_submit_beta_review"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_submit_beta_review">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_submit_beta_review" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+					</xf:group>
+
+<!--				<w2:anchor class="gal_prev" id="btn_prev" outerDiv="false" style="" ev:onclick="scwin.btn_prev_onclick">-->
+<!--    				<xf:label><![CDATA[이전]]></xf:label>-->
+<!--    			</w2:anchor>-->
+<!--    			<w2:anchor class="gal_next" id="btn_next" outerDiv="false" style="" ev:onclick="scwin.btn_next_onclick"-->
+<!--						   useLocale="true" localeRef="lbl_next">-->
+<!--    				<xf:label><![CDATA[]]></xf:label>-->
+<!--    			</w2:anchor>-->
+			</xf:group>
+    	</xf:group>
+		</xf:group>
+		<xf:group class="gallery_box android" id="grp_android" style="">
+
+			<xf:group class="gal_body" id="" style="">
+				<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_task_skip_submission"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_task_skip_submission">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_skip_upload_aab" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_skip_submission" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_skip_waiting_for_build_processing"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_skip_waiting_for_build_processing">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_skip_upload_metadata" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_skip_waiting_for_build_processing" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_distribute_only"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_distribute_only">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_skip_upload_changelogs" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_distribute_only" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_uses_non_exempt_encryption"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_uses_non_exempt_encryption">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_skip_upload_images" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_uses_non_exempt_encryption" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_distribute_external"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_distribute_external">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_skip_upload_screenshots" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_distribute_external" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_expire_previous_builds"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_expire_previous_builds">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_validate_only" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_expire_previous_builds" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_reject_build_waiting_for_review"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_reject_build_waiting_for_review">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_changes_not_sent_for_review" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_reject_build_waiting_for_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_submit_beta_review"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_submit_beta_review">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_rescue_changes_not_sent_for_review" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+						<xf:group id="" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_deploy_submit_beta_review"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_deploy_submit_beta_review">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:select1 renderType="native" id="step1_input_android_ack_bundle_installation_warning" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[예]]></xf:label>
+										<xf:value><![CDATA[true]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[아니오]]></xf:label>
+										<xf:value><![CDATA[false]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+							<!--							<xf:input id="step1_input_submit_beta_review" style="" adjustMaxLength="false"></xf:input>-->
+						</xf:group>
+					</xf:group>
+
+					<!--				<w2:anchor class="gal_prev" id="btn_prev" outerDiv="false" style="" ev:onclick="scwin.btn_prev_onclick">-->
+					<!--    				<xf:label><![CDATA[이전]]></xf:label>-->
+					<!--    			</w2:anchor>-->
+					<w2:anchor class="gal_next" id="btn_next" outerDiv="false" style="" ev:onclick="scwin.btn_next_onclick" useLocale="true" localeRef="lbl_next">
+						<xf:label><![CDATA[]]></xf:label>
+					</w2:anchor>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+    </body>
+</html>

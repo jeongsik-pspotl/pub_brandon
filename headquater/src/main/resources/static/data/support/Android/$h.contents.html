@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>contents - W-Matrix</title>
+    
+    <meta name="description" content="W-Matrix javascript Android API Site" />
+    
+    
+    
+    <meta property="og:title" content="W-Hybrid"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="./src/img/W-Matrix-logo.png"/>
+    <meta property="og:site_name" content="W-Matrix"/>
+    <meta property="og:url" content="https://docs.inswave.com"/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav class="wrap">
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="$h.html">$h</a><ul class='methods'></ul></li><li><a href="$h.app.html">app</a><ul class='methods'></ul></li><li><a href="$h.audioRecorder.html">audioRecorder</a><ul class='methods'></ul></li><li><a href="$h.barcode.html">barcode</a><ul class='methods'></ul></li><li><a href="$h.biometric.html">biometric</a><ul class='methods'></ul></li><li><a href="$h.camera.html">camera</a><ul class='methods'></ul></li><li><a href="$h.contents.html">contents</a><ul class='methods'></ul></li><li><a href="$h.device.html">device</a><ul class='methods'></ul></li><li><a href="$h.geolocation.html">geolocation</a><ul class='methods'></ul></li><li><a href="$h.inappbrowser.html">inappbrowser</a><ul class='methods'></ul></li><li><a href="$h.license.html">license</a><ul class='methods'></ul></li><li><a href="$h.misc.html">misc</a><ul class='methods'></ul></li><li><a href="$h.network.html">network</a><ul class='methods'></ul></li><li><a href="$h.paint.html">paint</a><ul class='methods'></ul></li><li><a href="$h.screenRecorder.html">screenRecorder</a><ul class='methods'></ul></li><li><a href="$h.view.html">view</a><ul class='methods'></ul></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">contents</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="$h.html">$h</a>.</span>
+        
+        contents
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Inswave Systems</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+                <div class="description usertext"><p>Content관련 API를 제공하는 플러그인으로 image picker, file picker, fileDownload 기능을 제공한다.</p></div>
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".fileDownload"><span class="type-signature">(static) </span>fileDownload<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>url에 파일을 다운로드한다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+var options = {"url":"http://localhost:8080/download/test.xlsx","progress":"true","open":"true","notify":"true", "location":"Download", "requestType" : "get", "fileName" : "test.xlsx"}
+$h.contents.fileDownload(callback,options);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>result callback</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p>
+<ul>
+<li>url           Download url</li>
+<li>progress      다운로드 진행상황을 상단 Notification bar에 표시 (true or false)</li>
+<li>open          다운로드가 완료되면 해당 파일을 open할지 여부 (true or false)</li>
+<li>notify        다운로드가 완료되면 toast로 다운로드 완료 여부를 알려줄지 여부 (true or false)</li>
+<li>location      다운로드가 될 위치 지정 (default : Download)</li>
+<li>requestType   다운로드 request Type (get or post)</li>
+<li>fileName      다운로드 후 저장될 파일 이름 (post의 경우 필수)</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".filePicker"><span class="type-signature">(static) </span>filePicker<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>파일선택창을 띄운다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ //filepath array param console.log(result); };
+var opt = {};
+opt.multiselect = true;
+opt.extension = "pdf,docx,jpg,png,pptx,xlsx,zip"; // 허용된 확장자
+opt.start = "" //default : document
+opt.maxcount = 2;
+$h.contents.filePicker(callback,options);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>result callback</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p>
+<ul>
+<li>multiselect : 여러 파일 선택 가능 여부 (true 여러개 파일 선택)</li>
+<li>extension : 허용된 확장자</li>
+<li>start : sdcard 내 시작 경로</li>
+<li>maxcount : 선택 가능한 파일 수.</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".imagePicker"><span class="type-signature">(static) </span>imagePicker<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>이미지선택창을 띄운다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ //filepath array param console.log(result); };
+var opt = {};
+opt.multiselect = true;
+opt.maxcount = 2;
+opt.camera = false;
+opt.cameraoption = {};
+opt.type = 0  (return type,  0: base64 String (default), 1 : file URL String)
+opt.galleryFolder = 0 (0: DCIM, 1: PICTURES, 2: DOWNLOADS)
+$h.contents.imagePicker(callback,options);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>result callback</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.7</a> on Fri Apr 08 2022 11:14:38 GMT+0900 (대한민국 표준시) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

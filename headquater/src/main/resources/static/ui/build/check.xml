@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+			</w2:dataCollection>
+			<w2:workflowCollection>
+			</w2:workflowCollection>
+		</xf:model>
+		<script type="text/javascript" lazy="false"><![CDATA[
+			scwin.onpageload = function(){
+				scwin.qrcodeid = $p.getParameter("qrcodeID");
+				const userID = $p.getParameter("userID");
+                $p.getComponentById("ipt_userID").setValue(userID);
+			};
+
+			scwin.reLogin = function(){
+				const id = $p.getComponentById("ipt_userID").getValue();
+				const pw = $p.getComponentById("ipt_userPW").getValue();
+
+				const params = {
+					user_login_id: id,
+					password: pw
+				};
+
+				common.http.fetchPost("/manager/member/qrcodeAuthCheckDetail",{"Content-Type":"application/json"},params).then((res)=>{
+					return res.json();
+				}).then((data)=>{
+					if(data[0].auth_check_result){
+						// install url 요청
+						common.http.fetchGet("/builder/build/history/getInstallUrl/"+scwin.qrcodeid,"GET",{"Content-Type":"application/json"}).then((res)=>{
+							return res.json();
+						}).then((data)=>{
+							if(data!=null && Array.isArray(data)){
+								if(navigator.userAgent.includes('Mac')){
+									location.href="itms-services://?action=download-manifest&url="+data[0].url;
+								} else {
+									location.href=data[0].url;
+								}
+							}
+						}).catch((err)=>{
+							common.win.alert("error status:"+err.status+", message:"+err.message);
+						});
+					}
+				}).catch((err)=>{
+					common.win.alert("로그인 오류: error status "+err.status);
+				});
+			};
+
+			scwin.btnLogin_onclick = function (e) {
+				scwin.reLogin();
+			};
+]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload">
+		<xf:group style="" id="" class="login_main_wrap whive" adaptive="layout" adaptiveThreshold="1024" tagname="">
+			<xf:group class="deco1" id="" style="">
+				<xf:group class="ani1" id="" style=""></xf:group>
+				<xf:group class="ani2" id="" style=""></xf:group>
+			</xf:group>
+			<xf:group style="" id="" class="login_container" adaptive="layout" adaptiveThreshold="1024">
+				<xf:group style="" id="" class="login_contents" adaptive="layout" adaptiveThreshold="1024" tagname="">
+					<xf:group class="login_header" id="" style="">
+						<xf:group class="logo" id="" style="" tabIndex="" tagname="h1">
+							<w2:anchor id="" localeRef="CMMN_LOGIN_LABEL_00002" outerDiv="false" style="" tabIndex="" toolTip="" userData2=""
+								userData3="">
+								<xf:label></xf:label>
+							</w2:anchor>
+						</xf:group>
+					</xf:group>
+					<xf:group style="" id="" class="login_info">
+						<xf:group style="" id="" class="login_item user">
+							<w2:textbox label="Your email" style="" id="" tagname="span" tooltipDisplay="" useLocale="true" localeRef="lbl_id"></w2:textbox>
+							<xf:input adjustMaxLength="false" id="ipt_userID" style="" class="cont_user" customModelFormatter="" type=""
+								useMonthYearFormat="" useVerticalAlign="" dataType="" displayFormatter="" disabled="" applyFormat="" autocomplete="" autoFocus=""
+								customModelUnformatter="">
+							</xf:input>
+							<xf:trigger type="anchor" style="" id="" disabled="" class="btn_login_close hidden" centerOffImageClass=""
+								anchorWithGroupClass="" rightOffImageClass="" leftOnImageClass="">
+								<xf:label><![CDATA[]]>
+								</xf:label>
+							</xf:trigger>
+
+						</xf:group>
+						<xf:group class="login_item pwd" id="" style="">
+							<w2:textbox id="" label="Password" style="" tagname="span" tooltipDisplay="" useLocale="true" localeRef="lbl_password"></w2:textbox>
+							<xf:secret id="ipt_userPW" style="" class="cont_pwd" ref="" nextTabID="" ev:onkeypress="scwin.btn_login_onkeypress"></xf:secret>
+							<xf:trigger anchorWithGroupClass="" centerOffImageClass="" class="btn_login_pw" disabled="" id="" leftOnImageClass=""
+								rightOffImageClass="" style="" type="button" ev:onkeypress="scwin.btn_login_onkeypress">
+								<xf:label></xf:label>
+							</xf:trigger>
+						</xf:group>
+						<w2:anchor outerDiv="false" style="" id="btnLogin" class="btn_login" href="" useLocale="true" localeRef="lbl_login"
+							ev:onclick="scwin.btnLogin_onclick">
+							<xf:label><![CDATA[]]>
+							</xf:label>
+						</w2:anchor>
+					</xf:group>
+					<xf:group class="deco2" id="" style=""></xf:group>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

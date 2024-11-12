@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>speech - W-Matrix</title>
+    
+    <meta name="description" content="W-Matrix javascript Android API Site" />
+    
+    
+    
+    <meta property="og:title" content="W-Matrix"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:image" content="./jsdoc/src/img/W-Matrix-logo.png"/>
+    <meta property="og:site_name" content="W-Matrix"/>
+    <meta property="og:url" content="https://docs.inswave.com"/>
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="$h.html">$h</a><ul class='members'><li data-type='member' style='display: none;'><a href="$h.html#.backKeyPressedListenerRegistered">backKeyPressedListenerRegistered</a></li><li data-type='member' style='display: none;'><a href="$h.html#.webviewTouchListenerRegistered">webviewTouchListenerRegistered</a></li></ul><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.html#.backgroundListener">backgroundListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.backKeyPressedListener">backKeyPressedListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.dismissScreen">dismissScreen</a></li><li data-type='method' style='display: none;'><a href="$h.html#.exec">exec</a></li><li data-type='method' style='display: none;'><a href="$h.html#.foregroundListener">foregroundListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.removeBaackgroundListener">removeBaackgroundListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.removeBackKeyPressedListener">removeBackKeyPressedListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.removeForegroundListener">removeForegroundListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.removeWebviewTouchListener">removeWebviewTouchListener</a></li><li data-type='method' style='display: none;'><a href="$h.html#.webviewTouchListener">webviewTouchListener</a></li></ul></li><li><a href="$h.app.html">app</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.app.html#.checkAppInstalled">checkAppInstalled</a></li><li data-type='method' style='display: none;'><a href="$h.app.html#.finish">finish</a></li><li data-type='method' style='display: none;'><a href="$h.app.html#.version">version</a></li></ul></li><li><a href="$h.audioRecorder.html">audioRecorder</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.deleteAllFile">deleteAllFile</a></li><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.deleteAudioFile">deleteAudioFile</a></li><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.recordCancel">recordCancel</a></li><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.recordFinish">recordFinish</a></li><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.recordPause">recordPause</a></li><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.recordResume">recordResume</a></li><li data-type='method' style='display: none;'><a href="$h.audioRecorder.html#.recordStatus">recordStatus</a></li></ul></li><li><a href="$h.barcode.html">barcode</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.barcode.html#.scan">scan</a></li></ul></li><li><a href="$h.biometric.html">biometric</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.biometric.html#.checkData">checkData</a></li><li data-type='method' style='display: none;'><a href="$h.biometric.html#.decryptData">decryptData</a></li><li data-type='method' style='display: none;'><a href="$h.biometric.html#.deleteData">deleteData</a></li><li data-type='method' style='display: none;'><a href="$h.biometric.html#.encryptData">encryptData</a></li></ul></li><li><a href="$h.camera.html">camera</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.camera.html#.capturePhoto">capturePhoto</a></li><li data-type='method' style='display: none;'><a href="$h.camera.html#.cleanup">cleanup</a></li></ul></li><li><a href="$h.contents.html">contents</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.contents.html#.fileDownload">fileDownload</a></li><li data-type='method' style='display: none;'><a href="$h.contents.html#.filePicker">filePicker</a></li><li data-type='method' style='display: none;'><a href="$h.contents.html#.imagePicker">imagePicker</a></li></ul></li><li><a href="$h.device.html">device</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.device.html#.getDeviceInfo">getDeviceInfo</a></li></ul></li><li><a href="$h.geolocation.html">geolocation</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.geolocation.html#.clearWatch">clearWatch</a></li><li data-type='method' style='display: none;'><a href="$h.geolocation.html#.getCurrentPosition">getCurrentPosition</a></li><li data-type='method' style='display: none;'><a href="$h.geolocation.html#.watchPosition">watchPosition</a></li></ul></li><li><a href="$h.inappbrowser.html">inappbrowser</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.inappbrowser.html#.open">open</a></li></ul></li><li><a href="$h.license.html">license</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.license.html#.showView">showView</a></li></ul></li><li><a href="$h.log.html">log</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.log.html#.clearLog">clearLog</a></li><li data-type='method' style='display: none;'><a href="$h.log.html#.getLog">getLog</a></li><li data-type='method' style='display: none;'><a href="$h.log.html#.getLogMail">getLogMail</a></li><li data-type='method' style='display: none;'><a href="$h.log.html#.getLogUpload">getLogUpload</a></li><li data-type='method' style='display: none;'><a href="$h.log.html#.logPath">logPath</a></li></ul></li><li><a href="$h.misc.html">misc</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.misc.html#.getContacts">getContacts</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.getServerIp">getServerIp</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.networkChangeListener">networkChangeListener</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.onNetworkChanged">onNetworkChanged</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.openBrowser">openBrowser</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.sendCall">sendCall</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.sendSMS">sendSMS</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.settingStatus">settingStatus</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.startTimer">startTimer</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.stopTimer">stopTimer</a></li><li data-type='method' style='display: none;'><a href="$h.misc.html#.stopTimerAll">stopTimerAll</a></li></ul></li><li><a href="$h.network.html">network</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.network.html#.addEventListener">addEventListener</a></li><li data-type='method' style='display: none;'><a href="$h.network.html#.checkNetwork">checkNetwork</a></li></ul></li><li><a href="$h.paint.html">paint</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.paint.html#.openPaint">openPaint</a></li></ul></li><li><a href="$h.screen.html">screen</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.screen.html#.closeSubWebview">closeSubWebview</a></li><li data-type='method' style='display: none;'><a href="$h.screen.html#.screenCapture">screenCapture</a></li><li data-type='method' style='display: none;'><a href="$h.screen.html#.screenOrientation">screenOrientation</a></li><li data-type='method' style='display: none;'><a href="$h.screen.html#.setupBrightness">setupBrightness</a></li><li data-type='method' style='display: none;'><a href="$h.screen.html#.startWebview">startWebview</a></li></ul></li><li><a href="$h.screenprotector.html">screenprotector</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.screenprotector.html#.start">start</a></li><li data-type='method' style='display: none;'><a href="$h.screenprotector.html#.stop">stop</a></li></ul></li><li><a href="$h.screenRecorder.html">screenRecorder</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.deleteAllFile">deleteAllFile</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.deleteFile">deleteFile</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.recordCancel">recordCancel</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.recordFinish">recordFinish</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.recordPause">recordPause</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.recordResume">recordResume</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.recordScreen">recordScreen</a></li><li data-type='method' style='display: none;'><a href="$h.screenRecorder.html#.recordStatus">recordStatus</a></li></ul></li><li><a href="$h.speech.html">speech</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.speech.html#.speakTTS">speakTTS</a></li><li data-type='method' style='display: none;'><a href="$h.speech.html#.speechToTextEventListener">speechToTextEventListener</a></li><li data-type='method' style='display: none;'><a href="$h.speech.html#.startSpeechToText">startSpeechToText</a></li><li data-type='method' style='display: none;'><a href="$h.speech.html#.stopSpeechToText">stopSpeechToText</a></li><li data-type='method' style='display: none;'><a href="$h.speech.html#.stopTTS">stopTTS</a></li></ul></li><li><a href="$h.storage.html">storage</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.storage.html#.getPreference">getPreference</a></li><li data-type='method' style='display: none;'><a href="$h.storage.html#.removePreference">removePreference</a></li><li data-type='method' style='display: none;'><a href="$h.storage.html#.reset">reset</a></li><li data-type='method' style='display: none;'><a href="$h.storage.html#.setPreference">setPreference</a></li><li data-type='method' style='display: none;'><a href="$h.storage.html#.shareData">shareData</a></li></ul></li><li><a href="$h.view.html">view</a><ul class='methods'><li data-type='method' style='display: none;'><a href="$h.view.html#.notification">notification</a></li><li data-type='method' style='display: none;'><a href="$h.view.html#.snackBar">snackBar</a></li><li data-type='method' style='display: none;'><a href="$h.view.html#.toast">toast</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">speech</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="$h.html">$h</a>.</span>
+        
+        speech
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wmatrix.js.html">wmatrix.js</a>, <a href="wmatrix.js.html#line702">line 702</a>
+    </li></ul></dd>
+    
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Inswave Systems</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+                <div class="description usertext"><p>앱에 읽기/말하기 기능을 제공하는 플러그인으로 API를 제공한다. 제공되는 API로는 speakTTS, stopTTS, startSpeechToText, stopSpeechToText 기능들이 있다.</p></div>
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".speakTTS"><span class="type-signature">(static) </span>speakTTS<span class="signature">(callback, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wmatrix.js.html">wmatrix.js</a>, <a href="wmatrix.js.html#line713">line 713</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>message 를 음성으로 읽어준다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+var opt = {"language": "ko", "message" : "hello, world", "speechSpeed" : 0.9 };
+$h.speech.speakTTS(callback,opt);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>콜백함수</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>statusCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>코드</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>msg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>메시지</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>데이터</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>object</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>language</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>언어 코드 (ko: 한국어, en: 영어, ja: 일본어, zh_cn: 중국어 간체, zh_tw: 중국어 번체)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>message</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>음성으로 말할 메세지 내용.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>speechSpeed</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Float</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>음성으로 말하는 속도 (default: 1.0)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".speechToTextEventListener"><span class="type-signature">(static) </span>speechToTextEventListener<span class="signature">(listener)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wmatrix.js.html">wmatrix.js</a>, <a href="wmatrix.js.html#line794">line 794</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>App의 오디오 엔진의 상태 변화가 발생했을때 Web에 전달되는 Listener를 등록한다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var listener = function(result){ console.log(result); };
+$h.speech.speechToTextEventListener(listener);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>listener</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>이벤트발생시 실행할 함수</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".startSpeechToText"><span class="type-signature">(static) </span>startSpeechToText<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wmatrix.js.html">wmatrix.js</a>, <a href="wmatrix.js.html#line756">line 756</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>음성 인식 후 인식된 텍스트를 리턴한다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+$h.speech.startSpeechToText(callback);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>콜백함수</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>statusCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>코드</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>msg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>메시지</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>인식된 텍스트</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".stopSpeechToText"><span class="type-signature">(static) </span>stopSpeechToText<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wmatrix.js.html">wmatrix.js</a>, <a href="wmatrix.js.html#line775">line 775</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>음성 인식 엔진을 중지 한다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+$h.speech.stopSpeechToText(callback);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>콜백함수</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>statusCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>코드</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>msg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>메시지</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>인식된 텍스트</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".stopTTS"><span class="type-signature">(static) </span>stopTTS<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="wmatrix.js.html">wmatrix.js</a>, <a href="wmatrix.js.html#line737">line 737</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    <p>TTS가 실행중이면 중단시킨다.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var callback = function(result){ console.log(result); };
+$h.speech.stopTTS(callback);</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>콜백함수</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>statusCode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>코드</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>msg</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>메시지</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>데이터</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.10</a> on Tue Sep 05 2023 15:03:33 GMT+0900 (대한민국 표준시) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+<script src="scripts/collapse.js" defer></script>
+
+
+</body>
+</html>

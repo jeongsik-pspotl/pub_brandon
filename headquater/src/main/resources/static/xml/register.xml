@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false"><![CDATA[
+			 scwin.check_user_emailYN = false;
+			 scwin.check_user_IDYN = false;
+	scwin.onpageload = function() {
+		$(".btn_login.create").click(function(){
+			$(".layer_pop").css("display","block");
+			$("body").append("<div class='dim'></div>");
+		});
+		$(".btn_pop_close").click(function(){ 
+			$(".layer_pop").css("display","none");
+			$("div").remove(".dim");
+		});
+		// register_user_code.hide();
+		// scwin.getDomainListInfo();
+		grp_user_code_yn.hide();
+	};
+	
+	scwin.onpageunload = function() {
+		
+	};
+
+	scwin.getDomainListInfo = function(){
+
+
+		var options = {};
+
+		options.action = "/manager/domain/search/domainList";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "GET";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+                var message = common.getLabel("lbl_select");
+				user_select_domain_settingbox.addItem("",message); //선택
+				for (var row in data) {
+					var temp = {};
+
+					user_select_domain_settingbox.addItem(data[row].domain_id, data[row].domain_name);
+
+				}
+
+				scwin.getDomainListByIDInfo();
+
+			} else {
+
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.getDomainListByIDInfo = function(){
+
+		var domain_id = localStorage.getItem("_domain_id_");
+
+		var options = {};
+
+		options.action = "/manager/domain/search/domain/"+parseInt(domain_id);
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "GET";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+				// user_select_domain_settingbox.addItem("","선택");
+				// user_select_domain_settingbox.addItem(data.domain_id, data.domain_name);
+				user_select_domain_settingbox.setSelectedIndex( data.domain_id );
+
+			} else {
+
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.btn_create_user_onclick =  function(){
+
+		var data = {};
+
+		data.user_login_id = register_user_id.getValue();
+		data.email = register_user_email_id.getValue();
+		data.user_name = register_user_name.getValue();
+		data.password = register_user_password.getValue();
+		data.confirmPassword = register_user_password_check.getValue();
+		data.domain_id = 1;// user_select_domain_settingbox.getValue(); // domain hidden 처리
+
+		if(scwin.checkData(data)){
+
+		    scwin.ajaxCreateUser(data);
+
+		}
+
+
+	};
+
+	scwin.btn_back_to_login_onclick =  function(){
+
+		$p.url("/index.html");
+
+	};
+
+	// checkData function 추가
+	scwin.checkData = function(data){
+
+		// 이메일, 이름, password, confirm password
+		var user_login_id = register_user_id.getValue();
+		var user_email = register_user_email_id.getValue();
+		var user_password = register_user_password.getValue();
+		var user_confirm_password = register_user_password_check.getValue();
+		var member_name = register_user_name.getValue();
+
+
+		// domain >> 도메인 없을시 대비 해야함..
+
+		if(common.isEmptyStr(user_login_id)){
+			var message = common.getLabel("lbl_check_blank_id");
+			alert(message);
+			scwin.check_user_IDYN = false;
+			return false;
+		}
+
+		if(!scwin.check_user_IDYN){
+			var message = common.getLabel("lbl_register_duplicateId");
+			alert(message);
+			return false;
+		}
+
+		if(common.isEmptyStr(user_email)){
+			var message = common.getLabel("lbl_register_blankEmail");
+			alert(message);
+			scwin.check_user_emailYN = false;
+			return false;
+		}
+
+
+		if(!scwin.check_user_emailYN){
+			var message = common.getLabel("lbl_auth_email");
+			alert(message);
+			return false;
+		}
+
+		if(common.isEmptyStr(user_password)){
+			var message = common.getLabel("lbl_register_inputPwd");
+			alert(message);
+			return false;
+		}
+
+		if(!common.checkAllInputText("CHECK_INPUT_TYPE_PW",user_password)){
+			var message = common.getLabel("lbl_register_errorPwd");
+			alert(message);
+            return false;
+		}
+
+		if(common.isEmptyStr(user_confirm_password)){
+			var message = common.getLabel("lbl_register_checkPwd");
+			alert(message);
+			return false;
+		}
+
+		if(!common.checkAllInputText("CHECK_INPUT_TYPE_PW",user_confirm_password)){
+			var message = common.getLabel("lbl_register_errorPwd");
+			alert(message);
+			return false;
+		}
+
+		if(user_password != user_confirm_password){
+			var message = common.getLabel("lbl_register_samePwd");
+			alert(message);
+			return false;
+		}
+
+		if(common.isEmptyStr(member_name)){
+			var message = common.getLabel("lbl_input_username");
+			alert(message);
+			return false;
+		}
+
+		// 한글, 영문, 숫자 체크
+		if(!common.checkAllInputText("CHECK_INPUT_TYPE_KOR_ENG_NUM", member_name)){
+			var message = common.getLabel("lbl_register_checkId");
+			alert(message);
+			return false;
+		}
+
+		// 글자 수 체크
+		if(common.calBytes(member_name) > 30){
+			var message = common.getLabel("lbl_register_restrictId");
+			alert(message);
+			return false;
+		}
+
+
+	    return true;
+	};
+
+	// ajax create user function 추가
+	scwin.ajaxCreateUser = function(data){
+
+		var options = {};
+
+		// check userid controller 추가
+		options.action = "/manager/account/signUp/resultEmail";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if(data != null){
+				if(e.responseStatusCode === 200 || e.responseStatusCode === 201){
+					if (data != null) {
+						var message = common.getLabel("lbl_register_createdAccount");
+						alert(message); //계정 생성이 완료되었습니다
+					    $p.url("/login.xml");
+
+
+					}
+				}
+			}
+
+		};
+
+		options.error = function (e) {
+			if(e.responseStatusCode === 500){
+				// scwin.build_project_name_yn = true;
+				scwin.check_user_emailYN = true;
+			}else {
+				alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+			}
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+	// id 중복 조회 function 추가
+	// >>> 해당 기능을 인증 하는 과정에서 서비스 단에 에러 결과 값을 처리..???
+	scwin.ajaxCheckCodeValue_onclick = function(){
+
+		var data = {};
+
+		data.email = register_user_email_id.getValue();
+		data.keyCode = register_user_code.getValue();
+
+		var options = {};
+
+		// check userid controller 추가
+		options.action = "/manager/account/signUp/checkCodeValue";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if(data != null){
+
+				if(data[0].checkResult == "fail"){
+					var message = common.getLabel("lbl_register_authFail");
+					alert(message);
+					scwin.check_user_emailYN = false;
+				}else if(data[0].checkResult == "success"){
+					var message = common.getLabel("lbl_register_authSuccess");
+					alert(message);
+					scwin.check_user_emailYN = true;
+				}
+
+						//alert(" 해당 이메일이 존재 합니다.");
+
+			}
+
+		};
+
+		options.error = function (e) {
+			if(e.responseStatusCode === 500){
+				var message = common.getLabel("lbl_register_authFail");
+				alert(message);
+				// scwin.build_project_name_yn = true;
+				scwin.check_user_emailYN = true;
+			}else {
+				alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+			}
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.step1_btn_check_email_onclick = function(e){
+
+		var email = register_user_email_id.getValue();
+
+		// if(scwin.checkDataProjectName()){
+
+		if(common.isEmptyStr(email)){
+			var message = common.getLabel("lbl_register_blankEmail");
+			alert(message);
+			return false;
+		}
+
+		// validation 처리 추가 하기
+		if(!common.checkAllInputText("CHECK_INPUT_TYPE_EMAIL",email)){
+			var message = common.getLabel("lbl_register_checkEmail");
+			alert(message);
+            return false;
+		};
+
+
+
+		scwin.select_check_user_email(email);
+
+
+	};
+
+	scwin.select_check_user_email = function(user_email){
+
+		var data = {};
+
+		data.email = user_email;
+
+		var options = {};
+
+		// check userid controller 추가
+		options.action = "/manager/account/signUp/readyEmail";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+
+			if(e.responseStatusCode === 200 || e.responseStatusCode === 201){
+			    if (data != null) {
+
+			        if(data[0].user_name_not_found == "no"){
+						var message = common.getLabel("lbl_exist_email");
+						alert(message);
+
+			            scwin.check_user_emailYN = false;
+			        }else if(data[0].user_name_not_found == "yes"){
+						var message = common.getLabel("lbl_register_authCode");
+						alert(message);
+
+			            grp_user_code_yn.show();
+			            scwin.check_user_emailYN = true;
+			        }
+
+						//alert(" 해당 이메일이 존재 합니다.");
+			    }
+			}
+
+
+		};
+
+		options.error = function (e) {
+			if(e.responseStatusCode === 500){
+				// alert(" 해당 이메일은 시용 가능 합니다.");
+				alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+				// scwin.build_project_name_yn = true;
+				scwin.check_user_emailYN = true;
+			}else {
+				alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n"+"error:"+e.requestBody);
+			}
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+
+	scwin.step1_btn_check_user_id_onclick = function(){
+
+		var user_id = register_user_id.getValue();
+
+		if(common.isEmptyStr(user_id)){
+			var message = common.getLabel("lbl_check_blank_id");
+			alert(message);
+			return false;
+		}
+
+		scwin.ajaxCheckUserID();
+
+	};
+
+	scwin.ajaxCheckUserID = function(){
+
+		var data = {};
+
+		data.user_login_id = register_user_id.getValue();
+
+		var options = {};
+
+		// check userid controller 추가
+		options.action = "/manager/member/search/checkUserId";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if(data != null){
+				if(e.responseStatusCode === 200 || e.responseStatusCode === 201){
+					if (data != null) {
+
+						if(data[0].user_name_not_found == "no"){
+							var message = common.getLabel("lbl_exist_id");
+							alert(message);
+							scwin.check_user_IDYN = false;
+						}else if(data[0].user_name_not_found == "yes"){
+							var message = common.getLabel("lbl_available_id");
+							alert(message);
+							scwin.check_user_IDYN = true;
+						}
+
+						//alert(" 해당 이메일이 존재 합니다.");
+
+					}
+				}
+			}
+
+		};
+
+		options.error = function (e) {
+			if(e.responseStatusCode === 500){
+				// alert(" 해당 이메일은 시용 가능 합니다.");
+				// scwin.build_project_name_yn = true;
+				alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n");
+				scwin.check_user_IDYN = true;
+			}else {
+				alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n");
+			}
+
+		};
+
+		$p.ajax( options );
+
+
+	};
+
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group class="login_wrap" id="" style="">
+    		<xf:group class="login_content reg" id="" style="">
+    			<w2:textbox class="form_name" id="" label="" useLocale="true" localeRef="lbl_register_join"
+    				style="" tagname="h2">
+    			</w2:textbox>
+    			<xf:group class="form_wrap" id="" style="">
+    				<xf:group class="" id="" style="" tagname="ul">
+						<xf:group class="" id="" style="" tagname="li">
+							<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_id"></w2:textbox>
+							<xf:group class="ipt_box">
+								<xf:input adjustMaxLength="false" id="register_user_id" style=""></xf:input>
+								<xf:trigger id="btn_manager_user_id_check" style="" class="btn_cm" type="button" ev:onclick="scwin.step1_btn_check_user_id_onclick"
+											useLocale="true" localeRef="lbl_register_duplicate">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+						</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_email"></w2:textbox>
+							<xf:group class="ipt_box">
+								<xf:input adjustMaxLength="false" id="register_user_email_id" style=""></xf:input>
+								<xf:trigger id="btn_manager_user_email_check" style="" class="btn_cm" type="button" ev:onclick="scwin.step1_btn_check_email_onclick"
+											useLocale="true" localeRef="lbl_register_auth">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+    					</xf:group>
+						<xf:group id="grp_user_code_yn" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_register_authNum"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" tooltipLocaleRef="lbl_register_sendNum">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:group class="ipt_box">
+								<xf:input adjustMaxLength="false" id="register_user_code" style=""></xf:input>
+								<xf:trigger id="btn_register_user_code_check" style="" class="btn_cm" type="button" ev:onclick="scwin.ajaxCheckCodeValue_onclick"
+											useLocale="true" localeRef="lbl_confirm">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+						</xf:group>
+						<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_name"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="register_user_name" style=""></xf:input>
+    					</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_password"></w2:textbox>
+    						<xf:secret adjustMaxLength="false" id="register_user_password" style=""></xf:secret>
+    					</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_password_check"></w2:textbox>
+    						<xf:secret id="register_user_password_check" style=""></xf:secret>
+    					</xf:group>
+<!--    					<xf:group class="" id="" style="" tagname="li">-->
+<!--    						<w2:textbox class="form_name" id="" label="Domain" style=""></w2:textbox>-->
+<!--							<xf:select1 renderType="native" id="user_select_domain_settingbox" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" displayMode="label" allOption="" submenuSize="auto" disabled="false" >-->
+<!--								<xf:choices>-->
+
+<!--								</xf:choices>-->
+<!--							</xf:select1>-->
+<!--    					</xf:group>-->
+					</xf:group>
+    			</xf:group>
+    			<xf:group class="fr_btn" id="" style="">
+    				<w2:anchor class="btn_login type1" ev:onclick="scwin.btn_create_user_onclick" href="" id="" outerDiv="false" style=""
+							   useLocale="true" localeRef="lbl_create">
+    					<xf:label><![CDATA[]]></xf:label>
+    				</w2:anchor>
+    				<w2:anchor class="btn_login type2" ev:onclick="scwin.btn_back_to_login_onclick" href="" id="" outerDiv="false" style=""
+							   useLocale="true" localeRef="lbl_cancel">
+    					<xf:label><![CDATA[]]></xf:label>
+    				</w2:anchor>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    	<xf:group class="layer_pop" id="" style="display:none;">
+    		<xf:group class="ly_head" id="" style="">
+    			<w2:textbox class="title" id="" label="" style="" useLocale="true" localeRef="lbl_create">></w2:textbox>
+    			<w2:anchor class="btn_pop_close" id="" outerDiv="false" style="" useLocale="true" localeRef="lbl_close">
+    				<xf:label><![CDATA[]]></xf:label>
+    			</w2:anchor>
+    		</xf:group>
+    		<xf:group class="ly_cont" id="" style="">
+    			<xf:group class="form_wrap" id="" style="">
+    				<xf:group class="" id="" style="" tagname="ul">
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_id"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="" style=""></xf:input>
+    					</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_password"></w2:textbox>
+    						<xf:secret id="" style=""></xf:secret>
+    					</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_password_check"></w2:textbox>
+    						<xf:secret id="" style="소"></xf:secret>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group class="form_wrap bt" id="" style="">
+    				<xf:group class="" id="" style="" tagname="ul">
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_name"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="" style=""></xf:input>
+    					</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_team"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="" style=""></xf:input>
+    					</xf:group>
+    					<xf:group class="" id="" style="" tagname="li">
+    						<w2:textbox class="form_name" id="" label="" style="" useLocale="true" localeRef="lbl_company"></w2:textbox>
+    						<xf:input adjustMaxLength="false" id="" style=""></xf:input>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group class="btnbox tac" id="" style="">
+    				<xf:trigger class="btn_cm" id="" style="" type="button" useLocale="true" localeRef="lbl_register_account_create">
+    					<xf:label><![CDATA[]]></xf:label>
+    				</xf:trigger>
+    				<xf:trigger class="btn_cm type1" id="" style="" type="button" useLocale="true" localeRef="lbl_cancel">
+    					<xf:label><![CDATA[]]></xf:label>
+    				</xf:trigger>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false"><![CDATA[
+			 scwin.onpageload = function () {
+				 common.setScopeObj(scwin);
+				 scwin.initPage();
+			 };
+
+			 scwin.onpageunload = function () {
+
+			 };
+
+			 scwin.setFavoriteWorkspace = function (favorite_workspace_json, buildproj_json) {
+				 for (var idx in favorite_workspace_json) {
+					 generator_favorite.insertChild();
+
+					 // setting workspace title
+					 var fav_workspace_select = generator_favorite.getChild(idx, "select_favorite_workpsace_title");
+					 fav_workspace_select.addItem(1, favorite_workspace_json[idx].workspace_name, 0);
+
+					 var temp_generator = generator_favorite.getChild(idx, "fav_buildproj_generator");
+
+					 var count = 0;
+					 var android_cnt = 0;
+					 var windows_cnt = 0;
+					 var ios_cnt = 0;
+
+					 for (var idx2 in buildproj_json) {
+						 if (buildproj_json[idx2].workspace_id == favorite_workspace_json[idx].id) {
+							 temp_generator.insertChild();
+							 //set icon
+							 var span_icon = temp_generator.getChild(count, "buildproj_platform");
+							 var txt_proj_name = temp_generator.getChild(count, "txt_buildproj_project_name");
+							 var btn_build = temp_generator.getChild(count, "btn_fav_build");
+							 btn_build.setUserData("platform",buildproj_json[idx2].platform);
+							 btn_build.setUserData("projectName",buildproj_json[idx2].project_name);
+							 btn_build.setUserData("workspaceName",favorite_workspace_json[idx].workspace_name);
+
+							 count++;
+
+							 if (buildproj_json[idx2].platform == "Android") {
+								 span_icon.addClass("ico_and");
+
+                                 var message = common.getLabel("lbl_android"); // Android
+								 span_icon.setValue(message);
+								 android_cnt++;
+							 } else if (buildproj_json[idx2].platform == "Windows") {
+								 span_icon.addClass("ico_win");
+
+                                 var message = common.getLabel("lbl_main_js_windows"); // Windows
+								 span_icon.setValue(message);
+								 windows_cnt++;
+							 } else {
+								 span_icon.addClass("ico_ios");
+
+                                 var message = common.getLabel("lbl_ios");
+								 span_icon.setValue(message);
+								 ios_cnt++;
+							 }
+							 txt_proj_name.setValue(buildproj_json[idx2].project_name);
+						 }
+					 }
+
+                     var message_android = common.getLabel("lbl_android_s");
+                     message_android = common.getFormatStr(message_android, android_cnt);
+                     var message_windows = common.getLabel("lbl_windows_s");
+                     message_windows = common.getFormatStr(message_windows, windows_cnt);
+                     var message_ios = common.getLabel("lbl_ios_s");
+                     message_ios = common.getFormatStr(message_ios, ios_cnt);
+
+					 var span_android = generator_favorite.getChild(idx, "count_android");
+					 span_android.setValue(message_android);
+					 var span_windows = generator_favorite.getChild(idx, "count_windows");
+					 span_windows.setValue(message_windows);
+					 var span_ios = generator_favorite.getChild(idx, "count_ios");
+					 span_ios.setValue(message_ios);
+				 }
+			 };
+
+			 scwin.setWorkspace = function (workspace_json, buildproj_json) {
+				 for (var item_idx in workspace_json) {
+					 generator_list.insertChild();
+					 var workspace_select = generator_list.getChild(item_idx, "select_workpsace_title");
+					 workspace_select.addItem('', workspace_json[item_idx].workspace_name, 0);
+
+					 var temp_generator = generator_list.getChild(item_idx, "list_buildproj_generator");
+					 var count = 0;
+					 var android_cnt = 0;
+					 var windows_cnt = 0;
+					 var ios_cnt = 0;
+
+					 for (var idx2 in buildproj_json) {
+						 if (buildproj_json[idx2].workspace_id == workspace_json[item_idx].id) {
+							 temp_generator.insertChild();
+
+							 //set icon
+							 var span_icon = temp_generator.getChild(count, "buildproj_platform");
+							 var txt_proj_name = temp_generator.getChild(count, "txt_buildproj_project_name");
+							 var btn_build = temp_generator.getChild(count, "btn_list_build");
+							 btn_build.setUserData("platform",buildproj_json[idx2].platform);
+							 btn_build.setUserData("projectName",buildproj_json[idx2].project_name);
+							 btn_build.setUserData("workspaceName",workspace_json[item_idx].workspace_name);
+							 count++;
+
+							 if (buildproj_json[idx2].platform == "Android") {
+								 span_icon.addClass("ico_and");
+
+								 var message = common.getLabel("lbl_android"); // Android
+								 span_icon.setValue(message);
+								 android_cnt++;
+							 } else if (buildproj_json[idx2].platform == "Windows") {
+								 span_icon.addClass("ico_win");
+
+								 var message = common.getLabel("lbl_main_js_windows"); // Windows
+								 span_icon.setValue(message);
+								 windows_cnt++;
+							 } else {
+								 span_icon.addClass("ico_ios");
+
+								 var message = common.getLabel("lbl_ios");
+								 span_icon.setValue(message);
+								 ios_cnt++;
+							 }
+							 txt_proj_name.setValue(buildproj_json[idx2].project_name);
+						 }
+					 }
+
+					 var message_android = common.getLabel("lbl_android_s");
+					 message_android = common.getFormatStr(message_android, android_cnt);
+					 var message_windows = common.getLabel("lbl_windows_s");
+					 message_windows = common.getFormatStr(message_windows, windows_cnt);
+					 var message_ios = common.getLabel("lbl_ios_s");
+					 message_ios = common.getFormatStr(message_ios, ios_cnt);
+
+					 var span_android = generator_list.getChild(item_idx, "count_android");
+					 span_android.setValue(message_android);
+					 var span_windows = generator_list.getChild(item_idx, "count_windows");
+					 span_windows.setValue(message_windows);
+					 var span_ios = generator_list.getChild(item_idx, "count_ios");
+					 span_ios.setValue(message_ios);
+				 }
+
+				 for (var idx in workspace_json) {
+					 if (workspace_json[idx].favorite == true) {
+						 var grp_items = generator_list.getChild(idx, "grp_list_link");
+						 grp_items.hide();
+					 }
+				 }
+			 };
+
+			 scwin.initPage = function () {
+				 var favorite_workspace_json = $p.parent().__favorite_workspace__.getAllJSON();
+				 var workspace_json = $p.parent().__workspace_data__.getAllJSON();
+				 var buildproj_json = $p.parent().__buildproject_data__.getAllJSON();
+
+				 scwin.setFavoriteWorkspace(favorite_workspace_json, buildproj_json);
+				 scwin.setWorkspace(workspace_json, buildproj_json);
+			 };
+
+
+			 scwin.btn_fav_deploy_onclick = function (e) {
+				 $p.parent().wfm_main.setSrc("/xml/deploy.xml");
+			 };
+
+			 scwin.btn_fav_build_onclick = function (e) {
+				 var platform = this.getUserData("platform");
+				 var name = this.getUserData("projectName");
+				 var workspace = this.getUserData("workspaceName");
+
+				 localStorage.setItem("buildPlatform",platform);
+				 localStorage.setItem("buildProjectName",name);
+				 localStorage.setItem("workspaceName",workspace);
+
+				 $p.parent().wfm_main.setSrc("/xml/build.xml");
+			 };
+
+			 scwin.btn_fav_setting_onclick = function (e) {
+				 $p.parent().wfm_main.setSrc("/xml/project_settings.xml");
+			 };
+
+			 scwin.btn_fav_history_onclick = function (e) {
+				 $p.parent().wfm_main.setSrc("/xml/history02.xml");
+			 };
+
+			 scwin.btn_list_deploy_onclick = function (e) {
+				 localStorage.setItem("buildPlatform","Android");
+				 localStorage.setItem("buildProjectName","WHybrid Bank");
+				 localStorage.setItem("workspaceName","Product");
+				 $p.parent().wfm_main.setSrc("/xml/build.xml");
+			 };
+
+			 scwin.btn_list_build_onclick = function (e) {
+				 var platform = this.getUserData("platform");
+				 var name = this.getUserData("projectName");
+				 var workspace = this.getUserData("workspaceName");
+
+				 localStorage.setItem("buildPlatform",platform);
+				 localStorage.setItem("buildProjectName",name);
+				 localStorage.setItem("workspaceName",workspace);
+
+				 $p.parent().wfm_main.setSrc("/xml/build.xml");
+			 };
+
+			 scwin.btn_list_setting_onclick = function (e) {
+				 $p.parent().wfm_main.setSrc("/xml/project_settings.xml");
+			 };
+
+			 scwin.btn_list_history_onclick = function (e) {
+				 $p.parent().wfm_main.setSrc("/xml/history02.xml");
+			 };
+
+			 scwin.grp_fav_link_onclick = function (e) {
+				 for (var idx in this.parentControl.childControlList) {
+					 if (this.parentControl.childControlList[idx] === this) {
+						 this.toggleClass("on");
+					 } else {
+						 this.parentControl.childControlList[idx].removeClass("on");
+					 }
+				 }
+			 };
+
+			 scwin.grp_list_link_onclick = function (e) {
+				 for (var idx in this.parentControl.childControlList) {
+					 if (this.parentControl.childControlList[idx] === this) {
+						 this.toggleClass("on");
+					 } else {
+						 this.parentControl.childControlList[idx].removeClass("on");
+					 }
+				 }
+			 };
+
+			 scwin.btn_list_settings_onclick = function(e) {
+				 $p.parent().wfm_main.setSrc("/xml/project_settings.xml");
+			 };
+
+			 ]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group id="" style="display: none;" class="white_board">
+<!--    			<xf:group id="" style="" class="pgtbox">-->
+<!--    				<w2:textbox id="" style="" class="pgt_tit fl" label="FAVORITE"></w2:textbox>-->
+<!--    				<xf:group id="" style="" class="fr">-->
+<!--    					<w2:anchor id="" style="" class="btn_more" outerDiv="false">-->
+<!--    						<xf:label><![CDATA[more]]></xf:label>-->
+<!--    					</w2:anchor>-->
+<!--    				</xf:group>-->
+<!--    			</xf:group>-->
+    			<w2:generator id="generator_favorite" style="" class="fav_list" tagname="ul">
+					<xf:group id="grp_fav_link" style="" class="" tagname="li" ev:onclick="scwin.grp_fav_link_onclick">
+						<xf:group id="" style="" class="fav_link" tagname="">
+							<xf:group id="" style="" class="left">
+								<xf:select selectedindex="-1" id="select_favorite_workpsace_title" appearance="full" style="" cols="" rows="" ref="" renderType="checkboxgroup">
+									<xf:choices>
+									</xf:choices>
+								</xf:select>
+								<w2:textbox id="" style="" class="txt_date" label="" tagname="span">
+								</w2:textbox>
+							</xf:group>
+							<xf:group id="" style="" class="right">
+								<w2:anchor id="count_android" style="" class="btn_android" outerDiv="false" useLocale="true" localeRef="lbl_android_count">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+								<w2:anchor id="count_windows" style="" class="btn_window" outerDiv="false" useLocale="true" localeRef="lbl_windows_count">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+								<w2:anchor id="count_ios" style="" class="btn_ios" outerDiv="false" useLocale="true" localeRef="lbl_ios_count">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+						</xf:group>
+						<w2:generator id="fav_buildproj_generator" style="" class="fav_cont">
+							<xf:group id="" style="" class="item">
+								<xf:group id="" style="" class="dev_tit">
+									<w2:span id="buildproj_platform" style="" class="" label=""></w2:span>
+									<w2:textbox id="txt_buildproj_project_name" style="" class="txt_name" label=""></w2:textbox>
+								</xf:group>
+								<xf:group id="" style="" class="dev_link">
+									<w2:anchor id="btn_fav_deploy" style="" class="btn_i_down" outerDiv="false" ev:onclick="scwin.btn_fav_deploy_onclick" useLocale="true" localeRef="lbl_insert_text">
+										<xf:label><![CDATA[]]></xf:label>
+									</w2:anchor>
+									<w2:anchor id="btn_fav_build" style="" class="btn_i_play" outerDiv="false" ev:onclick="scwin.btn_fav_build_onclick" useLocale="true" localeRef="lbl_insert_text">
+										<xf:label><![CDATA[]]></xf:label>
+									</w2:anchor>
+									<w2:anchor id="btn_fav_settings" style="" class="btn_i_option" outerDiv="false" ev:onclick="scwin.btn_fav_settings_onclick" useLocale="true" localeRef="lbl_insert_text">
+										<xf:label><![CDATA[]]></xf:label>
+									</w2:anchor>
+									<w2:anchor id="btn_fav_history" style="" class="btn_i_reset" outerDiv="false" ev:onclick="scwin.btn_fav_history_onclick" useLocale="true" localeRef="lbl_insert_text">
+										<xf:label><![CDATA[]]></xf:label>
+									</w2:anchor>
+								</xf:group>
+							</xf:group>
+						</w2:generator>
+					</xf:group>
+    			</w2:generator>
+    		</xf:group>
+    		<xf:group class="white_board" id="grp_list" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<w2:textbox class="pgt_tit fl" id="" label="" style="" useLocale="true" localeRef="lbl_main_title"></w2:textbox>
+    				<xf:group class="fr" id="" style="">
+<!--    					<w2:anchor class="btn_more" id="" outerDiv="false" style="">-->
+<!--    						<xf:label><![CDATA[more]]></xf:label>-->
+<!--    					</w2:anchor>-->
+    				</xf:group>
+    			</xf:group>
+    			<w2:generator id="generator_list" class="fav_list"  style="" tagname="ul">
+    				<xf:group id="grp_list_link" class=""  style="" tagname="li" ev:onclick="scwin.grp_list_link_onclick">
+    					<xf:group class="fav_link" id="" style="" tagname="">
+    						<xf:group class="left" id="" style="">
+    							<xf:select appearance="full" cols="" id="select_workpsace_title" ref="" renderType="checkboxgroup" rows="" selectedindex="-1"
+    								style="">
+    								<xf:choices>
+    								</xf:choices>
+    							</xf:select>
+    							<w2:textbox class="txt_date" id="" label="" style=""
+    								tagname="span">
+    							</w2:textbox>
+    						</xf:group>
+    						<xf:group class="right" id="" style="">
+    							<w2:anchor class="btn_android" id="count_android" outerDiv="false" style="" useLocale="true" localeRef="lbl_android_count">
+    								<xf:label><![CDATA[]]></xf:label>
+    							</w2:anchor>
+								<w2:anchor class="btn_window" id="count_windows" outerDiv="false" style="" useLocale="true" localeRef="lbl_windows_count">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+    							<w2:anchor class="btn_ios" id="count_ios" outerDiv="false" style="" useLocale="true" localeRef="lbl_ios_count">
+    								<xf:label><![CDATA[]]></xf:label>
+    							</w2:anchor>
+    						</xf:group>
+    					</xf:group>
+    					<w2:generator class="fav_cont" id="list_buildproj_generator" style="">
+    						<xf:group class="item" id="" style="">
+							<xf:group style="" id="" class="item_gp">
+    							<xf:group class="dev_tit" id="" style="">
+    								<w2:span class="" id="buildproj_platform" label="" style=""></w2:span>
+    								<w2:textbox class="txt_name" id="txt_buildproj_project_name" label="" style=""></w2:textbox>
+    							</xf:group>
+    							<xf:group class="dev_link" id="" style="">
+									<xf:group class="grp_link" id="" style="">
+    								<w2:anchor class="btn_i_down" id="btn_list_deploy" outerDiv="false" style="" ev:onclick="scwin.btn_list_deploy_onclick" useLocale="true" localeRef="lbl_insert_text">
+    									<xf:label><![CDATA[]]></xf:label>
+    								</w2:anchor>
+    								<w2:anchor class="btn_i_play" id="btn_list_build" outerDiv="false" style="" ev:onclick="scwin.btn_list_build_onclick" useLocale="true" localeRef="lbl_insert_text">
+    									<xf:label><![CDATA[]]></xf:label>
+    								</w2:anchor>
+    								<w2:anchor class="btn_i_option" id="btn_list_settings" outerDiv="false" style="" ev:onclick="scwin.btn_list_settings_onclick" useLocale="true" localeRef="lbl_insert_text">
+    									<xf:label><![CDATA[]]></xf:label>
+    								</w2:anchor>
+    								<w2:anchor class="btn_i_reset" id="btn_list_history" outerDiv="false" style="" ev:onclick="scwin.btn_list_history_onclick" useLocale="true" localeRef="lbl_insert_text">
+    									<xf:label><![CDATA[]]></xf:label>
+    								</w2:anchor>
+									</xf:group>
+    							</xf:group>
+							</xf:group>
+    						</xf:group>
+    					</w2:generator>
+    				</xf:group>
+    			</w2:generator>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

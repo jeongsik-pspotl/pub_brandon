@@ -1,0 +1,79 @@
+hazelcast:
+  instance-name: wem-default-insts
+  network:
+    port:
+      auto-increment: true
+      port: 5702
+    outbound-ports:
+      - 33000-35000
+    join:
+      multicast:
+        enabled: false
+      aws:
+        enabled: true
+        host-header: ec2
+        access-key: AKIA6EGWDVK4QAVEMAVQ
+        secret-key: 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
+        hz-port: 5702
+        region: ap-northeast-2
+      tcp-ip:
+        enabled: false
+        required-member: 127.0.0.1
+        member-list:
+          - 172.17.8-9.*:5702
+    interfaces:
+      enabled: true
+      interfaces:
+        #        - 172.16.0.0-20
+        - 172.18.*.2-10
+        - 172.17.*.*
+        - 172.17.*.*
+#  partition-group:
+#    enabled: true
+#    group-type: ZONE_AWARE
+#  network:
+#    port:
+#      auto-increment: true
+#      port: 5702
+#    join:
+#      multicast:
+#        enabled: false
+#      aws:
+#        enabled: true
+#        access-key: AKIA4HCX5ZVFTBVYOAHY
+#        secret-key: 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
+#        cluster: whive-dev-cluster-x86
+#        service-name: whive-dev-service-0825-02
+#        security-group-name: sg-00c2cb7dcb49726dd
+#        host-header: ecs
+#        hz-port: 5702
+#        region: ap-northeast-2
+#    interfaces:
+#      enabled: true
+#      interfaces:
+#       - 172.16.0.0/20
+
+
+#hazelcast:
+#  instance-name: wem-default-insts
+#  group:
+#    name: test
+#    password: password
+#  partition-group:
+#    enabled: true
+#    group-type: ZONE_AWARE
+#  network:
+#    join:
+#      aws:
+#        enabled: true
+#        # discovery_role is created by main terraform script
+#        iam-role: user
+#        host-header: ecs
+#        hz-port: 5702
+#        region: ap-northeast-2
+#        tag-key: whive-dev-0720
+#        tag-value: ECS Instance - whive-dev-cluster-x86
+#        connection-retries: 10
+          #- 172.17.0.1-4:5702
+#  properties:
+#    hazelcast.logging.type: slf4j

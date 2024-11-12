@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map">
+				<w2:dataList id="dtl_steps" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="INDEX" name="INDEX" dataType="text"></w2:column>
+                        <w2:column id="FRAMEID" name="FRAMEID" dataType="text"></w2:column>
+                        <w2:column id="FRAMESRC" name="FRAMESRC" dataType="text"></w2:column>
+                        <w2:column id="MENUID" name="MENUID" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                    <w2:data use="true">
+                        <w2:row>
+                            <INDEX><![CDATA[1]]></INDEX>
+                            <FRAMEID><![CDATA[wfm_project_setting_step1]]></FRAMEID>
+                            <FRAMESRC><![CDATA[/ui/works/project_setting_step01.xml]]></FRAMESRC>
+                            <MENUID><![CDATA[grp_step1]]></MENUID>
+                        </w2:row>
+                        <w2:row>
+                            <INDEX><![CDATA[2]]></INDEX>
+                            <FRAMEID><![CDATA[wfm_project_setting_step2]]></FRAMEID>
+                            <FRAMESRC><![CDATA[/ui/works/project_setting_step02.xml]]></FRAMESRC>
+                            <MENUID><![CDATA[grp_step2]]></MENUID>
+                        </w2:row>
+                        <w2:row>
+                            <INDEX><![CDATA[3]]></INDEX>
+                            <FRAMEID><![CDATA[wfm_project_setting_step3]]></FRAMEID>
+                            <FRAMESRC><![CDATA[/ui/works/project_setting_step03.xml]]></FRAMESRC>
+                            <MENUID><![CDATA[grp_step3]]></MENUID>
+                        </w2:row>
+                    </w2:data>
+                </w2:dataList>
+                <w2:dataList id="dtl_build_setting_step1" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="project_id" name="project_id" dataType="text"></w2:column>
+                        <w2:column id="workspace_id" name="workspace_id" dataType="text"></w2:column>
+                        <w2:column id="project_name" name="project_name" dataType="text"></w2:column>
+                        <w2:column id="product_type" name="product_type" dataType="text"></w2:column>
+                        <w2:column id="platform" name="platform" dataType="text"></w2:column>
+                        <w2:column id="platform_language" name="platform_language" dataType="text"></w2:column>
+                        <w2:column id="target_server" name="target_server" dataType="text"></w2:column>
+                        <w2:column id="description" name="description" dataType="text"></w2:column>
+                        <w2:column id="status" name="status" dataType="text"></w2:column>
+                        <w2:column id="template_version" name="template_version" dataType="text"></w2:column>
+                        <w2:column id="project_dir_path" name="project_dir_path" dataType="text"></w2:column>
+                        <w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+                        <w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+                        <w2:column id="builder_id" name="builder_id" dataType="text"></w2:column>
+                        <w2:column id="vcs_id" name="vcs_id" dataType="text"></w2:column>
+                        <w2:column id="ftp_id" name="ftp_id" dataType="text"></w2:column>
+                        <w2:column id="key_id" name="key_id" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_build_setting_step2" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="project_setting_id" name="project_setting_id" dataType="text"></w2:column>
+                        <w2:column id="project_id" name="project_id" dataType="text"></w2:column>
+                        <w2:column id="app_id" name="app_id" dataType="text"></w2:column>
+                        <w2:column id="app_name" name="app_name" dataType="text"></w2:column>
+                        <w2:column id="app_version" name="app_version" dataType="text"></w2:column>
+                        <w2:column id="app_version_code" name="app_version_code" dataType="text"></w2:column>
+                        <w2:column id="server_URL" name="server_URL" dataType="text"></w2:column>
+                        <w2:column id="package_name" name="package_name" dataType="text"></w2:column>
+                        <w2:column id="min_target_version" name="min_target_version" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_build_setting_step2_temp" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="project_setting_id" name="project_setting_id" dataType="text"></w2:column>
+                        <w2:column id="project_id" name="project_id" dataType="text"></w2:column>
+                        <w2:column id="app_id" name="app_id" dataType="text"></w2:column>
+                        <w2:column id="app_name" name="app_name" dataType="text"></w2:column>
+                        <w2:column id="app_version" name="app_version" dataType="text"></w2:column>
+                        <w2:column id="app_version_code" name="app_version_code" dataType="text"></w2:column>
+                        <w2:column id="server_URL" name="server_URL" dataType="text"></w2:column>
+                        <w2:column id="package_name" name="package_name" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_plugin_setting_installed_step3" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="installed_plugin_module" name="installed_plugin_module" dataType="text"></w2:column>
+                        <w2:column id="installed_plugin_version" name="installed_plugin_version" dataType="text"></w2:column>
+                        <w2:column id="installed_plugin_name" name="installed_plugin_name" dataType="text"></w2:column>
+                        <w2:column id="installed_plugin_type" name="installed_plugin_type" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_plugin_setting_available_step3" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="available_plugin_module" name="available_plugin_module" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_version" name="available_plugin_version" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_name" name="available_plugin_name" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_type" name="available_plugin_type" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_plugin_setting_available_premium_step3" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="available_plugin_module" name="available_plugin_module" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_version" name="available_plugin_version" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_name" name="available_plugin_name" dataType="text"></w2:column>
+                        <w2:column id="available_plugin_type" name="available_plugin_type" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+                <w2:dataList id="dtl_deploy_setting_step4" saveRemovedData="true">
+                    <w2:columnInfo>
+                        <w2:column id="deploy_id" name="deploy_id" dataType="text"></w2:column>
+                        <w2:column id="build_id" name="build_id" dataType="text"></w2:column>
+                        <w2:column id="all_package_name" name="all_package_name" dataType="text"></w2:column>
+                        <w2:column id="apple_key_id" name="apple_key_id" dataType="text"></w2:column>
+                        <w2:column id="apple_issuer_id" name="apple_issuer_id" dataType="text"></w2:column>
+                        <w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+                        <w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+                        <w2:column id="all_signingkey_id" name="all_signingkey_id" dataType="text"></w2:column>
+                    </w2:columnInfo>
+                </w2:dataList>
+            </w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+            scwin.getResultAppConfigData;
+            scwin.txt_project_all_step_platform = "";
+
+            scwin.onpageload = function() {
+                const project_id = $p.top().scwin.buildProjecPkId;
+
+                scwin.select_build_project_id(project_id);
+                scwin.select_deploy_setting_id(project_id);
+            };
+
+            scwin.selected_step = function(selected){
+                const jsonData = dtl_steps.getAllJSON();
+                for(let obj in jsonData){
+                    const row = jsonData[obj];
+                    if(row.INDEX == selected){
+                        const temp = $p.getComponentById(row.FRAMEID);
+                        if(temp.getSrc() == ""){
+                            temp.setSrc(row.FRAMESRC);
+                        }
+                        $p.getComponentById(row.FRAMEID).show();
+                        //$p.getComponentById(row.MENUID).addClass("on");
+                    } else {
+                        $p.getComponentById(row.FRAMEID).hide();
+                        //$p.getComponentById(row.MENUID).removeClass("on");
+                    }
+                }
+            };
+
+            scwin.select_build_project_id = function(build_id){
+                const uri = common.uri.settingProjectConfig(build_id);
+                common.http.fetchGet(uri,"GET",{"Content-Type":"application/json"}).then((res)=>{
+                    return res.json();
+                }).then((data)=>{
+                    if(data !== null){
+                        let buildproj = [];
+                        buildproj.push(data);
+
+                        let distict = common.unique(buildproj, 'project_id');
+                        dtl_build_setting_step1.setJSON(distict);
+                        //const message = common.getLabel("lbl_project_setting_title");
+                        //txt_setting_project_name.setValue(data.project_name+" "+message); // Project 설정
+                        //localStorage.setItem("__workspace_id__",data.workspace_id);
+
+                        // /ui/works/proejct_setting_step01.xml
+                        const path = $p.top().scwin.convertMenuCodeToPath("m0100020100");
+                        if(path != null){
+                            wfm_project_setting_step1.setSrc(path);
+                        }
+                    }
+                }).catch((err)=>{
+                    common.win.alert("error:"+err);
+                });
+            };
+
+            scwin.select_build_setting_id = function(project_id){
+                const uri = common.uri.settingProjectDetail(project_id);
+                common.http.fetchGet(uri,"GET",{"Content-Type":"application/json"}).then((res)=>{
+                    return res.json();
+                }).then((data)=>{
+                    if(data !== null){
+                        let buildsetting = [];
+                        let message = "";
+
+                        message = common.getLabel("lbl_project_setting_js_check_server_setting");
+                        btn_proejct_step03.setValue(message); //Server 설정 조회
+
+                        buildsetting.push(data);
+
+                        const distict = common.unique(buildsetting, 'project_setting_id');
+                        dtl_build_setting_step2.setJSON(distict);
+                        dtl_build_setting_step2_temp.setJSON(distict);
+                    }
+                }).catch((err)=>{
+                    common.win.alert("error:"+err);
+                });
+            };
+
+            scwin.select_deploy_setting_id = function(build_id){
+                // deploy setting cotroller 구현하기
+                const uri = common.uri.settingGetBuildId(build_id);
+                common.http.fetchGet(uri,"GET",{"Content-Type":"application/json"}).then((res)=>{
+                    return res.json();
+                }).then((data)=>{
+                    if(data != null){
+                        let deploysetting = [];
+                        deploysetting.push(data);
+                        //localStorage.setItem("deploy_setting_pid",data.deploy_id);
+                        const distict = common.unique(deploysetting, 'deploy_id');
+                        dtl_deploy_setting_step4.setJSON(distict);
+                    }
+                }).catch((err)=>{
+                    common.win.alert("error:"+err);
+                });
+            };
+
+            ]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+		<w2:wframe id="wfm_project_setting_step1" style="display:block;width:100%;height:100%;" src="" scope="true"></w2:wframe>
+	    <w2:wframe id="wfm_project_setting_step2" style="display:none;" src="" scope="true"></w2:wframe>
+	   	<w2:wframe id="wfm_project_setting_step3" style="display:none;" src="" scope="true"></w2:wframe>
+    </body>
+</html>

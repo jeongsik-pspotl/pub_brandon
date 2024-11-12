@@ -1,0 +1,15 @@
+hazelcast:
+  instance-name: wem-default-insts
+  network:
+    port:
+      auto-increment: true
+      port: 5702
+    join:
+      auto-detection:
+        enabled: false
+      multicast:
+        enabled: false
+      tcp-ip:
+        enabled: true
+        member-list:
+          - localhost:5702

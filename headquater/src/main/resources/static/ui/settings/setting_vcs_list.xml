@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+			scwin.onpageload = function() {
+				scwin.getVCSListInfo();
+				// $('.acd_tit').click(function() {
+			    //     var acdbox = $(this).closest('.acdbox');
+                //
+			    //     acdbox.toggleClass('on');
+			    //     if(acdbox.hasClass("on")){
+			    //         acdbox.find('.acd_congrp').slideDown();
+			    //     }else {
+			    //         acdbox.find('.acd_congrp').slideUp();
+			    //     }
+			    // });
+			};
+
+			scwin.grp_vcs_onclick = function(e){
+				const acdbox = $('#'+this.render.id);
+				acdbox.toggleClass('on');
+				if (acdbox.hasClass("on")) {
+					acdbox.find('.acd_congrp').slideDown();
+				} else {
+					acdbox.find('.acd_congrp').slideUp();
+				}
+			};
+
+			scwin.getVCSListInfo = async function () {
+				const url = common.uri.getVcsSettingAll;
+				const method = "GET";
+				const headers = {"Content-Type": "application/json"};
+
+				const response = await common.http.fetchGet(url, method, headers, {});
+				const data = await response.json();
+
+				scwin.vcsListSetting(data);
+			};
+
+            scwin.vcsListSetting = function(vcsData){
+				let count = 0;
+				generator_vcs_setting_list.removeAll();
+
+				for (const [idx, vcs_data] of vcsData.entries()){
+					generator_vcs_setting_list.insertChild();
+
+					let vcsSettingName = generator_vcs_setting_list.getChild(count, "vcs_setting_name");
+					let vcsSettingDetailAdd = generator_vcs_setting_list.getChild(count, "grp_vcs_detail");
+					let vcsSettingType = generator_vcs_setting_list.getChild(count, "vcs_setting_type");
+					let vcsDetailSetting = generator_vcs_setting_list.getChild(count, "btn_vcs_detail_setting");
+
+					vcsSettingDetailAdd.setUserData("vcs_id", vcs_data.vcs_id);
+                    vcsDetailSetting.setUserData("vcs_id", vcs_data.vcs_id);
+
+					if (vcs_data.vcs_type === "git") {
+						const label = common.getLabel("lbl_git");
+						vcsSettingType.setValue(label);
+					} else if(vcs_data.vcs_type === "localgit") {
+						const label = common.getLabel("lbl_settings_repo");
+						vcsSettingType.setValue(label);
+					} else if(vcs_data.vcs_type === "svn") {
+						const label = common.getLabel("lbl_settings_svn");
+						vcsSettingType.setValue(label);
+					}
+
+					vcsSettingName.setValue(vcs_data.vcs_name);
+					count++;
+				}
+			};
+
+			scwin.createVcsSettingOnclick = function() {
+				const vcs_setting_mode = "detailcreate";
+
+				let data = {};
+				data.vcs_setting_mode = vcs_setting_mode;
+
+                const menu_key = $p.top().scwin.convertMenuCodeToMenuKey("m0302010000");
+				$p.top().scwin.add_tab(menu_key, null, data);
+			};
+
+			scwin.grpVcsDetailOnclick = function() {
+				const vcs_id = this.getUserData("vcs_id");
+                const vcs_setting_mode = "detailview";
+
+                let data = {};
+                data.vcs_id = vcs_id;
+                data.vcs_setting_mode = vcs_setting_mode;
+
+				const menu_key = $p.top().scwin.convertMenuCodeToMenuKey("m0302010000");
+				$p.top().scwin.add_tab(menu_key, null, data);
+			};
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="" style="" tagname="h2" useLocale="true"  localeRef="lbl_vcs_setting"></w2:textbox>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group class="contents_inner bottom nosch" id="">
+    			<xf:group id="" class="acdgrp">
+    				<xf:group id="" class="acd_list" tagname="ul">
+    					<xf:group id="grp_vcs" class="acdbox" tagname="li" ev:onclick="scwin.grp_vcs_onclick">
+    						<xf:group style="" id="" class="acd_titgrp">
+    							<xf:group style="" id="" class="acdtitbox">
+    								<w2:textbox tagname="p" style="" id="" label="" class="acd_tit" useLocale="true" localeRef="lbl_vcs_list"></w2:textbox>
+    								<xf:group style="" id="" class="acdtit_subbox">
+    									<xf:trigger style="" id="btn_vcs_add" type="button" class="btn_cm add" ev:onclick="scwin.createVcsSettingOnclick" useLocale="true" localeRef="lbl_create">
+    										<xf:label><![CDATA[]]></xf:label>
+    									</xf:trigger>
+    								</xf:group>
+    							</xf:group>
+     						</xf:group>
+							<xf:group style="" id="" class="acd_congrp">
+								<w2:generator style="" id="generator_vcs_setting_list" class="acd_itemgrp">
+										<xf:group style="" id="" class="acd_itembox">
+											<xf:group id="" class="acd_item">
+												<xf:group style="" id="grp_vcs_detail" class="acd_txtbox" ev:onclick="scwin.grpVcsDetailOnclick">
+													<w2:span style="" label="" id="" class=""></w2:span>
+													<w2:textbox style="" id="vcs_setting_name" label="" class="acd_itemtxt"></w2:textbox>
+													<w2:textbox style="" id="vcs_setting_type" label="" class="acd_itemtxt"></w2:textbox>
+												</xf:group>
+												<xf:group id="" class="acd_icobox">
+													<w2:anchor outerDiv="false" tooltip="tooltip" style="" id="btn_vcs_detail_setting"
+															   class="btn_cm icon btn_i_setting" ev:onclick="scwin.grpVcsDetailOnclick"
+															   useLocale="true" localeRef="lbl_setting" tooltipDisplay="true" tooltipLocaleRef="lbl_vcs_setting_detail">
+														<xf:label><![CDATA[]]></xf:label>
+													</w2:anchor>
+												</xf:group>
+											</xf:group>
+										</xf:group>
+								</w2:generator>
+							</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

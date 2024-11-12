@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+scwin.onpageload = function() {
+	
+};
+]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="Project 생성" style="" tagname="h2"></w2:textbox>
+    					<xf:group class="btn_box" id="">
+    						<xf:trigger class="btn_cm icon guide" id="" style="" type="button">
+    							<xf:label><![CDATA[guide]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger class="btn_cm icon refresh" id="" style="" type="button">
+    							<xf:label><![CDATA[refresh]]></xf:label>
+    						</xf:trigger>
+    						<xf:trigger class="btn_cm icon print" id="" style="" type="button">
+    							<xf:label><![CDATA[print]]></xf:label>
+    						</xf:trigger>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group id="" class="step_bar" tagname="ul">
+    					<xf:group id="" tagname="li" class="on">
+    						<w2:anchor outerDiv="false" style="" id="">
+    							<xf:label><![CDATA[프로젝트 정보 입력]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    					<xf:group id="" tagname="li" style="" class="">
+    						<w2:anchor id="" outerDiv="false" style="">
+    							<xf:label><![CDATA[앱기본 정보 입력]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    					<xf:group id="" tagname="li" style="">
+    						<w2:anchor id="" outerDiv="false" style="">
+    							<xf:label><![CDATA[Server 정보 입력]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    					<xf:group id="" tagname="li" style="">
+    						<w2:anchor id="" outerDiv="false" style="">
+    							<xf:label><![CDATA[배포 설정]]></xf:label>
+    						</w2:anchor>
+    					</xf:group>
+    				</xf:group></xf:group>
+    		</xf:group>
+    		<xf:group id="" class="contents_inner bottom nosch">
+    			<xf:group style="" id="" class="titbox">
+    				<xf:group id="" class="lt">
+    					<w2:textbox tagname="h3" style="" id="" label="프로젝트 정보입력" class=""></w2:textbox>
+    					<xf:group style="" id="" class="count"></xf:group>
+    				</xf:group>
+    				<xf:group style="" id="" class="rt"></xf:group>
+    			</xf:group>
+    			<xf:group style="" id="" class="tblbox">
+    				<xf:group adaptive="layout" adaptiveThreshold="800" tagname="table" style="" id="" class="w2tb tbl">
+    					<w2:attributes>
+    						<w2:summary></w2:summary>
+    					</w2:attributes>
+    					<xf:group tagname="colgroup">
+    						<xf:group tagname="col" style="width:180px;"></xf:group>
+    						<xf:group tagname="col" style=""></xf:group>
+    						<xf:group tagname="col" style="width:180px;"></xf:group>
+    						<xf:group tagname="col"></xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="" class="w2tb_th req">
+    							<xf:group id="" class="tooltipbox">
+    								<w2:textbox ref="" style="" userData2="" id="" label="프로젝트명" class=""></w2:textbox>
+    								<w2:textbox ref="" tagname="span" tooltip="프로젝트 이름" style="" userData2="" id="" label=""
+    									class="ico_tip">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<xf:group id="" class="flex">
+    								<xf:input style="width:100%;" id="" class=""></xf:input>
+    								<xf:trigger style="" id="" type="button" class="btn_cm pt">
+    									<xf:label><![CDATA[중복 조회]]></xf:label>
+    								</xf:trigger>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes></w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="제품" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span" tooltip="프로젝트 생성시 선택될 제품 구분"
+    									userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="OS" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span" tooltip="앱이 실행될 OS 환경 (Android.iOS 중 택1)"
+    									userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="개발 언어" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span" tooltip="앱 개발 언어"
+    									userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="빌드 서버 프로필" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span"
+    									tooltip="빌드가 수행될 서버 프로필" userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="WMatrix 버전" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span"
+    									tooltip="프로젝트 생성시 사용될 WMatrix Template Project 버전" userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="버전 관리 도구 프로필" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span"
+    									tooltip="미리 생성한 버전 관리 도구 프로필 (ex, git, svn 등)" userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    						<xf:group tagname="th" class="w2tb_th">
+    							<w2:attributes></w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="내부 배포 서버 프로필" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span"
+    									tooltip="미리 생성한 내부 배포 서버 프로필(ex, SFTP, 배포용 서버 등)" userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group></xf:group><xf:group tagname="tr" style="">
+    						<xf:group tagname="th" class="w2tb_th "><w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes><xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="서명 프로필" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span" tooltip="미리 생성한 서명 프로필"
+    									userData2="">
+    								</w2:textbox>
+    							</xf:group></xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>3</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:checkcombobox allOption="" chooseOption="" direction="auto" disabled="false"
+    								displayAllOptionLabel="false" displayMode="label" id="" ref="" style="" submenuSize="auto">
+    								<xf:choices>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    									<xf:item>
+    										<xf:label><![CDATA[new row]]></xf:label>
+    										<xf:value></xf:value>
+    									</xf:item>
+    								</xf:choices>
+    							</xf:checkcombobox>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="설명" ref="" style="" userData2=""></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span" tooltip="프로젝트에 대한 설명"
+    									userData2="">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>3</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:textarea style="width:100%;height: 82px;" id="" placeholder="" class=""></xf:textarea>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group class="btnbox" id="" style="">
+    				<xf:group class="rt" id="" style="">
+    					<xf:trigger class="btn_cm step_next" id="" style="" type="button">
+    						<xf:label><![CDATA[다음]]></xf:label>
+    					</xf:trigger>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group></xf:group>
+    </body>
+</html>

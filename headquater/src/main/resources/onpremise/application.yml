@@ -1,0 +1,58 @@
+spring:
+  profiles:
+    active : onpremiss
+---
+spring:
+  profiles: onpremiss
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  freemarker:
+    cache: false
+  # JDBC Connection url for the database
+  datasource:
+    url: jdbc:mysql://localhost:3306/whive?useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: whiveadm@
+    driverClassName: com.mysql.jdbc.Driver
+  servlet:
+    multipart:
+      maxFileSize: -1
+      maxRequestSize: 128MB
+      enabled: true
+  mail:
+    host: smtp.gmail.com
+    port: 25
+    emailname: 1111
+    emailpassword: 2111
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+server:
+  port: 9095
+whive:
+  password: "test"
+  distribution:
+    macPassword: "" # password 받는거 필수
+    deployLogPath: "/Users/soorink/w-hive/w-hive-logfile/"
+    deployDownloadTempPath: "/Users/soorink/w-hive/headquater_download_temp/"
+    deployProvisionfilePath: "/Users/soorink/w-hive/profileSet/"
+    deployQRCodeUrlPath: "/Users/soorink/w-hive/manager/upload/"
+    localgitUrl: "git-admin@localhost:/Users/git-admin/GitRepo/"
+    localsvnUrl: "svn+ssh://127.0.0.1/Users/svn-admin/SvnRepo/"
+  server:
+    whubTarget: "http://192.168.150.94:1337"
+    type: "onpremiss"
+logging:
+  config:
+    classpath: logback-spring.xml
+  file: "~/w-hive/manager/logs"
+  level:
+    root: INFO
+    #    org.springframework.boot: DEBUG
+    org.springframework.web: INFO
+    com.inswave.whive: INFO
+defaultBinaryBufferSize: 3500000
+maxBinaryBufferSize: 67108864

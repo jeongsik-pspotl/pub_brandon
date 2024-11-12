@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+			scwin.check_vcs_nameYN = false;
+			scwin.onpageload = function () {
+				const paramData = $p.getParameter("tabParam");
+				const vcs_setting_mode = paramData.vcs_setting_mode;
+
+				if (vcs_setting_mode === "detailview") {
+					const view = common.getLabel("lbl_vcs_setting");
+					const save = common.getLabel("lbl_save");
+					vcs_setting_title.setLabel(view);
+					vcs_create_or_save_btn.setLabel(save);
+					vcs_setting_name.setDisabled(true);
+					vcs_setting_url.setDisabled(false);
+					btm_vcs_name_dup_check.setDisabled(true);
+
+					scwin.vcsDetailView();
+				} else {
+					const create = common.getLabel("lbl_vcs_setting");
+					const regist = common.getLabel("lbl_regist");
+					vcs_setting_title.setLabel(create);
+					vcs_create_or_save_btn.setLabel(regist);
+					vcs_setting_name.setDisabled(false);
+					vcs_setting_url.setDisabled(false);
+				}
+			};
+
+			scwin.checkDataVCSName = function () {
+				const vcs_name = vcs_setting_name.getValue();
+
+				if (common.isEmptyStr(vcs_name)) {
+					const message = common.getLabel("lbl_vcs_setting_input_name");
+					common.win.alert(message);
+					return false;
+				}
+				return true;
+			};
+
+			scwin.checkAllVCS = function () {
+				const vcs_name = vcs_setting_name.getValue();
+				const vcs_type = vcs_setting_vcs_type_code.getValue();
+
+				if (common.isEmptyStr(vcs_name)) {
+					var message = common.getLabel("lbl_vcs_setting_input_name");
+					common.win.alert(message);
+					return false;
+				}
+
+				if (!scwin.check_vcs_nameYN) {
+					const message = common.getLabel("lbl_vcs_setting_check_duplicate");
+					common.win.alert(message);
+					return false;
+				}
+
+				if (vcs_type === "git" && vcs_setting_user_id.getValue() === "") {
+					const message = common.getLabel("lbl_vcs_setting_input_git_id");
+					common.win.alert(message);
+					return false;
+				}
+
+				if (vcs_type === "git" && vcs_setting_user_pwd.getValue() === "") {
+					const message = common.getLabel("lbl_vcs_setting_input_git_password");
+					common.win.alert(message);
+					return false;
+				}
+
+				if (vcs_type === "git" && vcs_setting_url.getValue() === "") {
+					const message = common.getLabel("lbl_vcs_setting_input_git_url");
+					common.win.alert(message);
+					return false;
+				}
+				return true;
+			};
+
+			/**
+			 * vcs setting 조회 api
+			 */
+			scwin.vcsDetailView = async function () {
+				const paramData = $p.getParameter("tabParam");
+				const vcs_id = paramData.vcs_id;
+
+				const url = common.uri.getVCSSettingDetailByID(parseInt(vcs_id));
+				const method = "GET";
+				const headers = {"Content-Type": "application/json"};
+
+				const response = await common.http.fetchGet(url, method, headers, {});
+				const data = await response.json();
+
+				scwin.setVCSSettingData(data);
+			};
+
+			scwin.setVCSSettingData = function (vcsData) {
+				if (vcsData != null) {
+					vcs_setting_vcs_type_code.setValue(vcsData.vcs_type);
+					vcs_setting_user_id.setValue(vcsData.vcs_user_id);
+					vcs_setting_user_pwd.setValue(vcsData.vcs_user_pwd);
+					vcs_setting_name.setValue(vcsData.vcs_name);
+
+					if (vcsData.vcs_type !== "localgit") {
+						vcs_setting_url.setValue(vcsData.vcs_url);
+					}
+				}
+			};
+
+			scwin.saveVCSSettingData = function () {
+				const paramData = $p.getParameter("tabParam");
+				const vcs_setting_mode = paramData.vcs_setting_mode;
+
+				let data = {};
+				data.vcs_id = paramData.vcs_id;
+				data.vcs_type = vcs_setting_vcs_type_code.getValue();
+				data.vcs_user_id = vcs_setting_user_id.getValue();
+				data.vcs_user_pwd = vcs_setting_user_pwd.getValue();
+				data.vcs_name = vcs_setting_name.getValue();
+				data.vcs_url = vcs_setting_url.getValue();
+
+				if (vcs_setting_mode === "detailview") {
+					scwin.setVCSSettingAndUpdate(data);
+				} else {
+					if (scwin.checkAllVCS()) {
+						scwin.setVCSSettingAndInsert(data);
+					}
+				}
+			};
+
+			scwin.selectCheckVcsName = function (vcs_name) {
+				let data = {};
+				data.vcs_name = vcs_name;
+
+				const url = common.uri.getVCSSettingCheckProfileName;
+				const method = "POST";
+				const headers = {"Content-Type": "application/json; charset=utf-8"};
+
+				common.http.fetch(url, method, headers, data)
+						.then(res => {
+							if (Array.isArray(res)) {
+								let message;
+								if (res[0].vcs_name_not_found == "no") {
+									message = common.getLabel("lbl_can_use_name");
+									scwin.check_vcs_nameYN = true;
+
+								} else if (res[0].vcs_name_not_found == "yes") {
+									message = common.getLabel("lbl_exist_name");
+									scwin.check_vcs_nameYN = false;
+								}
+								common.win.alert(message);
+							}
+						}).catch(() => {
+					const message = common.getLabel("lbl_setting_vcs_detail_fail");
+					common.win.alert(message);
+				});
+			};
+
+			scwin.setVCSSettingAndInsert = function (vcs_setting_data) {
+                const url = common.uri.setVCSSettingCreate;
+				const method = "POST";
+				const headers = {"Content-Type": "application/json; charset=utf-8"};
+
+				common.http.fetch(url, method, headers, vcs_setting_data)
+					.then(res => {
+						if (Array.isArray(res)) {
+							let message;
+							if (res[0].result === "success" && res != null) {
+								message = common.getLabel("lbl_vcs_setting_regist_success");
+
+								let vcsTab = $p.top().tabc_layout.getTabInfo().filter((tab) => tab.id == "vcs");
+                                let vcsTabIndex;
+
+								if (vcsTab.length > 0) {
+									vcsTabIndex = vcsTab[0].currentTabIndex;
+
+									let vcsTabWindow = $p.top().tabc_layout.getWindow(vcsTabIndex);
+									vcsTabWindow.scwin.getVCSListInfo();
+								}
+							} else {
+								message = common.getLabel("lbl_vcs_setting_regist_fail");
+							}
+							vcs_create_or_save_btn.setDisabled(true);
+							common.win.alert(message);
+						}
+					}).catch(() => {
+						let message = common.getLabel("lbl_vcs_setting_regist_fail");
+						common.win.alert(message);
+					});
+			};
+
+			scwin.setVCSSettingAndUpdate = function (vcs_setting_data) {
+				const url = common.uri.setVCSSettingUpdate;
+				const method = "POST";
+				const headers = {"Content-Type": "application/json; charset=utf-8"};
+
+				common.http.fetch(url, method, headers, vcs_setting_data)
+					.then(res => {
+						if (Array.isArray(res)) {
+							let message;
+							if (res[0].result === "success" && res != null) {
+								message = common.getLabel("lbl_vcs_setting_update_success");
+							} else {
+								message = common.getLabel("lbl_vcs_setting_update_fail");
+							}
+							common.win.alert(message);
+						}
+					}).catch(() => {
+						let message = common.getLabel("lbl_vcs_setting_update_fail");
+						common.win.alert(message);
+					});
+			};
+
+			scwin.vcsNameDupCheck = function () {
+				const vcs_name = vcs_setting_name.getValue();
+
+				if (scwin.checkDataVCSName()) {
+					scwin.selectCheckVcsName(vcs_name);
+				}
+			};
+			]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="sub_contents" id="" style="">
+    		<xf:group class="contents_inner top nosch" id="" style="">
+    			<xf:group class="pgtbox" id="" style="">
+    				<xf:group class="pgtbox_inner" id="">
+    					<w2:textbox class="" id="" label="" style="" tagname="h2" useLocale="true" localeRef="lbl_vcs_setting_detail"></w2:textbox>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    		<xf:group id="" class="contents_inner bottom nosch">
+    			<xf:group style="" id="" class="titbox">
+    				<xf:group id="" class="lt">
+    					<w2:textbox tagname="h3" style="" id="vcs_setting_title" label="" class="" useLocale="true" localeRef="lbl_vcs_setting_detail"></w2:textbox>
+    					<xf:group style="" id="" class="count"></xf:group>
+    				</xf:group>
+    				<xf:group style="" id="" class="rt">
+    					<xf:group class="btnbox mb0" id="" style="">
+    						<xf:trigger class="btn_cm pt" id="vcs_create_or_save_btn" style="" type="button" useLocale="true" localeRef="lbl_save" ev:onclick="scwin.saveVCSSettingData">
+    							<xf:label><![CDATA[]]></xf:label>
+    						</xf:trigger>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group style="" id="" class="tblbox">
+    				<xf:group adaptive="layout" adaptiveThreshold="800" tagname="table" style="" id="" class="w2tb tbl">
+    					<w2:attributes>
+    						<w2:summary></w2:summary>
+    					</w2:attributes>
+    					<xf:group tagname="colgroup">
+    						<xf:group tagname="col" style="width:180px;"></xf:group>
+    						<xf:group tagname="col" style=""></xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" style="" class="w2tb_th req">
+    							<xf:group id="" class="tooltipbox">
+    								<w2:textbox ref="" style="" userData2="" id="" label="" class="" useLocale="true" localeRef="lbl_version_manage_tool_profile"></w2:textbox>
+    								<w2:textbox ref="" tagname="span" tooltip="tooltip" style="" userData2="" id="" label=""
+    									class="ico_tip " useLocale="true" tooltipLocaleRef="lbl_vcs_setting_separator">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" style="" class="w2tb_td">
+    							<xf:group id="" class="flex">
+    								<xf:input style="width:100%;" id="vcs_setting_name" class=""></xf:input>
+    								<xf:trigger style="" id="btm_vcs_name_dup_check" type="button" class="btn_cm pt" ev:onclick="scwin.vcsNameDupCheck"
+									useLocale="true" localeRef="lbl_dup_check">
+    									<xf:label><![CDATA[]]></xf:label>
+    								</xf:trigger>
+    							</xf:group>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="" ref="" style="" userData2="" useLocale="true" localeRef="lbl_vcs_setting_tool_type"></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span"
+    									tooltip="tooltip" userData2="" useLocale="true" tooltipLocaleRef="lbl_vcs_setting_tools_detail">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:select1 allOption="" appearance="minimal" chooseOption="" direction="auto" disabled="false"
+    								disabledClass="w2selectbox_disabled" id="vcs_setting_vcs_type_code" ref="" style="width: 100%;" submenuSize="auto"
+									useLocale="true" useItemLocale="true">
+									<xf:choices>
+										<xf:item>
+											<xf:label><![CDATA[lbl_local_git]]></xf:label>
+											<xf:value><![CDATA[localgit]]></xf:value>
+										</xf:item>
+										<xf:item>
+											<xf:label><![CDATA[lbl_github]]></xf:label>
+											<xf:value><![CDATA[git]]></xf:value>
+										</xf:item>
+									</xf:choices>
+    							</xf:select1>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="" ref="" style="" userData2="" useLocale="true" localeRef="lbl_vcs_setting_id"></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" ref="" style="" tagname="span"
+    									tooltip="tooltip" userData2="" useLocale="true" tooltipLocaleRef="lbl_vcs_setting_id_detail" >
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:input class="" id="vcs_setting_user_id" style="width:100%;"></xf:input>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="" ref="" style="" userData2="" useLocale="true" localeRef="lbl_vcs_setting_password"></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" tagname="span" tooltip="tooltip" tooltipDisplay="true" useLocale="true" tooltipLocaleRef="lbl_vcs_setting_password_detail">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes></w2:attributes>
+    							<xf:input class="" id="vcs_setting_user_pwd" dataType="password" type="password" style="width:100%;"></xf:input>
+    						</xf:group>
+    					</xf:group>
+    					<xf:group tagname="tr" style="">
+    						<xf:group tagname="th" class="w2tb_th ">
+    							<w2:attributes>
+    								<w2:scope>row</w2:scope>
+    							</w2:attributes>
+    							<xf:group class="tooltipbox" id="" style="">
+    								<w2:textbox class="" id="" label="" useLocale="true" localeRef="lbl_vcs_setting_server_url"></w2:textbox>
+    								<w2:textbox class="ico_tip" id="" label="" tagname="span" tooltip="tooltip" tooltipDisplay="true"
+    									useLocale="true" tooltipLocaleRef="lbl_vcs_setting_server_url_detail">
+    								</w2:textbox>
+    							</xf:group>
+    						</xf:group>
+    						<xf:group tagname="td" class="w2tb_td">
+    							<w2:attributes>
+    								<w2:colspan>1</w2:colspan>
+    								<w2:rowspan>1</w2:rowspan>
+    							</w2:attributes>
+    							<xf:input class="" id="vcs_setting_url" style="width:100%;"></xf:input>
+    						</xf:group>
+    					</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+		</xf:group>
+    </body>
+</html>

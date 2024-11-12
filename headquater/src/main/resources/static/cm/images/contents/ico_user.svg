@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="패스_77" data-name="패스 77" d="M9.286,0A9.286,9.286,0,1,1,0,9.286,9.286,9.286,0,0,1,9.286,0Z" transform="translate(0.714 0.714)" fill="#2d4874" stroke="#c6d0e1" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="admin" transform="translate(-1026 -15)">
+    <g id="패스_76" data-name="패스 76" transform="translate(1026 15)">
+      <path id="패스_7186" data-name="패스 7186" d="M10,19.5A9.5,9.5,0,1,1,19.5,10,9.511,9.511,0,0,1,10,19.5Z" fill="#c6d0e1"/>
+      <path id="패스_7187" data-name="패스 7187" d="M10,1a9,9,0,1,0,9,9,9.01,9.01,0,0,0-9-9m0-1A10,10,0,1,1,0,10,10,10,0,0,1,10,0Z" fill="#c6d0e1"/>
+    </g>
+    <path id="패스_78" data-name="패스 78" d="M2.857,0A2.857,2.857,0,1,1,0,2.857,2.857,2.857,0,0,1,2.857,0Z" transform="translate(1033.143 19.286)" fill="#fff"/>
+    <g id="마스크_그룹_1" data-name="마스크 그룹 1" transform="translate(1026 15.286)" clip-path="url(#clip-path)">
+      <ellipse id="타원_14" data-name="타원 14" cx="9.107" cy="8.571" rx="9.107" ry="8.571" transform="translate(1.071 11.786)" fill="#fff"/>
+    </g>
+  </g>
+</svg>

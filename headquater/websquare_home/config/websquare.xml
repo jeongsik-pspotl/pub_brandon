@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<websquare>
+	<upload>
+		<imgUpload>
+			<baseDir value="upload/img">
+			</baseDir>
+		</imgUpload>
+		<baseDir value="upload/file">
+		</baseDir>
+		<i18n>
+		<!--
+			다국어 리소스번들파일이존재하는 폴더명을 baseDir 의value  에설정한다.
+			설정이 없는경우 $WEBSQUARE_HOME/locale 를사용한다.
+			baseDir 하위에 언어별로폴더를 생성하고해당 언어폴더 하위에 properties 파일을 생성한다.
+			
+			* 한국어의 경우 baseDir/ko/          아래파일 생성
+			* 영어의 경우   baseDir/en/          아래파일 생성
+			* dir 경로는 로컬경로에 맞게 맞춰 주시면 됩니다.
+			  (로컬 workspace\.metadata\.plugins\org.eclipse.wst.server.core 로 맞춰 주세요.
+			   운영 서버에서는 실제 소스 위치로 잡아주시면 됩니다.)
+		-->		
+		<!-- 기본 locale 를 설정한다. 설정이 없는경우en 을사용한다. -->
+		<defaultLocale value="ko">
+			<domain name="localhost" locale="en"/>
+			<domain name="ko.inswave.co.kr" locale="ko"/>
+			<domain name="en.inswave.co.kr" locale="en"/>
+			<domain name="jp.inswave.co.kr" locale="jp"/>
+		</defaultLocale>
+		<!--
+			변환에사용할 다국어를서버에 넘겨주기위해사용할 파라미터. 설정이 없는경우locale를 사용한다.
+			다국어판단 우선순위
+				1.url
+				2.defaultLocale 설정(domain 별default locale 참조후 전체default locale참조)
+		-->
+		<localeParam value="locale"/>
+		<!--
+			baseDir : 웹스퀘어XML 파일이존재하는 폴더를 지정한다. 설정이 없는경우정상동작하지 않는다.
+			cache   : true | false 변환된파일을 캐싱할지설정한다. 기본값은false  이다.
+			* dir 경로는 로컬경로에 맞게 맞춰 주시면 됩니다.
+			  (로컬 workspace\.metadata\.plugins\org.eclipse.wst.server.core 로 맞춰 주세요.
+			  운영 서버에서는 실제 소스 위치로 잡아주시면 됩니다.)
+		-->
+		<xmlInfo baseDir="" cache="false"/>
+		</i18n>
+		<encoding value="UTF-8" />
+		<maxUploadSize value="20000000000" />
+		<uploadMode value="session" />
+		<folderName value="imagefiles"/>
+		<duplicatedFilePostFix value="yyyy-MM-dd(HH mm ss)"></duplicatedFilePostFix>
+		<allowedExtension>
+			gif, jpg, doc, xls, ppt, pdf, txt, xlsx, png, pptx, xml, docx, zip, apk, jpeg, blob
+		</allowedExtension>
+		<deniedExtension>
+			exe
+		</deniedExtension>
+	</upload>
+	<engineType value="6"/>
+	<dispatcher>
+		<post>
+			<encoding value="ISO8859-1"></encoding>
+		</post>
+	</dispatcher>
+<!-- 	<log>
+        <target console="true" description="basic log" dir="/Users/changok/Documents/hybrid/websquare_home/min/" filename="websquare" level="FINE" lineNumber="true" name="websquare" retentionPeriod="10" thread="true"/>
+        <target console="true" description="error log" dir="/Users/changok/Documents/hybrid/websquare_home/min/" filename="exception" level="FINE" lineNumber="true" name="exception" retentionPeriod="10" thread="true"/>
+    </log> -->
+	<excel>
+		<read>
+			<displayType value="number" />
+		</read>
+	</excel>
+</websquare>

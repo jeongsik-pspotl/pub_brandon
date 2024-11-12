@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+				<w2:dataList id="dlt_rolecode_list_selectbox" saveRemovedData="true" style="">
+					<w2:columnInfo>
+						<w2:column dataType="text" id="role_code_id" name="name1"></w2:column>
+						<w2:column dataType="text" id="role_code_name" name="name2"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+				<w2:dataList id="__workspace_save_setting_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="id" name="id" dataType="text"></w2:column>
+						<w2:column id="member_id" name="member_id" dataType="text"></w2:column>
+						<w2:column id="workspace_name" name="workspace_name" dataType="text"></w2:column>
+						<w2:column id="status" name="status" dataType="text"></w2:column>
+						<w2:column id="favorite_flag" name="favorite_flag" dataType="text"></w2:column>
+						<w2:column id="workspace_path" name="workspace_path" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false">
+			 <![CDATA[
+			 scwin.onpageload = function() {
+				let member_setting_mode = $p.top().scwin._workspace_setting_mode_;
+
+				if (member_setting_mode === "detailview"){
+					const view = common.getLabel("lbl_userManager_workspace_detail_detailView");
+					const save = common.getLabel("lbl_save");
+					workspace_setting_title.setLabel(view);
+					branch_create_or_save_btn.setLabel(save);
+					// setDisabled
+					manager_workspace_name.setDisabled(true);
+					//member_role.setDisabled(true);
+					workspace_created_date.setDisabled(true);
+					workspace_updated_date.setDisabled(true);
+
+					scwin.memberDetailView();
+				}
+			};
+	
+			scwin.checkData = function() {
+				return true;
+			};
+
+			scwin.checkDataProjectName = function() {
+				return true;
+			};
+
+			scwin.memberDetailView = function() {
+				var workspace_name = localStorage.getItem("_workspace_name_");
+				var member_role = localStorage.getItem("_member_role_");
+
+				var options = {};
+
+				options.action = "/api/workspace/menager/" + member_role+ "/" +workspace_name;
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if (data != null) {
+
+						var create_date = "";
+						var updated_date = "";
+
+						if(data.created_date != null){
+							create_date = data.created_date.replace(/T/g,' ');
+						}
+
+						if (data.updated_date != null){
+							updated_date = data.updated_date.replace(/T/g,' ');
+
+						}
+
+						manager_workspace_name.setValue(data.workspace_name);
+						user_select_rolecode_settingbox.setValue(data.status, false);
+						workspace_created_date.setValue(create_date);
+						workspace_updated_date.setValue(updated_date);
+
+					} else {
+
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+
+			};
+
+			scwin.saveWorkspaceDetailData = function(){
+
+				var workspace_id = localStorage.getItem("_workspace_id_");
+				var member_role = localStorage.getItem("_member_role_");
+				var status = user_select_rolecode_settingbox.getValue();
+
+				scwin.setWorkspaceRoleCodeUpdate(workspace_id, member_role, status);
+
+			};
+
+			scwin.setWorkspaceRoleCodeUpdate = function (workspace_id, member_role, status) {
+
+				var workspace_update_data = {};
+				var data = {};
+
+				workspace_update_data.workspace_id = workspace_id;
+				workspace_update_data.member_role = member_role;
+
+
+				data.workspace_id = parseInt(workspace_id);
+				data.role_code_id = member_role;
+				data.status = status;
+
+
+				var options = {};
+				options.action = "/api/workspace/role_code_update";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.requestData = JSON.stringify(data);
+				options.method = "POST";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if ((e.responseStatusCode === 200 || e.responseStatusCode === 201) && data != null) {
+						var message = common.getLabel("lbl_userManager_workspace_detail_modified_complete");
+						alert(message);
+
+					} else {
+						var message = common.getLabel("lbl_userManager_workspace_detail_modified");
+						alert(message);
+					}
+				};
+
+				options.error = function (e) {
+					alert( "message:"+e.responseText+"\n" );
+
+				};
+
+				$p.ajax( options );
+
+
+			};
+
+			scwin.btn_update_workspace_detail_onclick = function(e){
+				scwin.saveWorkspaceDetailData();
+
+
+			};
+
+			scwin.step1_select_platform_onchange = function(e){
+				var platform = this.getValue(this.getSelectedIndex);
+				localStorage.setItem("_role_code_id_",platform);
+			};
+
+	
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group class="gallery_box" id="" style="">
+			<xf:group class="dfbox" id="" style="">
+				<xf:group class="fl">
+					<w2:textbox class="gal_tit fl" id="workspace_setting_title" label="" style="" useLocale="true" localeRef="lbl_userManager_workspace_detail_detailView"></w2:textbox>
+					<xf:trigger useLocale="true" localeRef="lbl_modify" class="btn_cm type1 fl" id="branch_create_or_save_btn" style="" type="button" ev:onclick="scwin.btn_update_workspace_detail_onclick">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group>
+    		<xf:group class="gal_body" id="" style="">
+    			<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_userManager_workspace_detail_workspaceName"></w2:textbox>
+							<xf:input id="manager_workspace_name" style="" adjustMaxLength="false"></xf:input>
+						</xf:group>
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_userManager_workspace_detail_permission"></w2:textbox>
+							<xf:select1 renderType="native" id="user_select_rolecode_settingbox" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" displayMode="label" allOption="" submenuSize="auto" disabled="false" >
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[ADMIN]]]></xf:label>
+										<xf:value><![CDATA[11]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[USER]]></xf:label>
+										<xf:value><![CDATA[12]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+						<xf:group id="grp_user_craete_date" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_created_date"></w2:textbox>
+							<xf:input id="workspace_created_date" style="" adjustMaxLength="false"></xf:input>
+						</xf:group>
+						<xf:group id="grp_user_update_date" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_modified_date"></w2:textbox>
+							<xf:input id="workspace_updated_date" style="" adjustMaxLength="false"></xf:input>
+						</xf:group>
+    				</xf:group>
+				</xf:group>
+			</xf:group>
+    	</xf:group>
+    </body>
+</html>

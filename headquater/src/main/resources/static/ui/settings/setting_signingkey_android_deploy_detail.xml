@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+			scwin.onpageload = function () {
+				const deployKeyParam = $p.getParameter("keyParam");
+
+				if (!!deployKeyParam) {
+					const filename = common.util.findFileName(deployKeyParam.android_deploy_key_path);
+					before_android_json_key_file.setValue(filename);
+                }
+			};
+			]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="tblbox" id="" style="">
+    		<xf:group adaptive="layout" adaptiveThreshold="800" class="w2tb tbl" id="" style="" tagname="table">
+    			<w2:attributes>
+    				<w2:summary></w2:summary>
+    			</w2:attributes>
+    			<xf:group tagname="colgroup">
+    				<xf:group style="width:180px;" tagname="col"></xf:group>
+    				<xf:group style="" tagname="col"></xf:group>
+    			</xf:group>
+    			<xf:group style="" tagname="tr">
+    				<xf:group class="w2tb_th " tagname="th">
+    					<w2:attributes>
+    						<w2:scope>row</w2:scope>
+    					</w2:attributes>
+    					<xf:group class="tooltipbox" id="" style="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_json_key_file"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_deploy_tooltip" tooltip="tooltip">
+    						</w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" tagname="td">
+						<xf:group class="upload_grp">
+							<w2:attributes>
+								<w2:colspan>1</w2:colspan>
+								<w2:rowspan>1</w2:rowspan>
+							</w2:attributes>
+							<w2:textbox id="before_android_json_key_file" label=""></w2:textbox>
+							<input type="file" id="android_json_key_file" style="width:20%;" onchange="common.util.inputFileChange(this);"></input>
+						</xf:group>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

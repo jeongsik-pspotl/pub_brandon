@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map"/>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script lazy="false" type="text/javascript"><![CDATA[
+		scwin.onpageload = function() {
+			const deploy = $p.getParameter("keyParam");
+
+            if (!!deploy) {
+				const deployFileName = common.util.findFileName(deploy.ios_key_path);
+				before_ios_appstore_connect_file.setValue(deployFileName);
+
+				ios_appstore_connect_issuer_id.setValue(deploy.ios_issuer_id);
+				ios_appstore_connect_key_id.setValue(deploy.ios_key_id);
+            }
+		};
+		]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+    	<xf:group class="tblbox" id="" style="">
+    		<xf:group adaptive="layout" adaptiveThreshold="800" class="w2tb tbl" id="" style="" tagname="table">
+    			<w2:attributes>
+    				<w2:summary></w2:summary>
+    			</w2:attributes>
+    			<xf:group tagname="colgroup">
+    				<xf:group style="width:180px;" tagname="col"></xf:group>
+    				<xf:group style="" tagname="col"></xf:group>
+    			</xf:group>
+    			<xf:group style="" tagname="tr">
+    				<xf:group class="w2tb_th req" style="" tagname="th">
+    					<xf:group class="tooltipbox" id="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_signingkey_setting_ios_deploy_app_store_connect_api_key"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" tooltip="tooltip" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_deploy_auth_key"></w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" style="" tagname="td">
+						<xf:group class="upload_grp">
+							<xf:group class="flex" id="" style="">
+								<w2:textbox id="before_ios_appstore_connect_file"></w2:textbox>
+								<input type="file" id="ios_appstore_connect_file" style="width:20%;" onchange="common.util.inputFileChange(this)"/>
+							</xf:group>
+						</xf:group>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group tagname="tr">
+    				<xf:group class="w2tb_th " tagname="th">
+    					<w2:attributes>
+    						<w2:scope>row</w2:scope>
+    					</w2:attributes>
+    					<xf:group class="tooltipbox" id="" style="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_signingkey_setting_ios_deploy_issuer_id"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" tooltip="tooltip" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_deploy_discrimination">
+    						</w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" tagname="td">
+    					<w2:attributes></w2:attributes>
+    					<xf:input class="" id="ios_appstore_connect_issuer_id" style="width:100%;"></xf:input>
+    				</xf:group>
+    			</xf:group>
+    			<xf:group tagname="tr">
+    				<xf:group class="w2tb_th " tagname="th">
+    					<w2:attributes>
+    						<w2:scope>row</w2:scope>
+    					</w2:attributes>
+    					<xf:group class="tooltipbox" id="" style="">
+    						<w2:textbox label="" useLocale="true" localeRef="lbl_key_id"></w2:textbox>
+    						<w2:textbox class="ico_tip" tagname="span" tooltip="tooltip" useLocale="true" tooltipDisplay="true" tooltipLocaleRef="lbl_signingkey_setting_ios_deploy_tooltip_key_id">
+    						</w2:textbox>
+    					</xf:group>
+    				</xf:group>
+    				<xf:group class="w2tb_td" tagname="td">
+    					<w2:attributes></w2:attributes>
+    					<xf:input class="" id="ios_appstore_connect_key_id" style="width:100%;"></xf:input>
+    				</xf:group>
+    			</xf:group>
+    		</xf:group>
+    	</xf:group>
+    </body>
+</html>

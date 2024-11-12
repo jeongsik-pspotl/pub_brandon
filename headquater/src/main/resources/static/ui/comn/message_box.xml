@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare"
+	  xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate />
+		<xf:model>
+			<xf:instance>
+				<data xmlns="" />
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+				<w2:dataList baseNode="list" repeatNode="map" id="dlt_elMenuGroupVoList" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="idx" name="name1" dataType="text"></w2:column>
+						<w2:column id="menuGroupNo" name="name2" dataType="text"></w2:column>
+						<w2:column id="menuGroupNm" name="name3" dataType="text"></w2:column>
+						<w2:column id="sortSeq" name="name4" dataType="text"></w2:column>
+						<w2:column id="level" name="name5" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+			<w2:workflowCollection></w2:workflowCollection>
+		</xf:model>
+		<style>
+			.w2window_restored {
+				top:50% !important;
+				left:50% !important;
+				transform: translateX(-50%) translateY(-50%);
+				z-index: 9999;
+			}
+		</style>
+		<script lazy="false" type="javascript"><![CDATA[
+			scwin.popupId = "";
+			scwin.closeCallbackFncName = null;
+			const param = $p.getParameter("param");
+
+			scwin.onpageload = function () {
+				scwin.popupId = param.popupId;
+				scwin.closeCallbackFncName = param.callbackFn;
+				txb_message.setValue(param.message);
+
+				switch (param.messageType) {
+					case "alert":
+						btn_cancel.setStyle("display", "none");
+						input_confirm.setStyle("display", "none");
+						break;
+					case "confirm":
+						btn_cancel.setStyle("display", "inline-block");
+						input_confirm.setStyle("display", "none");
+						break;
+					case "prompt":
+						btn_cancel.setStyle("display", "inline-block");
+
+                        let message;
+						switch (param.opts.do) {
+							case "deleteProject":
+								const project_name = param.opts.project_name;
+								message = common.getLabel("lbl_workspace_android_count_str");
+								message = common.getFormatStr(message, project_name);
+                                break;
+							case "deleteWorkspace":
+                                const workspace_name = param.opts.workspace_name;
+                                message = common.getLabel("lbl_userManager_workspace_role_detail_workspace_name");
+                                message = common.getFormatStr(message, workspace_name);
+                                break;
+							case "cancelProfessionalTierProject":
+								const cancel_value = common.getLabel("lbl_userManager_pricing_cancel");
+								message = common.getLabel("lbl_userManager_admin_detail_tier_professional_cancel_propt_detail");
+								message = common.getFormatStr(message, cancel_value);
+								break;
+						}
+						txb_message.setValue(message);
+                        break;
+				}
+			};
+
+			scwin.btn_confirm_onclick = function () {
+				if (scwin.closeCallbackFncName) {
+					switch (param.messageType) {
+						case "prompt":
+							let target_name;
+							const input_name = input_confirm.getValue();
+							const removeData = {};
+
+                            switch (param.opts.do) {
+								case 'deleteProject':
+									target_name = param.opts.project_name;
+									removeData.project_id = param.opts.project_id;
+									removeData.project_name = param.opts.project_name;
+									break;
+								case 'deleteWorkspace':
+									target_name = param.opts.workspace_name;
+                                    removeData.workspace_id = param.opts.workspace_id;
+                                    removeData.workspace_name = param.opts.workspace_name;
+									break;
+								case 'cancelProfessionalTierProject':
+									target_name = "구독취소";
+									removeData.regDate = param.opts.regDate;
+									removeData.regNextDate = param.opts.regNextDate;
+									break;
+                            }
+
+							const chk = (target_name === input_name);
+
+							if (!chk) {
+								let message = common.getLabel("lbl_workspace_delete_message");
+								message = common.getFormatStr(message, project_name);
+								txb_message.setValue(message);
+							} else {
+								common.win.closePopup(scwin.popupId);
+								eval(scwin.closeCallbackFncName + "(" + JSON.stringify(removeData) + ")");
+							}
+							break;
+						default:
+							common.win.closePopup(scwin.popupId);
+							eval(scwin.closeCallbackFncName + "(" + true + ")");
+							break;
+					}
+				}
+			};
+
+			scwin.btn_cancel_onclick = function (e) {
+				common.win.closePopup(scwin.popupId);
+				if (scwin.closeCallbackFncName) {
+					eval(scwin.closeCallbackFncName + "(" + false + ")");
+					//scwin.closeCallbackFncName(false);
+				}
+			};
+			]]></script>
+		<style type="text/css"><![CDATA[
+			]]></style>
+	</head>
+	<body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group id="" class="sub_contents">
+			<xf:group id="" class="">
+				<xf:group style="height:90px;margin-left:12px;" id="">
+					<w2:textbox style="margin-bottom: 10px;" label="MESSAGE" id="txb_message" class="tit"></w2:textbox>
+					<xf:input id="input_confirm" style="width:100%;"></xf:input>
+				</xf:group>
+				<xf:group class="rt" id="" style="text-align: right;">
+					<xf:trigger class="btn_cm active" ev:onclick="scwin.btn_confirm_onclick" id="btn_confirm" style="margin-right: 5px;"
+								type="button" useLocale="true" localeRef="lbl_confirm">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+					<xf:trigger class="btn_cm active" ev:onclick="scwin.btn_cancel_onclick" id="btn_cancel" type="button" useLocale="true" localeRef="lbl_cancel">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

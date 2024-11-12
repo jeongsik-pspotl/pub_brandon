@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+    	<w2:type>DEFAULT</w2:type>
+        <w2:buildDate/>
+        <xf:model>
+            <xf:instance>
+                <data xmlns=""/>
+            </xf:instance>
+            <w2:dataCollection baseNode="map">
+				<w2:dataList id="__branch_setting_detail_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="builder_id" name="builder_id" dataType="text"></w2:column>
+						<w2:column id="role_code_id" name="role_code_id" dataType="text"></w2:column>
+						<w2:column id="builder_user_id" name="builder_user_id" dataType="text"></w2:column>
+						<w2:column id="builder_name" name="builder_name" dataType="text"></w2:column>
+						<w2:column id="session_status" name="session_status" dataType="text"></w2:column>
+						<w2:column id="session_type" name="session_type" dataType="text"></w2:column>
+						<w2:column id="create_date" name="create_date" dataType="text"></w2:column>
+						<w2:column id="update_date" name="update_date" dataType="text"></w2:column>
+						<w2:column id="builder_url" name="builder_url" dataType="text"></w2:column>
+						<w2:column id="builder_password" name="builder_password" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+            </w2:dataCollection>
+            <w2:workflowCollection>
+            </w2:workflowCollection>
+        </xf:model>
+         <script type="text/javascript" lazy="false">
+			 <![CDATA[
+			 scwin.check_branch_nameYN = false;
+			 scwin.check_branch_user_idYN = false;
+			 scwin.onpageload = function() {
+				// 화면 구성 변경
+				var branch_setting_mode = localStorage.getItem("_branch_setting_mode_");
+
+				if (branch_setting_mode == "detailview"){
+					var view = common.getLabel("lbl_setting_branch_detail_detailView");
+					var save = common.getLabel("lbl_save");
+
+					branch_setting_title.setLabel(view);
+					branch_create_or_save_btn.setLabel(save);
+					// setDisabled
+					branch_setting_role_id.setDisabled(true);
+					branch_setting_user_id.setDisabled(true);
+					branch_setting_name.setDisabled(true);
+					branch_setting_url.setDisabled(true);
+					scwin.branchDetailView();
+				}else {
+					var view = common.getLabel("lbl_setting_branch_detail_createSetting");
+					var create = common.getLabel("lbl_create");
+
+					branch_setting_title.setLabel(view);
+					branch_create_or_save_btn.setLabel(create);
+					branch_setting_role_id.setDisabled(false);
+					branch_setting_user_id.setDisabled(false);
+					branch_setting_name.setDisabled(false);
+					branch_setting_url.setDisabled(false);
+				}
+
+				localStorage.setItem("_role_code_id_",branch_setting_role_id.getValue());
+
+			};
+	
+	scwin.onpageunload = function() {
+
+	};
+
+	scwin.checkDataBranchName = function(){
+
+		var branch_name = branch_setting_name.getValue();
+
+
+		if(common.isEmptyStr(branch_name)){
+			var message = common.getLabel("lbl_setting_branch_detail_inputName");
+			alert(message);
+			return false;
+		}
+
+		return true;
+	};
+
+	scwin.checkDataBranchUserId = function(){
+
+	    var branch_user_id = branch_setting_user_id.getValue();
+
+	    if(common.isEmptyStr(branch_user_id)){
+			var message = common.getLabel("lbl_setting_branch_detail_inputId_branch");
+	        alert(message);
+	        return false;
+	    }
+
+	    return true;
+	};
+
+	scwin.checkAllBranch = function(){
+
+		var branch_name = branch_setting_name.getValue();
+		var branch_user_id = branch_setting_user_id.getValue();
+
+		if(common.isEmptyStr(branch_name)){
+			var message = common.getLabel("lbl_setting_branch_detail_inputBuilder");
+			alert(message);
+			return false;
+		}
+
+		if(!scwin.check_branch_nameYN){
+			var message = common.getLabel("lbl_setting_branch_detail_duplicate_builder");
+			alert(message);
+			return false;
+		}
+
+		if(common.isEmptyStr(branch_user_id)){
+			var message = common.getLabel("lbl_setting_branch_detail_inputId_builder");
+			alert(message);
+			return false;
+		}
+
+		if(!scwin.check_branch_user_idYN){
+			var message = common.getLabel("lbl_setting_branch_detail_duplicateId");
+			alert(message);
+			return false;
+		}
+
+		return true;
+
+	};
+
+	// brnach_setting 조회
+	scwin.branchDetailView = function(){
+
+		var branch_id = localStorage.getItem("_branch_id_");
+
+		var options = {};
+
+		options.action = "/manager/branchSetting/selectByBranchId/" + parseInt(branch_id);
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.method = "GET";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if (data != null) {
+
+				var settingBuilderDetail = [];
+
+				var temp = {};
+
+				// temp["branch_id"] = data.branch_id;
+				branch_setting_role_id.setValue(data.role_code_id, false);
+				branch_setting_user_id.setValue(data.builder_user_id);
+				branch_setting_name.setValue(data.builder_name);
+				branch_setting_url.setValue(data.builder_url);
+
+                temp["builder_id"] = data.builder_id;
+				temp["role_code_id"] = data.role_code_id;
+				temp["branch_user_id"] = data.branch_user_id;
+				temp["branch_name"]	= data.branch_name;
+				temp["session_status"] = data.session_status;
+				temp["session_type"] = data.session_type;
+				temp["branch_url"] = data.branch_url;
+				temp["created_date"]= data.created_date;
+				temp["updated_date"]= data.updated_date;
+
+				settingBuilderDetail.push(temp);
+
+				var distict = common.unique(settingBuilderDetail, 'builder_id');
+				// __workspace_data__.setJSON(distict);
+				__branch_setting_detail_data__.setJSON(distict);
+
+			} else {
+				// alert("가져오기 화면 이동 실패");
+			}
+		};
+
+		options.error = function (e) {
+			alert("code:"+e.status+"\n"+"message:"+e.responseText+"\n");
+
+		};
+
+		$p.ajax( options );
+
+
+	};
+
+	scwin.saveBranchSettingData = function(){
+		//var project_dir_path = step1_input_project_dir_path.getValue();
+		var role_code_id = localStorage.getItem("_role_code_id_");
+		var branch_user_id = branch_setting_user_id.getValue();
+		var branch_name = branch_setting_name.getValue();
+		var session_status = "";
+		var session_type = "";
+		var branch_url = branch_setting_url.getValue();
+        var builder_password = branch_setting_password.getValue();
+
+
+		var data = {};
+		data.role_code_id = role_code_id;
+		data.builder_user_id = branch_user_id;
+		data.builder_name = branch_name;
+		data.session_status = "N";
+		data.session_type = "BRANCH";
+		data.builder_url = branch_url;
+        data.builder_password = builder_password;
+
+		__branch_setting_detail_data__.setJSON([data]);
+
+		var branch_setting_data = __branch_setting_detail_data__.getRowJSON(0);
+
+		if(scwin.checkAllBranch()){
+			scwin.setBranchSettingAndInsert(branch_setting_data);
+		}
+
+	};
+
+	scwin.select_check_branch_name = function(branch_name){
+		var data = {};
+		data.branch_name = branch_name;
+		var options = {};
+
+		options.action = "/manager/branchSetting/checkName";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(data);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if(e.responseStatusCode === 200 || e.responseStatusCode === 201){
+				if (data != null) {
+					var message = common.getLabel("lbl_exist_name");
+					alert(message);
+					scwin.check_branch_nameYN = false;
+				}
+			}
+
+		};
+
+		options.error = function (e) {
+
+			if(e.responseStatusCode === 500){
+				var message = common.getLabel("lbl_can_use_name");
+				alert(message);
+				scwin.check_branch_nameYN = true;
+
+			}else {
+
+			}
+
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.select_check_branch_user_id = function(branch_user_id){
+	    var data = {};
+	    data.branch_user_id = branch_user_id;
+	    var options = {};
+
+	    options.action = "/manager/branchSetting/checkUserId";
+	    options.mode = "asynchronous";
+	    options.mediatype = "application/json";
+	    options.requestData = JSON.stringify(data);
+	    options.method = "POST";
+
+	    options.success = function (e) {
+	        var data = e.responseJSON;
+	        if(e.responseStatusCode === 200 || e.responseStatusCode === 201){
+	            if (data != null) {
+					var message = common.getLabel("lbl_exist_name");
+					alert(message);
+	                scwin.check_branch_user_idYN = false;
+	            }
+	        }
+
+	    };
+
+	    options.error = function (e) {
+	        if(e.responseStatusCode === 500){
+				var message = common.getLabel("lbl_available_id");
+	            alert(message);
+	            scwin.check_branch_user_idYN = true;
+
+	        }else {
+	            alert( "message:"+e.responseText+"\n" );
+	        }
+
+	    };
+
+	    $p.ajax( options );
+	};
+
+	scwin.setBranchSettingAndInsert = function (branch_setting_data) {
+
+		// 아래의 내용 수정하기... $p.ajax();
+		var branch_setting_json = {};
+
+		branch_setting_json = branch_setting_data;
+
+		var options = {};
+		options.action = "/manager/branchSetting/create";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(branch_setting_json);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if ((e.responseStatusCode === 200 || e.responseStatusCode === 201)&& data != null) {
+				var message = common.getLabel("lbl_setting_branch_detail_createInfo");
+				alert(message);
+
+				$p.parent().wfm_main.setSrc("/xml/settings.xml");
+
+			} else {
+				var message = common.getLabel("lbl_setting_branch_detail_fail");
+				alert(message);
+			}
+		};
+
+		options.error = function (e) {
+			alert( "message:"+e.responseText+"\n" );
+			//$p.url("/login.xml");
+		};
+
+		$p.ajax( options );
+
+	};
+
+    scwin.setBuilderSettingAndUpdate = function(){
+
+		var builder_password = branch_setting_password.getValue();
+
+		if(common.isEmptyStr(builder_password)){
+			var message = common.getLabel("lbl_setting_branch_detail_inputPwd");
+			alert(message);
+			return false;
+		}
+
+		var branch_setting_data = __branch_setting_detail_data__.getRowJSON(0);
+		branch_setting_data.builder_password = builder_password;
+
+		var branch_setting_json = {};
+
+		branch_setting_json = branch_setting_data;
+
+		var options = {};
+		options.action = "/manager/branchSetting/update";
+		options.mode = "asynchronous";
+		options.mediatype = "application/json";
+		options.requestData = JSON.stringify(branch_setting_json);
+		options.method = "POST";
+
+		options.success = function (e) {
+			var data = e.responseJSON;
+			if ((e.responseStatusCode === 200 || e.responseStatusCode === 201)&& data != null) {
+				var message = common.getLabel("lbl_setting_branch_detail_changeOk");
+				alert(message);
+
+			} else {
+				var message = common.getLabel("lbl_setting_branch_detail_changeFail");
+				alert(message);
+			}
+		};
+
+		options.error = function (e) {
+			alert( "message:"+e.responseText+"\n" );
+			//$p.url("/login.xml");
+		};
+
+		$p.ajax( options );
+
+	};
+
+	scwin.btn_create_branch_setting_onclick = function(e){
+
+		var branch_setting_mode = localStorage.getItem("_branch_setting_mode_");
+        if(branch_setting_mode == "detailview"){
+			scwin.setBuilderSettingAndUpdate();
+		}else {
+			scwin.saveBranchSettingData();
+		}
+
+
+
+	};
+
+	scwin.step1_select_platform_onchange = function(e){
+		var platform = this.getValue(this.getSelectedIndex);
+		localStorage.setItem("_role_code_id_",platform);
+	};
+
+	scwin.step1_btn_check_branch_name_onclick = function(e){
+
+		var branch_name = branch_setting_name.getValue();
+
+		if(scwin.checkDataBranchName()){
+			scwin.select_check_branch_name(branch_name);
+		}
+
+	};
+
+	scwin.step1_btn_check_branch_user_id_onclick = function(e){
+
+	    var branch_user_id = branch_setting_user_id.getValue();
+
+	    if(scwin.checkDataBranchUserId()){
+	        scwin.select_check_branch_user_id(branch_user_id);
+	    }
+
+	};
+	
+	]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+    	<xf:group class="gallery_box" id="" style="">
+			<xf:group class="dfbox" id="" style="">
+				<xf:group class="fl">
+					<w2:textbox class="gal_tit fl" id="branch_setting_title" label="" style="" useLocale="true" localeRef="lbl_setting_branch_detail_setting"></w2:textbox>
+				</xf:group>
+				<xf:group class="fr" id="" style="">
+					<xf:trigger class="btn_cm type1 fl" id="branch_create_or_save_btn" style="" type="button" ev:onclick="scwin.btn_create_branch_setting_onclick"
+								useLocale="true" localeRef="lbl_create">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group>
+    		<xf:group class="gal_body" id="" style="">
+    			<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_setting_branch_detail_name"></w2:textbox>
+							<xf:group class="ipt_box" id="" style="">
+								<xf:input id="branch_setting_name" style="" adjustMaxLength="false"></xf:input>
+								<xf:trigger id="" style="" class="btn_cm" type="button" ev:onclick="scwin.step1_btn_check_branch_name_onclick"
+											useLocale="true" localeRef="lbl_dup_check">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+						</xf:group>
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_setting_branch_detail_id"></w2:textbox>
+							<xf:group class="ipt_box" id="" style="">
+								<xf:input id="branch_setting_user_id" style="" adjustMaxLength="false"></xf:input>
+								<xf:trigger id="" style="" class="btn_cm" type="button" ev:onclick="scwin.step1_btn_check_branch_user_id_onclick"
+											useLocale="true" localeRef="lbl_dup_check">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+						</xf:group>
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_setting_branch_detail_permission"></w2:textbox>
+							<xf:select1 renderType="native" id="branch_setting_role_id" disabledClass="w2selectbox_disabled" ref="" appearance="minimal" style="" direction="auto" chooseOption="" allOption="" displayMode="label" disabled="false" submenuSize="auto" ev:onchange="scwin.step1_select_platform_onchange">
+								<xf:choices>
+									<xf:item>
+										<xf:label><![CDATA[build]]></xf:label>
+										<xf:value><![CDATA[1]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[deploy]]></xf:label>
+										<xf:value><![CDATA[2]]></xf:value>
+									</xf:item>
+									<xf:item>
+										<xf:label><![CDATA[All]]></xf:label>
+										<xf:value><![CDATA[3]]></xf:value>
+									</xf:item>
+								</xf:choices>
+							</xf:select1>
+						</xf:group>
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_setting_branch_detail_url"></w2:textbox>
+							<xf:group id="" style="" class="ipt_box">
+								<xf:input id="branch_setting_url" style="" adjustMaxLength="false"></xf:input>
+							</xf:group>
+						</xf:group>
+						<xf:group id="" style="" class="" tagname="li">
+							<w2:textbox id="" style="" class="form_name" label="" useLocale="true" localeRef="lbl_setting_branch_detail_password"></w2:textbox>
+							<xf:group id="" style="" class="ipt_box">
+								<xf:input id="branch_setting_password" style="" adjustMaxLength="false"></xf:input>
+							</xf:group>
+						</xf:group>
+    				</xf:group>
+<!--					<xf:group id="" style="" class="" tagname="ul">-->
+<!--						<xf:group id="" style="" class="" tagname="li">-->
+<!--							<w2:textbox id="" style="" class="form_name" label="Description"></w2:textbox>-->
+<!--							<xf:textarea id="branch_setting_textarea" style="width:100%;height:100px;"></xf:textarea>-->
+<!--						</xf:group>-->
+<!--					</xf:group>-->
+				</xf:group>
+<!--				<w2:anchor class="gal_prev" id="btn_prev" outerDiv="false" style="" ev:onclick="scwin.btn_prev_onclick">-->
+<!--    				<xf:label><![CDATA[이전]]></xf:label>-->
+<!--    			</w2:anchor>-->
+<!--    			<w2:anchor class="gal_next" id="" outerDiv="false" style="" ev:onclick="scwin.btn_next_onclick">-->
+<!--    				<xf:label><![CDATA[다음]]></xf:label>-->
+<!--    			</w2:anchor>-->
+			</xf:group>
+    	</xf:group>
+    </body>
+</html>

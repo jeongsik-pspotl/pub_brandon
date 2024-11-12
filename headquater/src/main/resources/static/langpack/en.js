@@ -1,0 +1,3 @@
+WebSquare.WebSquareLang = {
+
+};

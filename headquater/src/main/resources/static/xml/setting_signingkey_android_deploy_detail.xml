@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate/>
+		<xf:model>
+			<xf:instance>
+				<data xmlns=""/>
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+			</w2:dataCollection>
+			<w2:workflowCollection>
+			</w2:workflowCollection>
+		</xf:model>
+		<script type="text/javascript" lazy="false">
+			 <![CDATA[
+			scwin.checkProvisionFileYn = false;
+			scwin.checkSigningkeyNameYn = false;
+			scwin.signingkeyLastCnt = "";
+			scwin.onpageload = function() {
+				// common.setScopeObj(scwin);
+				// scwin.init();
+				// 화면 구성 변경
+				var key_setting_mode = localStorage.getItem("_key_setting_mode_");
+				var key_platform = localStorage.getItem("_platform_");
+
+				if (key_setting_mode == "detailview"){
+					var label = common.getLabel("lbl_key_setting_detail_view");
+					ftp_setting_title.setLabel(label);
+
+					// if(whive_session.user_role == "SUPERADMIN"){
+						// scwin.select_domain_list();
+						// setting_admin_list.addItem("", "선택안함");
+
+					// }else {
+
+						//setting_admin_list.setDisabled(true);
+						// setting_domain_list.setDisabled(true);
+					// }
+
+					if(key_platform == "Android"){
+						scwin.signingKeyAndroidDetailView();
+					}else {
+						scwin.signingKeyiOSDetailView();
+					}
+
+				}else {
+					var label = common.getLabel("lbl_key_setting_create");
+				    ftp_setting_title.setLabel(label);
+
+					// if(whive_session.user_role == "SUPERADMIN"){
+						//scwin.select_domain_list();
+						//setting_admin_list.addItem("", "선택안함");
+
+					// }else {
+
+						//setting_admin_list.setDisabled(true);
+						// setting_domain_list.setDisabled(true);
+					// }
+
+
+					scwin.select_builder_list();
+
+				}
+
+				// if(key_platform == "Android"){
+				// 	// android body show
+				// 	// gal_body_ios.hide();
+                //
+				// }else if(key_platform == "iOS"){
+				// 	// ios body show
+				// 	// gal_body_ios.show();
+                //
+				// }
+
+
+			};
+
+			scwin.init = function(){
+				var target = {"Template":["Profile","certificate","Deploy"]};
+
+				var buildConfig = target["Template"];
+
+				for(var i=0;i<buildConfig.length;i++){
+
+					var closable = true;
+					var label = buildConfig[i];
+					var id = "tab_"+label;
+
+
+					//if(label.toLowerCase() == "debug" || label.toLowerCase() == "release"){
+					//	closable = false;
+					//}
+
+					var tabOpt = {
+						"label" : label,
+						"closable" : false,
+						"tabWidth" : "100px"
+					};
+
+					var contOpt = {
+						"wframe" : true,
+						"src" : "/setting_signingkey_detail.xml"
+					};
+
+					tabControl1.addTab(id, tabOpt, contOpt);
+				}
+			};
+
+			scwin.onpageunload = function() {
+				localStorage.removeItem("_platform_");
+			};
+
+			// signingKey Setting 조회
+			scwin.signingKeyAndroidDetailView = function(){
+
+				var key_id = localStorage.getItem("_key_id_");
+
+				var options = {};
+
+				options.action = "/manager/mCert/android/search/profile/" + parseInt(key_id);
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if (data != null) {
+
+						var temp = {};
+
+						// platform 기준으로 변경해서 처리 해야함..
+						if(data.platform == "Android"){
+							// setting_android_key_password.setValue(data.android_key_password);
+							// setting_android_key_alias.setValue(data.android_key_alias);
+							// setting_android_store_password.setValue(data.android_key_store_password);
+                            //
+							// setting_select_android_signingkey_type.setText(data.android_key_type,false);
+
+							$("#wfm_main_setting_signgingkey_android_tap_contents_tab_Deploy_body_signingkey_setting_android_deploy_input_file_path_tmp_inputFile").val(data.android_deploy_key_path);
+
+
+						}
+
+					} else {
+
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+			};
+
+
+			// signingKey Setting 조회
+			scwin.signingKeyiOSDetailView = function(){
+
+				var key_id = localStorage.getItem("_key_id_");
+
+				var options = {};
+
+				options.action = "/manager/mCert/iOS/search/profile/" + parseInt(key_id);
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if (data != null) {
+
+						signingkey_setting_name.setValue(data.key_name);
+						setting_select_platform.setText(data.platform, false);
+						setting_builder_list.addItem(data.builder_id, data.builder_name, false);
+						setting_admin_list.addItem(data.admin_id, data.admin_name, false);
+						setting_domain_list.addItem(data.domain_id, data.domain_name, false);
+
+						// platform 기준으로 변경해서 처리 해야함..
+						if(data.platform == "iOS"){
+							setting_ios_select_signingkey_type.setText(data.ios_key_type, false);
+							setting_ios_select_release_type.setText(data.ios_release_type, false);
+							setting_ios_store_password.setValue(data.ios_key_password);
+							setting_ios_unlock_keychain_password.setValue(data.ios_unlock_keychain_password);
+
+							if(data.ios_key_type == "build"){
+
+								$("#wfm_main_signingkey_setting_ios_debug_provisioning_input_file_path_inputFile").val(data.ios_debug_profile_path);
+								$("#wfm_main_signingkey_setting_ios_release_provisioning_input_file_path_inputFile").val(data.ios_release_profile_path);
+								$("#wfm_main_signingkey_setting_ios_signingkey_input_file_path_inputFile").val(data.ios_key_path);
+
+							}else{
+								$("#wfm_main_signingkey_setting_ios_signingkey_input_file_path_inputFile").val(data.ios_key_path);
+
+								setting_ios_issuer_id.setValue(data.ios_issuer_id);
+								setting_ios_key_id.setValue(data.ios_key_id);
+
+
+							}
+						}
+
+					} else {
+
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+			};
+
+			scwin.getDomainByIDView = function(){
+
+
+			};
+
+			scwin.getAdminByIDView = function(){
+
+
+			};
+
+			// signingkey name 중복 조회 ajax
+			scwin.select_check_key_name = function(key_name){
+				var data = {};
+				data.key_name = key_name;
+				var options = {};
+
+				options.action = "/manager/mCert/common/search/checkProfileName";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.requestData = JSON.stringify(data);
+				options.method = "POST";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if(e.responseStatusCode === 200 || e.responseStatusCode === 201){
+						if (data != null) {
+
+						    if(data[0].keyNameCheck == "no"){
+								var message = common.getLabel("lbl_exist_key_cert_name");
+								alert(message);
+								scwin.checkSigningkeyNameYn = false;
+
+							}else {
+								var message = common.getLabel("lbl_can_use_key_cert_name");
+								alert(message);
+								scwin.checkSigningkeyNameYn = true;
+
+							}
+
+						}
+					}
+
+				};
+
+				options.error = function (e) {
+					if(e.responseStatusCode === 500){
+						var message = common.getLabel("lbl_can_use_key_cert_name");
+						alert(message);
+						scwin.checkSigningkeyNameYn = true;
+
+					}else {
+
+					}
+
+				};
+
+				$p.ajax( options );
+
+			};
+
+			scwin.select_builder_list = function(){
+
+				var options = {};
+
+				options.action = "/manager/builderSetting/selectBySelectBoxList";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if (data != null) {
+                        var message = common.getLabel("lbl_select");
+						setting_builder_list.addItem("",message); //선택
+						for (var row in data) {
+							var temp = {};
+
+							setting_builder_list.addItem(data[row].builder_id, data[row].builder_name);
+							// 다음으로 진행할 기능 template 버전 조회
+							// -> builder id 데이터 호출
+
+
+						}
+
+					} else {
+
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+			};
+
+			// domain 리스트 전체 조회
+			scwin.select_domain_list = function(){
+
+				var options = {};
+
+				options.action = "/manager/domain/search/domainList";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if (data != null) {
+                        var message = common.getLabel("lbl_select");
+						setting_domain_list.addItem("", message); //선택
+						for (var row in data) {
+							var temp = {};
+
+							setting_domain_list.addItem(data[row].domain_id, data[row].domain_name);
+
+						}
+
+					} else {
+
+					}
+				};// domain 리스트 전체 조회
+				scwin.select_domain_list = function(){
+
+					var options = {};
+
+					options.action = "/manager/domain/search/domainList";
+					options.mode = "asynchronous";
+					options.mediatype = "application/json";
+					options.method = "GET";
+
+					options.success = function (e) {
+						var data = e.responseJSON;
+						if (data != null) {
+                            var message = common.getLabel("lbl_select");
+							setting_domain_list.addItem("",message); //선택
+							for (var row in data) {
+								var temp = {};
+
+								setting_domain_list.addItem(data[row].domain_id, data[row].domain_name);
+
+							}
+
+						} else {
+
+						}
+					};
+
+					options.error = function (e) {
+						alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+					};
+
+					$p.ajax( options );
+
+				};
+
+				options.error = function (e) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+			};
+
+			scwin.select_admin_list = function(domainID){
+
+				var options = {};
+
+				options.action = "/manager/member/search/userInfoForSelectBox/" + parseInt(domainID);
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if (data != null) {
+						setting_admin_list.removeAll(false);
+
+                        var message = common.getLabel("lbl_select");
+						setting_admin_list.addItem("",message); //선택
+						for (var row in data) {
+							var temp = {};
+
+							setting_admin_list.addItem(data[row].user_id, data[row].user_name);
+
+						}
+
+					} else {
+
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+			};
+
+			scwin.saveSigningKeySettingData = function(){
+
+				var signingKeyfile = "";
+				var debug_profile_path = "";
+				var release_profile_path = "";
+
+				if (common.isEmptyStr(signingkey_setting_name.getValue())) {
+					var message = common.getLabel("lbl_check_key_cert_name");
+					alert(message);
+					return false;
+				}
+
+				if(!scwin.checkSigningkeyNameYn){
+					var message = common.getLabel("lbl_check_dup_key");
+					alert(message)
+					return false;
+				}
+
+				// if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",signingkey_setting_name.getValue())){
+				// 	alert("한글은 입력할 수 없습니다.");
+				// 	return false;
+				// }
+
+				if(setting_select_platform.getValue() == "Android"){
+
+					signingKeyfile = signingkey_setting_android_deploy_input_file_path_tmp.dom.fakeinput;
+					// signingKeyfile = document.getElementById("signingkey_setting_android_input_file_path");
+					if(checkChar(signingKeyfile.files[0])){
+						var message = common.getLabel("lbl_key_form_kor");
+						alert(message);
+						return false;
+					}
+
+				}else if(setting_select_platform.getValue() == "iOS"){
+
+					var ios_signingkey_type = setting_ios_select_signingkey_type.getValue(); // signingkey type value 동적 처리
+
+					if(ios_signingkey_type == "build"){
+						debug_profile_path = signingkey_setting_ios_debug_provisioning_input_file_path.dom.fakeinput;
+						release_profile_path = signingkey_setting_ios_release_provisioning_input_file_path.dom.fakeinput;
+						signingKeyfile = signingkey_setting_ios_signingkey_input_file_path.dom.fakeinput;
+
+						if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",signingKeyfile.files[0].name)){
+							// if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",profile_name)){
+							var message = common.getLabel("lbl_key_form_kor");
+							alert(message);
+							return false;
+						}
+
+						if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",debug_profile_path.files[0].name)){
+							// if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",profile_name)){
+							var message = common.getLabel("lbl_key_form_kor");
+							alert(message);
+							return false;
+						}
+
+						if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",release_profile_path.files[0].name)){
+							// if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",profile_name)){
+							var message = common.getLabel("lbl_key_form_kor");
+							alert(message);
+							return false;
+						}
+
+					}else if(ios_signingkey_type == "deploy"){
+
+					}
+
+
+
+				}
+
+				// 특수문자 한글 입력 제외 시키기
+				var formData = new FormData();
+
+				// formData.append("hqKey", whive_session.user_login_id);
+				formData.append("key_name", signingkey_setting_name.getValue());
+				formData.append("platform", setting_select_platform.getValue());
+				// android 기준
+				// file path 도 같이 파싱해야함.
+				if(setting_select_platform.getValue() == "Android"){
+					// signing key android, ios 분할해서 처리
+
+					var android_signingkey_type = setting_select_android_signingkey_type.getValue(); // signingkey type value 동적 처리
+					// console.log(signingkey_setting_android_input_file_path_tmp.dom.fakeinput.files[0]); // dom
+					// console.log(signingKeyfile.files[0]); // dom
+					//signingKeyfile = document.getElementById("signingkey_setting_android_input_file_path");
+					signingKeyfile = signingkey_setting_android_deploy_input_file_path_tmp.dom.fakeinput;
+
+					formData.append("file", signingKeyfile.files[0]);
+					formData.append("key_type",android_signingkey_type);
+					formData.append("key_password",setting_android_key_password.getValue());
+					formData.append("key_alias",setting_android_key_alias.getValue());
+					formData.append("store_key_password",setting_android_store_password.getValue());
+					// formData.append("build_type",setting_select_android_build_type.getValue());
+					formData.append("builder_id",setting_builder_list.getValue());
+
+					// if(whive_session.user_role == "SUPERADMIN"){
+						//formData.append("domain_id",setting_domain_list.getValue());
+						//formData.append("admin_id",setting_admin_list.getValue());
+
+					// } else if (whive_session.user_role == "ADMIN"){
+					/*
+						//formData.append("domain_id",whive_session.domain_id);
+						//formData.append("admin_id",whive_session.id);
+
+						컨트롤러 단에서처리해야함.
+
+					 */
+
+					//}
+
+					scwin.setKeySettingAndroidInsert(formData);
+
+				}else {
+					var ios_signingkey_type = setting_ios_select_signingkey_type.getValue(); // signingkey type value 동적 처리
+					var ios_release_type = setting_ios_select_release_type.getValue();
+
+					signingKeyfile = signingkey_setting_ios_signingkey_input_file_path.dom.fakeinput;
+					debug_profile_path = signingkey_setting_ios_debug_provisioning_input_file_path.dom.fakeinput;
+					release_profile_path = signingkey_setting_ios_release_provisioning_input_file_path.dom.fakeinput;
+
+
+					formData.append("key_type",ios_signingkey_type);
+					formData.append("key_password",setting_ios_store_password.getValue());
+					formData.append("builder_id",setting_builder_list.getValue());
+
+					// if(whive_session.user_role == "SUPERADMIN"){
+						// formData.append("domain_id",setting_domain_list.getValue());
+						// formData.append("admin_id",setting_admin_list.getValue());
+
+					// } else if (whive_session.user_role == "ADMIN"){
+						// formData.append("domain_id",whive_session.domain_id);
+						// formData.append("admin_id",whive_session.id);
+
+					// }
+
+
+					if (ios_signingkey_type == "build"){
+						var unlock_keychain_password = setting_ios_unlock_keychain_password.getValue();
+						formData.append("keyfile", signingKeyfile.files[0]);
+						formData.append("release_type",ios_release_type);
+						formData.append("debugprofile", debug_profile_path.files[0]);
+						formData.append("releaseprofile", release_profile_path.files[0]);
+						formData.append("unlock_keychain_password",unlock_keychain_password);
+
+
+						scwin.setKeySettingiOSInsert(formData);
+					}else {
+						formData.append("keyfile", signingKeyfile.files[0]);
+						formData.append("ios_issuer_id", setting_ios_issuer_id.getValue());
+						formData.append("ios_key_id", setting_ios_key_id.getValue());
+
+					    scwin.setKeySettingDeployiOSInsert(formData);
+					}
+
+
+				}
+
+			};
+
+			scwin.setKeySettingAndroidInsert = function (formData) {
+
+			    // formdata 방식으로 바꿔서 file 객체 만 받는 구조로 바꾸기...
+				$.ajax({
+					url: "/manager/mCert/android/create",
+					type: "POST",
+					enctype: 'multipart/form-data',
+					processData: false,
+					contentType: false,
+					// data: formData,
+					data: formData,
+					dataType: 'json',
+					cache: false,
+					success: function (r, status) {
+					    var data = r;
+
+					    //console.log(data);
+						if (status === "success") {
+							scwin.signingkeyLastCnt = data[0].signingkeyCnt;
+							// alert("Build Key Setting 생성 완료");
+
+
+							// console.log(scwin.signingkeyLastCnt);
+
+
+						}
+
+					}
+					, error: function (request, status, error) {
+						alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					}
+				});
+
+			};
+
+			scwin.setKeySettingiOSInsert = function (formData) {
+
+				// formdata 방식으로 바꿔서 file 객체 만 받는 구조로 바꾸기...
+				$.ajax({
+					url: "/manager/mCert/iOS/create",
+					type: "POST",
+					enctype: 'multipart/form-data',
+					processData: false,
+					contentType: false,
+					// data: formData,
+					data: formData,
+					dataType: 'json',
+					cache: false,
+					success: function (r, status) {
+						var data = r;
+
+						//console.log(data);
+						if (status === "success") {
+							scwin.signingkeyLastCnt = data[0].signingkeyCnt;
+							// alert("Build Key Setting 생성 완료");
+							// console.log(scwin.signingkeyLastCnt);
+
+
+						}
+
+					}
+					, error: function (request, status, error) {
+						alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					}
+				});
+
+			};
+
+			//
+			scwin.setKeySettingDeployiOSInsert = function (formData) {
+
+				// formdata 방식으로 바꿔서 file 객체 만 받는 구조로 바꾸기...
+				$.ajax({
+					url: "/manager/mCert/iOS/deploy/create",
+					type: "POST",
+					enctype: 'multipart/form-data',
+					processData: false,
+					contentType: false,
+					// data: formData,
+					data: formData,
+					dataType: 'json',
+					cache: false,
+					success: function (r, status) {
+						var data = r;
+
+						//console.log(data);
+						if (status === "success") {
+							scwin.signingkeyLastCnt = data[0].signingkeyCnt;
+							// alert("Deploy Key Setting 생성 완료");
+
+							// console.log(scwin.signingkeyLastCnt);
+
+
+						}
+
+					}
+					, error: function (request, status, error) {
+						alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+					}
+				});
+
+			};
+
+			scwin.btn_create_signingkey_setting_onclick = function(e){
+			    scwin.saveSigningKeySettingData();
+
+
+			};
+
+			scwin.setting_select_platform_onchange = function(e){
+
+			    var platform = setting_select_platform.getValue();
+				if(platform == "Android"){
+					// android body show
+					gal_body_android.show();
+					gal_body_ios.hide();
+
+				}else if(platform == "iOS"){
+					// ios body show
+					gal_body_android.hide();
+					gal_body_ios.show();
+
+				}
+
+			};
+
+			scwin.setting_select_ios_profile_onchange = function(e){
+
+				var signingkey_type = setting_ios_select_signingkey_type.getValue();
+
+				if(signingkey_type == "build"){
+					ios_debug_profile_group.show();
+					ios_release_profile_group.show();
+					ios_signingkey_group.show();
+					ios_signingkey_password_group.show();
+					ios_signingkey_unlock_keychain_password_group.hide(); // show >> hide 처리 수정
+
+					ios_deploy_issuer_group.hide();
+					ios_deploy_key_id_group.hide();
+					var label = common.getLabel("lbl_apple_dev_cert_file");
+					signingkey_setting_ios_signingkey_input_file_path_text.setLabel(label);
+					//setting_android_store_password_text.setLabel("Certificate Password");
+
+
+				}else if(signingkey_type == "deploy"){
+					ios_debug_profile_group.hide();
+					ios_release_profile_group.hide();
+					ios_signingkey_password_group.hide();
+					ios_signingkey_unlock_keychain_password_group.hide();
+
+					ios_signingkey_group.show();
+					ios_deploy_issuer_group.show();
+					ios_deploy_key_id_group.show();
+					// ios_signingkey_password_group.show();
+					var label = common.getLabel("lbl_app_store_connect_api_key");
+					signingkey_setting_ios_signingkey_input_file_path_text.setLabel(label);
+
+
+				}
+
+
+			};
+
+			scwin.setting_select_android_build_type_onchange = function(e){
+
+				var android_signingkey_type = setting_select_android_signingkey_type.getValue();
+
+				if(android_signingkey_type == "build"){
+					var file = common.getLabel("lbl_keystore_file");
+					var pwd = common.getLabel("lbl_store_password");
+
+					android_key_type_build_1.show();
+					android_key_type_build_2.show();
+					android_key_type_build_3.show();
+					signingkey_setting_android_input_file_path_text.setLabel(file);
+					setting_android_store_password_text.setLabel(pwd);
+				}else if(android_signingkey_type == "deploy"){
+					android_key_type_build_1.hide();
+					android_key_type_build_2.hide();
+					android_key_type_build_3.hide();
+
+					var json = common.getLabel("lbl_json_key_file");
+					signingkey_setting_android_input_file_path_text.setLabel(json);
+				}
+
+			};
+
+
+			scwin.setting_key_name_check_onclick = function(){
+
+				var key_name = signingkey_setting_name.getValue();
+
+				if(common.isEmptyStr(key_name)){
+					var message = common.getLabel("lbl_check_key_name");
+					alert(message);
+					return false;
+				}
+
+				scwin.select_check_key_name(key_name);
+
+			};
+
+			scwin.setting_select_ios_export_profile_change = function(){
+
+			    var release_profile_val = setting_ios_select_release_type.getValue();
+
+			    if(release_profile_val == "app-store"){
+
+
+				}else if(release_profile_val == "enterprise"){
+
+
+				}
+
+
+			};
+
+			// websocket 으로 결과 받아서 message -> ajax 로 update 할 값을 전송한다.
+			scwin.webSocketCallback = function(obj) {
+				// msg type 추가
+				//console.log(" key file create websocket ");
+				switch (obj.MsgType) {
+					case "BIN_FILE_PROFILE_TEMPLATE_SEND_INFO_FROM_HEADQUATER" :
+						// scwin.setBuilderKeyFileCreateStatus(obj);
+						var message = common.getLabel("lbl_key_setting_complete");
+						alert(message);
+						$p.parent().wfm_main.setUserData("settingsData","signingkey");
+						$p.parent().wfm_main.setSrc("/xml/settings.xml");
+
+						break;
+					case "BIN_FILE_IOS_KEY_FILE_TEMPLATE_SEND_INFO_FROM_HEADQUATER" :
+						// scwin.setBuilderiOSKeyFileCreateStatus(obj);
+						var message = common.getLabel("lbl_key_setting_complete");
+						alert(message);
+						$p.parent().wfm_main.setUserData("settingsData","signingkey");
+						$p.parent().wfm_main.setSrc("/xml/settings.xml");
+
+					    break;
+					case "BIN_FILE_IOS_KEY_FILE_TEMPLATE_DEPLOY_SEND_INFO_FROM_HEADQUATER" :
+						var message = common.getLabel("lbl_key_setting_complete");
+						alert(message);
+						$p.parent().wfm_main.setUserData("settingsData","signingkey");
+						$p.parent().wfm_main.setSrc("/xml/settings.xml");
+						// scwin.setBuilderiOSDeployKeyFileCreateStatus(obj);
+						break;
+					default :
+						break;
+				}
+			};
+
+			// android/ios 분리해서 처리하기
+			scwin.setBuilderKeyFileCreateStatus = function(msg){
+
+				var data = {};
+				data.signingkey_id = scwin.signingkeyLastCnt;
+				data.signingkey_path = msg.filePath;
+
+				var options = {};
+				options.action = "/api/signingkeysetting/updatekeyfile";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.requestData = JSON.stringify(data);
+				options.method = "PUT";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if ((e.responseStatusCode === 200 || e.responseStatusCode === 201) && data != null) {
+						// alert("Signing Key Setting 생성 완료");
+						$p.parent().wfm_main.setUserData("settingsData","signingkey");
+						$p.parent().wfm_main.setSrc("/xml/settings.xml");
+
+					} else {
+						// alert("Signing Key Setting 생성 실패");
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+
+			};
+
+			scwin.setBuilderiOSKeyFileCreateStatus = function(msg){
+
+				var data = {};
+				data.key_id = scwin.signingkeyLastCnt;
+				data.ios_key_path = msg.keyfilePath;
+				data.ios_debug_profile_path = msg.debugProfilePath;
+				data.ios_release_profile_path = msg.releaseProfilePath;
+
+
+				var options = {};
+				options.action = "/api/keysetting/ios/updatekeyfile";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.requestData = JSON.stringify(data);
+				options.method = "PUT";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if ((e.responseStatusCode === 200 || e.responseStatusCode === 201) && data != null) {
+						// alert("Signing Key Setting 생성 완료");
+						$p.parent().wfm_main.setUserData("settingsData","signingkey");
+						$p.parent().wfm_main.setSrc("/xml/settings.xml");
+
+					} else {
+						// alert("Signing Key Setting 생성 실패");
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+
+			};
+
+			scwin.setBuilderiOSDeployKeyFileCreateStatus = function(msg){
+
+				var data = {};
+				data.key_id = scwin.signingkeyLastCnt;
+				data.ios_key_path = msg.keyfilePath;
+
+
+				var options = {};
+				options.action = "/api/keysetting/ios/deploy/updatekeyfile";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.requestData = JSON.stringify(data);
+				options.method = "PUT";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					if ((e.responseStatusCode === 200 || e.responseStatusCode === 201) && data != null) {
+						// alert("Signing Key Setting 생성 완료");
+						$p.parent().wfm_main.setUserData("settingsData","signingkey");
+						$p.parent().wfm_main.setSrc("/xml/settings.xml");
+
+					} else {
+						// alert("Signing Key Setting 생성 실패");
+					}
+				};
+
+				options.error = function (e) {
+					alert("code:"+e.responseStatusCode+"\n"+"message:"+e.responseText+"\n");
+
+				};
+
+				$p.ajax( options );
+
+
+			};
+
+			scwin.setting_select_domain_onchange = function(e){
+
+			    var domainID = setting_domain_list.getValue();
+
+			    if(domainID == ""){
+					setting_admin_list.removeAll(false);
+
+                    var message = common.getLabel("lbl_select");
+					setting_admin_list.addItem("",message); //선택
+
+				}else {
+					scwin.select_admin_list(domainID);
+				}
+
+			};
+
+			// file name 한글 체크 함수
+			function checkChar(obj) {
+
+				var chrTemp;
+				var strTemp = obj.name;
+				var strLen = strTemp.length;
+				var numeric = false;
+				var alpha = false;
+				var korean = false;
+
+				if (strLen > 0) {
+
+					for (var i=0; i<strTemp.length; i++)
+					{
+
+						chrTemp = strTemp.charCodeAt(i);
+
+						if(chrTemp >= 1 && chrTemp <= 57) {
+							numeric = true;
+						} else if(chrTemp >= 65 && chrTemp <= 122) {
+							alpha = true;
+						} else {
+							korean = true;
+							// alert("한글, 영문, 숫자만 입력하세요.");
+							return true;
+						}
+
+
+					}
+				}
+
+			};
+
+            function changeToolTipContentSigningkeyDetail (componentId) {
+				let signingkeyType = setting_ios_select_signingkey_type.getValue();
+				switch (signingkeyType) {
+					case "build":
+                        return "애플 개발자 인증서를 PKCS#12 형식으로 변환한 파일"
+					case "deploy":
+                        return "Apple에서 제공하는 Rest API 서비스 사용시 사용자 인증을 위한 키"
+					default:
+                        return ""
+				}
+			};
+
+			]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group class="gallery_box" id="" style="">
+			<xf:group class="dfbox" id="" style="">
+				<xf:group class="fl">
+					<w2:textbox class="gal_tit fl" id="ftp_setting_title" label="" style=""
+								useLocale="true" localeRef="lbl_key_cert_regist_setting"></w2:textbox>
+				</xf:group>
+			</xf:group>
+			<xf:group class="gal_body type2 mt30" id="gal_body_ios" style="">
+				<xf:group id="" style="" class="form_wrap">
+					<xf:group id="" style="" class="" tagname="ul">
+						<xf:group id="android_key_type_all_4" style="" class="tooltip_box" tagname="li">
+							<xf:group class="ipt_box" id="" style="">
+								<w2:textbox id="signingkey_setting_android_input_file_path_text" style="" class="form_name" label="" useLocale="true" localeRef="lbl_json_key_file"></w2:textbox>
+								<w2:anchor class="ico_tip" id="" outerDiv="false" style="" toolTip="tooltip" toolTipDisplay="true"
+										   useLocale="true" localeRef="lbl_setting_signingkey_android_deploy_detail_description" tooltipLocaleRef="lbl_setting_signingkey_android_deploy_detail_tooltip_key">
+									<xf:label><![CDATA[]]></xf:label>
+								</w2:anchor>
+							</xf:group>
+							<xf:group class="ipt_box" id="" style="">
+								<w2:upload inputStyle="position:absolute;vertical-align:middle;word-wrap:break-word" type="" id="signingkey_setting_android_deploy_input_file_path_tmp" style="position: relative;width: 250px;height: 23px;" imageStyle="position:absolute;vertical-align:middle;word-wrap:break-word" disabled="false" class="">
+								</w2:upload>
+								<!--									<input id="signingkey_setting_android_input_file_path" style="" type="file"></input>-->
+							</xf:group>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

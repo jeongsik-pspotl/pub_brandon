@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="/cm/css/all.css" type="text/css"?>
+<?xml-stylesheet href="/cm/css/contents.css" type="text/css"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ev="http://www.w3.org/2001/xml-events"
+	  xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+	<head>
+		<w2:type>DEFAULT</w2:type>
+		<w2:buildDate/>
+		<xf:model>
+			<xf:instance>
+				<data xmlns=""/>
+			</xf:instance>
+			<w2:dataCollection baseNode="map">
+				<w2:dataList id="__workspace_list_data__" saveRemovedData="true">
+					<w2:columnInfo>
+						<w2:column id="workspace_id" name="workspace_id" dataType="text"></w2:column>
+						<w2:column id="workspace_name" name="workspace_name" dataType="text"></w2:column>
+						<w2:column id="delete_yn" name="delete_yn" dataType="text"></w2:column>
+						<w2:column id="status" name="status" dataType="text"></w2:column>
+						<w2:column id="created_date" name="created_date" dataType="text"></w2:column>
+						<w2:column id="updated_date" name="updated_date" dataType="text"></w2:column>
+					</w2:columnInfo>
+				</w2:dataList>
+			</w2:dataCollection>
+			<w2:workflowCollection>
+			</w2:workflowCollection>
+			<xf:submission id="sub_getUserXmlMapData" ref=''
+						   target='data:json,{"id":"__workspace_list_data__","key":"data"}' action="/manager/workspace/search/workspaceAll" method="get" mediatype="application/json"
+						   encoding="UTF-8" instance="" replace="" errorHandler="" customHandler="" mode="asynchronous" processMsg="" ev:submit=""
+						   ev:submitdone="scwin.callback" ev:submiterror="" abortTrigger="">
+			</xf:submission>
+		</xf:model>
+		<script type="text/javascript" lazy="false">
+			 <![CDATA[
+			scwin.onpageload = function () {
+
+				scwin.select_admin_workspace_list();
+
+
+			};
+
+			scwin.onpageunload = function () {
+
+			};
+
+			scwin.callback = function (e) {
+
+				var data = e.responseJSON;
+				__workspace_list_data__.setJSON(data);
+
+				var workspaceGridArr = gridView1.getAllDisplayJSON();
+
+				for (var i = 0; i < workspaceGridArr.length; i++) {
+
+					var delete_yn = workspaceGridArr[i].delete_yn;
+					var stastus_yn = workspaceGridArr[i].status;
+
+					if (delete_yn == "1") {
+						gridView1.setCellChecked(i, "delete_yn", true);
+						gridView1.setRowVisible(i, false);
+					} else if (delete_yn == "N") {
+						gridView1.setCellChecked(i, "delete_yn", false);
+					}
+
+					if (stastus_yn == "1") {
+						gridView1.setCellChecked(i, "status", true);
+					} else if (stastus_yn == "N") {
+						gridView1.setCellChecked(i, "status", false);
+					}
+
+				}
+
+				gridView1.setColumnVisible("workspace_id", false);
+				gridView1.setColumnVisible("delete_yn", false);
+
+				$(".btn_role_cm").click(function () {
+					$(".layer_pop").css("display", "block");
+					$("body").append("<div class='dim'></div>");
+
+
+				});
+				$(".btn_pop_close").click(function () {
+					$(".layer_pop").css("display", "none");
+					$("div").remove(".dim");
+				});
+
+
+			};
+
+			/* admin workspace 조회  */
+			scwin.select_admin_workspace_list = function () {
+
+				var options = {};
+
+				options.action = "/manager/workspace/search/workspaceListByMemberId";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "GET";
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+					// console.log();
+					if (e.responseStatusCode === 200 || e.responseStatusCode === 201) {
+
+						if (data != null) {
+							// localStorage.setItem("__workspace_id__",data.id);
+
+							var workspace = [];
+
+							for (var row in data) {
+								var temp = {};
+
+								temp["workspace_name"] = data[row].workspace_name;
+								temp["workspace_id"] = data[row].workspace_id;
+								temp["member_id"] = data[row].member_id;
+								temp["status"] = data[row].status;
+								temp["delete_yn"] = data[row].delete_yn;
+								temp["created_date"] = data[row].created_date.replace(/T/g,' ');
+								temp["updated_date"] = data[row].updated_date.replace(/T/g,' ');
+
+
+								workspace.push(temp);
+
+							}
+							__workspace_list_data__.removeAll();
+							var distict = common.unique(workspace, 'workspace_id');
+							__workspace_list_data__.setJSON(distict, true);
+
+							var workspaceGridArr = gridView1.getAllVisibleJSON();
+
+							for (var i = 0; i < workspaceGridArr.length; i++) {
+
+								var delete_yn = workspaceGridArr[i].delete_yn;
+								var stastus_yn = workspaceGridArr[i].status;
+
+								if (delete_yn == "1") {
+									gridView1.setCellChecked(i, "delete_yn", true);
+									gridView1.setRowVisible(i, false);
+								} else if (delete_yn == "N") {
+									gridView1.setCellChecked(i, "delete_yn", false);
+								}
+
+								if (stastus_yn == "1") {
+									gridView1.setCellChecked(i, "status", true);
+								} else if (stastus_yn == "N") {
+									gridView1.setCellChecked(i, "status", false);
+								}
+
+							}
+
+							gridView1.setColumnVisible("workspace_id", false);
+							gridView1.setColumnVisible("delete_yn", false);
+
+							$(".btn_role_cm").click(function () {
+								$(".layer_pop").css("display", "block");
+								$("body").append("<div class='dim'></div>");
+
+
+							});
+							$(".btn_pop_close").click(function () {
+								$(".layer_pop").css("display", "none");
+								$("div").remove(".dim");
+							});
+
+						}
+					}
+
+				};
+
+				options.error = function (e) {
+					if (e.responseStatusCode === 500) {
+
+
+					} else {
+						alert("code:" + e.responseStatusCode + "\n" + "message:" + e.responseText + "\n" + "error:" + e.requestBody);
+					}
+
+				};
+
+				$p.ajax(options);
+
+			}
+
+			/* workspace 생성  */
+			scwin.btn_workspace_create_onclick = function (e) {
+
+				var pattern = /\s/g;
+				var workspace_name = input_workpspace_name.getValue();
+				// var workspace_name = common.checkAllInputText("CHECK_INPUT_TYPE_WORKSPACE",name);
+				// if(!scwin.workspace_name_check_yn){
+				//     alert("workspace 이름 중복 조회하세요.");
+				//     return false;
+				// }
+
+				if( workspace_name.match(pattern) ) {
+					var message = common.getLabel("lbl_userManager_workspace_role_detail_blank");
+                    alert(message);
+                    return false;
+                } else {
+
+                }
+
+
+				if (common.isEmptyStr(workspace_name)) {
+					var message = common.getLabel("lbl_userManager_workspace_role_detail_workspace_input");
+					alert(message);
+					return false;
+				}
+
+				// workspace 자릿수 제한
+				if (common.getCheckInputLength(workspace_name, workspace_name.length, 50)) {
+
+					return false;
+				}
+
+				// if(common.checkAllInputText("CHECK_INPUT_TYPE_KOR",workspace_name)){
+				// 	alert("한글은 입력할 수 없습니다.");
+				// 	return false;
+				// }
+
+				if (common.checkAllInputText("CHECK_INPUT_TYPE_SPC", workspace_name)) {
+					var message = common.getLabel("lbl_can_not_special_char");
+					alert(message);
+					return false;
+				}
+
+				if (workspace_name) {
+
+					// generator_workspace_list.insertChild(0);
+					// var name_checkbox = generator_workspace_list.getChild(0,"select_workpsace_title");
+					// var txt_label = generator_workspace_list.getChild(0,"txt_workspace_lbl");
+					// name_checkbox.addItem('false', workspace_name, 0);
+					// txt_label.setValue(common.getCurrentDateTime());
+
+					// save datalist
+					var params = {};
+					params.workspace_name = workspace_name;
+					scwin.create_workspace(params);
+
+					//workspace name form init
+					input_workpspace_name.setValue("");
+				} else {
+					// alert("workspace 이름을 입력하세요");
+				}
+			};
+
+			scwin.create_workspace = function (params) {
+
+				var data = {};
+				var options = {};
+
+				data.workspace_name = params.workspace_name;
+				data.status = "1";
+				data.favorite_flag = "Y";
+				data.delete_yn = "0";
+
+
+				options.action = "/manager/workspace/create";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "POST";
+				options.requestData = JSON.stringify(data);
+
+				options.success = function (e) {
+
+					if (e.responseStatusCode === 200 || e.responseStatusCode === 201) {
+						var resultData = e.responseJSON;
+						var workspaceCheck = resultData[0].workspaceCheck;
+
+						if (workspaceCheck == "yes") {
+							var message = common.getLabel("lbl_exist_name")
+							alert(message);
+
+						} else {
+
+							// scwin.getWorkSpaceReSelect(params.member_id, params.domain_id);
+
+							// 바로 조회 할수 있게 구현
+							scwin.select_admin_workspace_list();
+
+						}
+
+					}
+
+				};
+
+				options.error = function (e) {
+					if (e.responseStatusCode === 204) {
+
+					} else if (e.responseStatusCode === 500) {
+
+					} else {
+						alert("code:" + e.responseStatusCode + "\n" + "message:" + e.responseText + "\n");
+					}
+
+
+				};
+
+				$p.ajax(options);
+
+			};
+
+			// cell 기준??? 으로 하나의 체크 박스 클릭시
+			// 체크 활성 비활성 기능 추가하기
+
+			scwin.workspace_delete_checkbox_ID_oncelldblclick = function (row, col) {
+
+				// var realRow = grv_licenseList.getRealRowIndex( row );
+
+			};
+
+			scwin.gridView1_delete_btn_oncellclick = function (row, col) {
+
+				var columnID = gridView1.getColumnID(col);
+
+				if (columnID == "delete_btn") {
+
+					var message = common.getLabel("lbl_userManager_workspace_role_detail_delete_message");
+					// 내부에서 처리하는 기능 구현해야함..
+					if (confirm(message)) {
+
+						$(".layer_pop").css("display", "block");
+						$("body").append("<div class='dim'></div>");
+
+
+						var workspaceGridRow = gridView1.getRealRowIndex(row);
+						var workSpaceJsonRow = __workspace_list_data__.getRowJSON(workspaceGridRow);
+
+
+						var label = common.getLabel("lbl_userManager_workspace_role_detail_workspace_name");
+						label = common.getFormatStr(label,workSpaceJsonRow.workspace_name);
+						lbl_workspace_delete_name_check.setLabel(label);
+						btn_delete_workspace_data.setUserData("workspace_id", workSpaceJsonRow.workspace_id);
+						btn_delete_workspace_data.setUserData("workspace_name", workSpaceJsonRow.workspace_name);
+
+
+					} else {
+
+					}
+
+				}
+
+			};
+
+			scwin.btn_update_workspace_detail_onclick = function () {
+
+
+				var workspaceGridArr = gridView1.getAllDisplayJSON();
+				var data = workspaceGridArr;
+				var options = {};
+				// console.log(data);
+
+				options.action = "/manager/workspace/update/useYN";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "POST";
+				options.requestData = JSON.stringify(data);
+
+				options.success = function (e) {
+
+					if (e.responseStatusCode === 200 || e.responseStatusCode === 201) {
+
+
+						scwin.select_admin_workspace_list();
+
+
+
+					}
+
+				};
+
+				options.error = function (e) {
+					if (e.responseStatusCode === 204) {
+
+					} else if (e.responseStatusCode === 500) {
+
+					} else {
+						alert("code:" + e.responseStatusCode + "\n" + "message:" + e.responseText + "\n");
+					}
+
+
+				};
+
+				$p.ajax(options);
+
+			};
+
+			scwin.btn_delete_workspace_name_onclick = function () {
+
+				var workspace_id = this.getUserData("workspace_id");
+				var workspace_name = txt_workspace_delete_name.getValue();
+				var workspace_name_temp = this.getUserData("workspace_name");
+
+				var options = {};
+                var data = {};
+                data.workspace_id = workspace_id;
+                data.workspace_name = workspace_name;
+
+
+				options.action = "/manager/workspace/delete";
+				options.mode = "asynchronous";
+				options.mediatype = "application/json";
+				options.method = "POST";
+				options.requestData = JSON.stringify(data);
+
+				options.success = function (e) {
+					var data = e.responseJSON;
+
+					// 삭제시 json 결과 값에 따른 처리 방식 구현하기
+					//console.log(data);
+					if (e.responseStatusCode === 200 || e.responseStatusCode === 201) {
+						if (data[0].workspace_name_found_check == "yes") {
+
+							$(".layer_pop").css("display", "none");
+							$("div").remove(".dim");
+							txt_workspace_delete_name.setValue("");
+							scwin.select_admin_workspace_list();
+
+
+						} else if (data[0].workspace_name_found_check == "no") {
+							var label = common.getLabel("lbl_userManager_workspace_role_detail_delete_fail");
+							label = common.getFormatStr(label,workspace_name_temp);
+							lbl_workspace_delete_name_check.setLabel(label);
+							txt_workspace_delete_name.setValue("");
+						}
+
+
+					}
+
+				};
+
+				options.error = function (e) {
+					if (e.responseStatusCode === 204) {
+
+					} else if (e.responseStatusCode === 500) {
+
+					} else {
+						alert("code:" + e.responseStatusCode + "\n" + "message:" + e.responseText + "\n");
+					}
+
+
+				};
+
+				$p.ajax(options);
+
+			};
+
+			scwin.btn_cancel_workspace_name_onclick = function (e) {
+
+				$(".layer_pop").css("display", "none");
+				$("div").remove(".dim");
+
+			};
+			]]></script>
+	</head>
+	<body ev:onpageload="scwin.onpageload" ev:onpageunload="scwin.onpageunload">
+		<xf:group class="sub_contents" id="" style="">
+			<xf:group id="" class="white_board"><xf:group style="" id="" class="pgtbox">
+				<w2:textbox style="" id="workspace_setting_title" label="" class="pgt_tit fl" useLocale="true" localeRef="lbl_userManager_workspace_role_detail_workspaceManage"></w2:textbox><xf:group class="fl">
+
+			</xf:group>
+				<xf:group class="fr">
+					<xf:trigger ev:onclick="scwin.btn_update_workspace_detail_onclick" style="" id="branch_create_or_save_btn" type="button" class="btn_cm type1 fl" useLocale="true" localeRef="lbl_save">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group><xf:group style="" id="" class="shbox mt15">
+				<xf:group style="" id="" class="shbox_inner">
+					<xf:group adaptive="layout" adaptiveThreshold="600" tagname="table" style="width:100%;" id="" class="w2tb tb">
+						<w2:attributes>
+							<w2:summary></w2:summary>
+						</w2:attributes>
+						<xf:group tagname="colgroup">
+							<xf:group tagname="col" style="width:100px;"></xf:group>
+							<xf:group tagname="col" style=""></xf:group>
+						</xf:group>
+						<xf:group tagname="tr" style="">
+							<xf:group tagname="th" style="" class="w2tb_th">
+								<w2:textbox style="" id="" label="" class="req" toolTip="tooltip" toolTipDisplay="true" useLocale="true" localeRef="lbl_workspace"></w2:textbox>
+							</xf:group>
+							<xf:group tagname="td" style="" class="w2tb_td">
+								<xf:input adjustMaxLength="false" style="height:28px;width:70%;" id="input_workpspace_name" placeholder="Workspace 이름을 입력하세요.">
+								</xf:input>
+								<xf:trigger useLocale="true" localeRef="lbl_create" ev:onclick="scwin.btn_workspace_create_onclick" style="" id="" type="button" class="btn_cm">
+									<xf:label><![CDATA[]]></xf:label>
+								</xf:trigger>
+							</xf:group>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+			</xf:group><xf:group style="" id="" class="dfbox mt20">
+				<w2:textbox style="" id="" label="" class="df_tit fl" useLocale="true" localeRef="lbl_userManager_workspace_role_detail_list"></w2:textbox>
+			</xf:group><xf:group tagname="" style="" id="" class="gvwbox">
+				<w2:gridView ev:oncellclick="scwin.gridView1_delete_btn_oncellclick" scrollByColumnAdaptive="false" editModeEvent="ondblclick" rowNumVisible="true" focusMove="" scrollByColumn="false" keepDefaultColumnWidth="true" defaultCellHeight="20" focusMode="row" contextMenu="true" rowNumWidth="50" visibleRowNumFix="" dataList="data:__workspace_list_data__" keyMoveEditMode="true" style="height:100px;" id="gridView1" visibleRowNum="20" autoFit="allColumn" class="wq_gvw" autoFitMinWidth="">
+					<w2:caption style="" id="caption1" value=""></w2:caption>
+					<w2:header style="" id="header1">
+						<w2:row style="" id="row1">
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:30px;" id="column1" value="" blockSelect="false" displayMode="label" toolTip="tooltip" useLocale="true" localeRef="lbl_workspace" tooltipLocaleRef="lbl_userManager_workspace_role_detail_tooltip_grid_space" tooltipHeader="true">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="column3" value="" blockSelect="false" displayMode="label" toolTip="tooltip" useLocale="true" localeRef="lbl_userManager_workspace_role_detail_grid_userStatus" tooltipLocaleRef="lbl_userManager_workspace_role_detail_tooltip_grid_useStatus" tooltipHeader="true">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="column2" value="" blockSelect="false" displayMode="label" useLocale="true" localeRef="lbl_del">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="column4" value="" blockSelect="false" displayMode="label" useLocale="true" localeRef="lbl_userManager_workspace_role_detail_grid_delyn">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="column5" value="" blockSelect="false" displayMode="label" useLocale="true" localeRef="lbl_created_date">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="column6" value="" blockSelect="false" displayMode="label" useLocale="true" localeRef="lbl_modified_date">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="column7" value="" blockSelect="false" displayMode="label" useLocale="true" localeRef="lbl_workspace_id">
+							</w2:column>
+						</w2:row>
+					</w2:header>
+					<w2:gBody style="" id="gBody1">
+						<w2:row style="" id="row2">
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:30px;" id="workspace_name" value="" blockSelect="false" displayMode="label">
+							</w2:column>
+							<w2:column textAlign="center" width="70" inputType="checkbox" style="height:20px;" checkboxLabelColumn=" " checkboxLabel="Y" id="status" value="" displayMode="label">
+							</w2:column>
+							<w2:column textAlign="center" width="70" inputType="button" style="height:20px;" id="delete_btn" value="delete" displayMode="label">
+							</w2:column>
+							<w2:column textAlign="center" width="70" inputType="checkbox" style="height:20px;" checkboxLabelColumn=" " checkboxLabel="Y" id="delete_yn" value="" displayMode="label">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="" style="height:20px" id="created_date" value="" blockSelect="false" displayMode="label">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="" style="height:20px" id="updated_date" value="" blockSelect="false" displayMode="label">
+							</w2:column>
+							<w2:column removeBorderStyle="false" width="70" inputType="text" style="height:20px" id="workspace_id" value="" blockSelect="false" displayMode="label">
+							</w2:column>
+						</w2:row>
+					</w2:gBody>
+				</w2:gridView>
+			</xf:group></xf:group></xf:group>
+		<xf:group class="layer_pop" id="" style="display:none;">
+			<xf:group class="ly_head" id="" style="">
+				<w2:textbox class="title" id="" label="" style="" useLocale="true" localeRef="lbl_userManager_workspace_role_detail_workspaceDelete"></w2:textbox>
+				<w2:anchor class="btn_pop_close" id="" outerDiv="false" style="" useLocale="true" localeRef="lbl_close">
+					<xf:label><![CDATA[]]></xf:label>
+				</w2:anchor>
+			</xf:group>
+			<xf:group class="ly_cont" id="" style="">
+				<xf:group class="form_wrap" id="" style="">
+					<xf:group class="" id="" style="" tagname="ul">
+						<xf:group class="" id="" style="" tagname="li">
+							<w2:textbox class="form_name" id="lbl_workspace_delete_name_check" label="" style="" useLocale="true" localeRef="lbl_userManager_workspace_role_detail_workspaceName"></w2:textbox>
+							<xf:input adjustMaxLength="false" id="txt_workspace_delete_name" style=""></xf:input>
+						</xf:group>
+					</xf:group>
+				</xf:group>
+				<xf:group class="btnbox tac" id="" style="">
+					<xf:trigger class="btn_cm" id="btn_delete_workspace_data" style="" type="button" ev:onclick="scwin.btn_delete_workspace_name_onclick" useLocale="true" localeRef="lbl_del">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+					<xf:trigger class="btn_cm type1" id="" style="" type="button" ev:onclick="scwin.btn_cancel_workspace_name_onclick" useLocale="true" localeRef="lbl_cancel">
+						<xf:label><![CDATA[]]></xf:label>
+					</xf:trigger>
+				</xf:group>
+			</xf:group>
+		</xf:group>
+	</body>
+</html>

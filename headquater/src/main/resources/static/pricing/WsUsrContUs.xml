@@ -1,0 +1,218 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:w2="http://www.inswave.com/websquare" xmlns:xf="http://www.w3.org/2002/xforms">
+    <head>
+        <w2:type>COMPONENT</w2:type>
+        <w2:buildDate/>
+        <w2:MSA/>
+        <xf:model>
+            <w2:dataCollection baseNode="map">
+                <w2:dataMap baseNode="map" id="contactUsMap">
+                    <w2:keyInfo>
+                        <w2:key id="EMAIL" name="name1" dataType="text"/>
+                        <w2:key id="NAME" name="name2" dataType="text"/>
+                        <w2:key id="PHONE" name="name3" dataType="text"/>
+                        <w2:key id="CONTENT" name="name4" dataType="text"/>
+                    </w2:keyInfo>
+                </w2:dataMap>
+            </w2:dataCollection>
+            <w2:workflowCollection/>
+        </xf:model>
+        <w2:layoutInfo/>
+        <w2:publicInfo method=""/>
+        <script type="text/javascript" src="/js/swiper.min.js"/>
+        <script lazy="false" type="text/javascript"><![CDATA[var data = {
+            type: 'alert',
+            title: 'CONTACT US',
+            message: ''
+        }
+
+        scwin.onpageload = function() {
+            var menuButton = document.querySelector('.btn_scrolling');
+            var topMove = function () {
+                swiper.slideTo(1, 1000, true);
+            };
+
+            var swiper = new Swiper('.swiper-container', {
+                direction: 'vertical',
+                speed: 900,
+                slidesPerView: 1,
+                spaceBetween: 0,
+                mousewheel: false,
+                on: {
+                    touchStart: function () {
+                        menuButton.addEventListener('click', topMove, true);
+                    },
+                    slideChangeTransitionStart: function () {
+                        if(swiper.activeIndex > 0){
+                            menuButton.classList.add('off');
+                            menuButton.classList.remove('on');
+                        }else{
+                            menuButton.classList.add('on');
+                            menuButton.classList.remove('off');
+                        }
+                    }
+                }
+            });
+        };
+
+        function hideScrollBtn(obj){
+            obj.css("display", "none");
+        }
+        scwin.contUsCancel_onclick = function(e) {
+            $p.closePopup($p.getFrame().paramObj.popupID);
+        };
+
+        scwin.popupCloseBtn_onclick = function(e) {
+            $p.closePopup($p.getFrame().paramObj.popupID);
+        };
+
+        scwin.contUsRegist_onclick = function(e) {
+            var inputEmail = document.getElementById(contactUsEmail.getID()).value;
+            var inputPhone = document.getElementById(contactUsPhone.getID()).value;
+            var emailRegex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            var phoneRegex = /^\+[0-9]{1,3}(?:[- ]?[0-9]){10,15}$/;
+
+            var inputEmailResult = contactUsEmail.validate();
+            var inputNameResult = contactUsName.validate();
+            var inputPhoneResult = contactUsPhone.validate();
+            var inputContentResult = contactUsContent.validate();
+
+            data.loadCallback = function() {
+                document.querySelector('.alertbox').style.zIndex = 6101;
+                document.querySelector('.alertbox').nextSibling.style.zIndex = 6100;
+                isDualPopup = true;
+            }
+
+            if(!inputEmailResult){
+                data.message = 'Please Fill Out Your E-mail';
+                common.win.alert(data.message);
+                contactUsEmail.focus();
+                return;
+            }
+
+            if(!emailRegex.test(inputEmail)){
+                data.message = 'Please Check Your E-mail Format\n(ex: your@example.com)';
+                common.win.alert(data.message);
+                contactUsEmail.focus();
+                return;
+            }
+
+            if(!inputNameResult){
+                data.message = 'Please Fill Out Your Name';
+                common.win.alert(data.message);
+                contactUsName.focus();
+                return;
+            }
+
+            if(!inputPhoneResult){
+                data.message = 'Please Fill Out Your Phone';
+                common.win.alert(data.message);
+                contactUsPhone.focus();
+                return;
+            }
+
+            if(!phoneRegex.test(inputPhone)){
+                data.message = 'Please Check Your Phone Format\n(ex: +XX XXX XXXX XXXX)';
+                common.win.alert(data.message);
+                contactUsPhone.focus();
+                return;
+            }
+
+
+            if(!inputContentResult){
+                data.message = 'Please Fill Out Content';
+                common.win.alert(data.message);
+                contactUsContent.focus;
+                return;
+            }
+
+            let contactUsData = {};
+            contactUsData.name = contactUsName.realValue;
+            contactUsData.email = contactUsEmail.realValue;
+            contactUsData.phone = contactUsPhone.realValue;
+            contactUsData.content = contactUsContent.realValue;
+
+            const url = common.uri.contactUs;
+            const method = "POST";
+            const headers = {"Content-Type": "application/json; charset=utf-8"};
+
+            common.http.fetch(url, method, headers, contactUsData)
+                    .then(res => {
+                        if (res.result == "success") {
+                            common.win.alert("문의가 접수되었습니다.");
+                        } else {
+                            common.win.alert("문의 접수에 실패했습니다.");
+                        }
+                    })
+
+        };
+
+            ]]></script>
+    </head>
+    <body ev:onpageload="scwin.onpageload">
+        <xf:group class="layer pop_price" id="" style="width:810px;">
+            <xf:group class="btnclosebox" id="" style="top: 40px;right: 35px;">
+                <xf:trigger class="btn_close_sm" id="popupCloseBtn" style="" type="button" ev:onclick="scwin.popupCloseBtn_onclick">
+                    <xf:label><![CDATA[닫기]]></xf:label>
+                </xf:trigger>
+            </xf:group>
+            <xf:group id="" class="pop_price_cont">
+                <xf:group id="" class="custombox">
+                    <xf:group id="" class="custom_tit">
+                        <w2:textbox style="" id="" label="ENTERPRISE" class="df_tit"/>
+                        <w2:textbox style="" id="" label="Custom Pricing" class="df_tit"/>
+                    </xf:group>
+                    <xf:group style="" id="" class="custom_info">
+                        <xf:group tagname="ul" style="" id="" class="">
+                            <xf:group tagname="li" style="" id="" class="">
+                                <w2:textbox style="" id="" label="Sales" class="" escape="false"/>
+                                <w2:textbox style="" id="" label="+82 02-2082-1400" class="" escape="false"/>
+                            </xf:group>
+                            <xf:group tagname="li" style="" id="" class="">
+                                <w2:textbox style="" id="" label="E-mail" class="" escape="false"/>
+                                <w2:textbox style="" id="" label="whivehelp@inswave.com" class="" escape="false"/>
+                            </xf:group>
+                        </xf:group>
+                        <w2:textbox style="" id="" label="Contact us for a consulatation." class="" escape="false"/>
+                    </xf:group>
+                </xf:group>
+                <xf:group style="" id="" class="contactbox">
+                    <xf:group id="" class="dfbox">
+                        <w2:textbox style="" id="" label="Contact US" class="df_tit"/>
+                    </xf:group>
+                    <xf:group class="form_box" id="" style="">
+                        <w2:textbox class="txt_tit" id="" label="Your Email" style=""/>
+                        <xf:input adjustMaxLength="false" id="contactUsEmail" placeholder="your@example.com" style="" ref="data:contactUsMap.EMAIL" mandatory="true" maxlength="100"/>
+                        <w2:textbox class="txt_tit" id="" label="Your Name" style=""/>
+                        <xf:input adjustMaxLength="false" id="contactUsName" placeholder="your name" style="" ref="data:contactUsMap.NAME" mandatory="true" maxlength="100"/>
+                        <w2:textbox class="txt_tit" id="" label="Your Phone Number" style=""/>
+                        <xf:input adjustMaxLength="false" id="contactUsPhone" placeholder="+XX XXX XXXX XXXX" style="" ref="data:contactUsMap.PHONE" mandatory="true" maxlength="30"/>
+                        <w2:textbox class="txt_tit" id="" label="Content" style=""/>
+                        <xf:textarea id="contactUsContent" style="" ref="data:contactUsMap.CONTENT" mandatory="true" maxlength="2000"/>
+                    </xf:group>
+                </xf:group>
+            </xf:group>
+            <xf:group id="" class="form_box">
+                <xf:group id="" class="fr">
+                    <xf:group style="" id="" class="btnbox">
+                        <xf:trigger style="" id="contUsCancel" type="button" class="btn_org_line" ev:onclick="scwin.contUsCancel_onclick">
+                            <xf:label><![CDATA[Cancel]]></xf:label>
+                        </xf:trigger>
+                        <xf:trigger style="" id="contUsRegist" type="button" class="btn_org" ev:onclick="scwin.contUsRegist_onclick">
+                            <xf:label><![CDATA[Regist]]></xf:label>
+                        </xf:trigger>
+                    </xf:group>
+                </xf:group>
+            </xf:group>
+        </xf:group>
+        <xf:group class="dim on" id="" style=""/>
+        <xf:group class="loadingBox" id="" style="display:none;">
+            <xf:group class="spinner" id="" style="">
+                <xf:group class="" id="" style=""/>
+                <xf:group class="rect2" id="" style=""/>
+                <xf:group class="rect3" id="" style=""/>
+                <xf:group class="rect4" id="" style=""/>
+                <xf:group class="rect5" id="" style=""/>
+            </xf:group>
+        </xf:group>
+    </body>
+</html>
