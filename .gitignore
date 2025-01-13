@@ -1,19 +1,16 @@
 HELP.md
 .gradle
 /build/
-/headquater/build
-/headquater/out
-/branch/build
-/branch/out
+/manager/build
+/manager/out
+/builder/build
+/builder/out
 #!gradle/wrapper/gradle-wrapper.jar
 gradle
 gradlew
 gradlew.bat
 /common/build
 /common/out
-/batchjob/build
-/jasyptProject/build
-/oauth2/build
 
 ### STS ###
 .apt_generated
@@ -32,26 +29,13 @@ gradlew.bat
 /out/
 local.properties
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
-.vscode/
-/headquater/websquare_home/log/
-
-/headquater/src/main/resources/application.yml
-/branch/src/main/resources/application.yml
+/manager/src/main/resources/application.yml
+/builder/src/main/resources/application.yml
 ### vcs gradle ###
-branch/src/main/resources/vcsControl/build/*
-/headquater/websquare_home/
-/headquater/whive_home/
+/builder/src/main/resources/vcsControl/build/*
 
-/headquater/build/
-/headquater/out/
+/manager/build/
+/manager/out/
 /common/out/
 /common/build/
-/branch/build/
+/builder/build/
