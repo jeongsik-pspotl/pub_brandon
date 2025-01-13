@@ -1,2 +1,2 @@
-# prihive
-hive private 레파지토리
+# pub_brandon
+brandon public 레파지토리
