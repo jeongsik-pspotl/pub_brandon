@@ -1,15 +1,7 @@
-include ':headquater',
-':branch',
-':common',
-':oauth2',
-':batchjob',
-':jasyptProject',
-':managerBuilderOne'
+include ':manager',
+':builder',
+':common'
 
-project(':headquater').projectDir = new File('headquater')
-project(':branch').projectDir = new File('branch')
+project(':manager').projectDir = new File('manager')
+project(':builder').projectDir = new File('builder')
 project(':common').projectDir = new File('common')
-project(':oauth2').projectDir = new File('oauth2')
-project(':batchjob').projectDir = new File('batchjob')
-project(':jasyptProject').projectDir = new File('jasyptProject')
-
