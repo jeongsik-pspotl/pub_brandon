@@ -1,5 +1,6 @@
 package com.pspotl.sidebranden.builder.service;
 
+import com.pspotl.sidebranden.builder.domain.SigningMode;
 import com.pspotl.sidebranden.builder.enums.PayloadMsgType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

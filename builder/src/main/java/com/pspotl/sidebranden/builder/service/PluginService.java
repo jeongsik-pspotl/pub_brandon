@@ -1,7 +1,6 @@
 package com.pspotl.sidebranden.builder.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inswave.whive.branch.domain.*;
 import com.pspotl.sidebranden.builder.domain.*;
 import com.pspotl.sidebranden.builder.enums.BuildServiceType;
 import com.pspotl.sidebranden.builder.enums.BuilderDirectoryType;
@@ -20,17 +19,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.context.request.async.DeferredResult;
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -573,7 +575,7 @@ public class PluginService extends BaseService {
 
     private void executueVCSCommandALL(CommandLine commandLineParse, String VcsType, String commmandOrder){
         PipedOutputStream pipedOutput = new PipedOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(pipedOutput, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();

@@ -1,8 +1,5 @@
 package com.pspotl.sidebranden.builder.task;
 
-import java.io.*;
-import java.net.URI;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -10,6 +7,9 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.stereotype.Component;
+
+import java.io.*;
+import java.net.URI;
 
 /**
  * SVN 기본 명령어 타입

@@ -1,7 +1,9 @@
 package com.pspotl.sidebranden.builder.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pspotl.sidebranden.builder.domain.BuildStatusMessage;
 import com.pspotl.sidebranden.builder.domain.TemplateMessage;
+import com.pspotl.sidebranden.builder.enums.BuildServiceType;
 import com.pspotl.sidebranden.builder.enums.PayloadMsgType;
 import com.pspotl.sidebranden.builder.enums.ProjectServiceType;
 import com.pspotl.sidebranden.builder.handler.HeadQuaterClientHandler;
@@ -22,8 +24,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j

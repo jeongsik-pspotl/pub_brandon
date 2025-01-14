@@ -51,7 +51,7 @@ public class BranchWebConfig implements WebMvcConfigurer {
 
     @Bean
     public FilterRegistrationBean getFilterRegistrationBean() {
-        FilterRegistrationBean registrationBean = new FilterRegistrationBean(new BranchFilter());
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean(new BuilderFilter());
         registrationBean.setOrder(Integer.MIN_VALUE);
         registrationBean.setUrlPatterns(Collections.singleton("/*"));
         return registrationBean;

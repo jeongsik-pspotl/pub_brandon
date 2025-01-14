@@ -231,7 +231,7 @@ public class ProjectGeneralAppCopyService extends BaseService {
 
     private String getGradleJavaHome(String path, ArrayList<String> jdkVersion, int index) {
         PipedOutputStream pipedOutput = new PipedOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(pipedOutput, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();

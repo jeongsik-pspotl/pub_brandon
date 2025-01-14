@@ -83,7 +83,7 @@ public class BranchSocketHandler extends AbstractWebSocketHandler {
         try {
             websocketSessions.remove(session);
             session.close();
-         //  BuilderClient.connect();
+         //  branchClient.connect();
 
         } catch ( Exception ex ) {
 

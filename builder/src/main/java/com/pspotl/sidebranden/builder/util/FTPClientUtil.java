@@ -1,11 +1,13 @@
 package com.pspotl.sidebranden.builder.util;
 
 import com.pspotl.sidebranden.builder.enums.PayloadMsgType;
+import com.jcraft.jsch.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

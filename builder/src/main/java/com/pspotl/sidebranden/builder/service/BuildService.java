@@ -1,7 +1,7 @@
 package com.pspotl.sidebranden.builder.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.inswave.whive.branch.domain.*;
+import com.pspotl.sidebranden.builder.domain.*;
 
 import java.io.*;
 import java.net.URI;
@@ -19,12 +19,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.pspotl.sidebranden.builder.domain.*;
 import com.pspotl.sidebranden.builder.enums.BuildServiceType;
 import com.pspotl.sidebranden.builder.enums.BuilderDirectoryType;
 import com.pspotl.sidebranden.builder.enums.PayloadMsgType;
 import com.pspotl.sidebranden.builder.handler.HeadQuaterClientHandler;
-import com.inswave.whive.branch.task.*;
 import com.pspotl.sidebranden.builder.task.*;
 import com.pspotl.sidebranden.builder.util.BranchRestTempleteUtil;
 import com.pspotl.sidebranden.builder.util.FTPClientUtil;

@@ -1,8 +1,6 @@
 package com.pspotl.sidebranden.builder.handler;
 
-import com.inswave.whive.branch.enums.*;
-import com.pspotl.sidebranden.builder.enums.BuildServiceType;
-import com.pspotl.sidebranden.builder.enums.SessionType;
+import com.pspotl.sidebranden.builder.enums.*;
 import com.pspotl.sidebranden.builder.service.MultiProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

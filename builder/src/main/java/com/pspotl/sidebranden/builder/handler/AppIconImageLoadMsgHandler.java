@@ -1,6 +1,7 @@
 package com.pspotl.sidebranden.builder.handler;
 
 
+import com.pspotl.sidebranden.builder.enums.BuildServiceType;
 import com.pspotl.sidebranden.builder.enums.PayloadMsgType;
 import com.pspotl.sidebranden.builder.enums.ProjectServiceType;
 import com.pspotl.sidebranden.builder.enums.SessionType;

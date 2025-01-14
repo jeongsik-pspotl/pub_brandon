@@ -2,6 +2,7 @@ package com.pspotl.sidebranden.builder.handler;
 
 import com.pspotl.sidebranden.builder.domain.PluginMode;
 import com.pspotl.sidebranden.builder.enums.BuildServiceType;
+import com.pspotl.sidebranden.builder.enums.PayloadMsgType;
 import com.pspotl.sidebranden.builder.enums.SessionType;
 import com.pspotl.sidebranden.builder.service.PluginService;
 import lombok.extern.slf4j.Slf4j;

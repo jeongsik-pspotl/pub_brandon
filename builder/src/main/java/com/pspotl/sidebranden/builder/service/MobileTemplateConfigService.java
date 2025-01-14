@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.*;
-import com.inswave.whive.branch.domain.*;
-import com.inswave.whive.branch.enums.*;
 import com.pspotl.sidebranden.builder.domain.*;
 import com.pspotl.sidebranden.builder.enums.*;
 import com.pspotl.sidebranden.builder.handler.HeadQuaterClientHandler;
@@ -37,6 +35,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -3236,8 +3235,8 @@ public class MobileTemplateConfigService extends BaseService {
         ServerConfigListStatusMsg serverConfigListStatusMsg = new ServerConfigListStatusMsg();
 
         PipedOutputStream pipedOutput = new PipedOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutResult = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutResult = new ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(pipedOutput, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3300,7 +3299,7 @@ public class MobileTemplateConfigService extends BaseService {
         ServerConfigListStatusMsg serverConfigListStatusMsg = new ServerConfigListStatusMsg();
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3390,7 +3389,7 @@ public class MobileTemplateConfigService extends BaseService {
     public JSONObject executeGetMultiDomainAppConfigList(WebSocketSession session, CommandLine commandLineParse, String platform, String hqKey) throws Exception {
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3460,7 +3459,7 @@ public class MobileTemplateConfigService extends BaseService {
         MultiProfileAppConfigStatusMsg multiProfileAppConfigStatusMsg = new MultiProfileAppConfigStatusMsg();
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3559,7 +3558,7 @@ public class MobileTemplateConfigService extends BaseService {
         AppConfigListStatusMsg appConfigListStatusMsg = new AppConfigListStatusMsg();
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3631,7 +3630,7 @@ public class MobileTemplateConfigService extends BaseService {
         AppConfigListStatusMsg appConfigListStatusMsg = new AppConfigListStatusMsg();
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3702,7 +3701,7 @@ public class MobileTemplateConfigService extends BaseService {
     public JSONObject executeCommonsExecGetBuildCodeInformationList(CommandLine commandLineParse, String platform) throws Exception {
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3777,7 +3776,7 @@ public class MobileTemplateConfigService extends BaseService {
         ServerConfigListStatusMsg serverConfigListStatusMsg = new ServerConfigListStatusMsg();
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -3976,7 +3975,7 @@ public class MobileTemplateConfigService extends BaseService {
     private String executeCommonsExecGetProjectPath(CommandLine commandLineParse, String platform, String userAllPath){
 
         ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(stdoutOut, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
@@ -4048,8 +4047,8 @@ public class MobileTemplateConfigService extends BaseService {
         ServerConfigListStatusMsg serverConfigListStatusMsg = new ServerConfigListStatusMsg();
 
         PipedOutputStream pipedOutput = new PipedOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutResult = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
-        org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream stdoutErr = new org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutResult = new ByteArrayOutputStream();
+        ByteArrayOutputStream stdoutErr = new ByteArrayOutputStream();
         PumpStreamHandler handler = new PumpStreamHandler(pipedOutput, stdoutErr, null);
 
         DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
