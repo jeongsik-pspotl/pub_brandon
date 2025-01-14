@@ -12,8 +12,8 @@ hazelcast:
       aws:
         enabled: true
         host-header: ec2
-        access-key: AKIA6EGWDVK4QAVEMAVQ
-        secret-key: 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
+        access-key: ''
+        secret-key: ''
         hz-port: 5702
         region: ap-northeast-2
       tcp-ip:

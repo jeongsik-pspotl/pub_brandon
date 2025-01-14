@@ -99,12 +99,12 @@ logging:
 cloud:
   aws:
     credentials:
-      accessKey: AKIA4HCX5ZVFTBVYOAHY
-      secretKey: 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
+      accessKey: ''
+      secretKey: '''
     s3:
-      bucket: whive-dev-bucket
+      bucket: '''
     region:
-      static: ap-northeast-2
+      static: '''
     stack:
       auto: false
 defaultBinaryBufferSize: 65536

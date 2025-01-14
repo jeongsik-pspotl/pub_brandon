@@ -15,7 +15,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/whive?useUnicode=true&serverTimezone=Asia/Seoul
     username: root
-    password: whiveadm@
+    password: ''
     driverClassName: com.mysql.jdbc.Driver
   servlet:
     multipart:

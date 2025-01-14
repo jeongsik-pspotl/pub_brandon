@@ -20,7 +20,7 @@ spring:
     # ENC(ZSx0fLcJh9hLLGTHaEovWHNfFsaAlIERUIieJ1fYphbIjTlSu0w3oai0o78Wc9BcAoVUeQZpI3HDbVEHTwiSdfp4lMg/bTPy+VXvXNLidU/fOwIxD/UjQA==)
     url: jdbc:mariadb://whive-dev-freetier.clggrr8q6ibc.ap-northeast-2.rds.amazonaws.com/whive?characterEncoding=UTF-8&serverTimezone=UTC
     username: admin
-    password: inswave!1
+    password: ''
     driverClassName: org.mariadb.jdbc.Driver
     validationTimeout: 300000
     #   test-while-idle: true
@@ -94,8 +94,8 @@ logging:
 cloud:
   aws:
     credentials:
-      accessKey: AKIA4HCX5ZVFTBVYOAHY
-      secretKey: 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
+      accessKey: ''
+      secretKey: ''
     s3:
       bucket: whive-dev-bucket
     region:
