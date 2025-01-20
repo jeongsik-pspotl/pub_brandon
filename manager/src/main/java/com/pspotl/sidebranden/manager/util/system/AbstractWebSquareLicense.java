@@ -3,7 +3,6 @@ package com.pspotl.sidebranden.manager.util.system;
 import com.pspotl.sidebranden.manager.util.SystemLicenseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import websquare.system.license.manager.IPv4CIDR;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -428,47 +427,6 @@ public abstract class AbstractWebSquareLicense implements WebSquareLicense {
         }
 
         return false;
-    }
-
-    /**
-     * @param systemIP
-     * @return ip 10.10.10.20/24 (CIDR), System IP : A.B.C.D
-     */
-    private boolean isValidRangeIP(String licenseIP, String systemIP) {
-        int licenseIdx = ip.lastIndexOf(".");
-        int systemIdx = systemIP.lastIndexOf(":");
-        if (licenseIdx < 0 || systemIdx > 0) {
-            return false;
-        }
-
-        String IP = "";
-        String subNetBit = "";
-        String[] CIDR = new String[2];
-        if (licenseIP.indexOf("/") > -1) {
-            CIDR = licenseIP.split("/", 2);
-            IP = CIDR[0];
-            subNetBit = CIDR[1];
-        }
-
-        int ip32Bit = IPv4CIDR.calcIPtoInt(IP);
-        int subNetBitLength = Integer.parseInt(subNetBit);
-        int ip32BitMask = (1 << (32 - subNetBitLength)) - 1;
-
-        int startIP = ip32Bit & (~ip32BitMask);
-        int endIP = startIP | ip32BitMask;
-        int serverIP = IPv4CIDR.calcIPtoInt(systemIP);
-
-        String startIPv4 = IPv4CIDR.getIPv4ByInt(startIP);
-        String endIPv4 = IPv4CIDR.getIPv4ByInt(endIP);
-
-        String addressRange = startIPv4 + " ~ " + endIPv4;
-        if( startIP <= serverIP && serverIP <= endIP ) {
-            System.out.println("[AbstractWebSquareLicense.isValidRangeIP] is contained range. " + addressRange);
-            return true;
-        } else {
-            System.out.println("[AbstractWebSquareLicense.isValidRangeIP] is not contained range. " + addressRange);
-            return false;
-        }
     }
 
     /**

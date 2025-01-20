@@ -22,7 +22,6 @@ import com.pspotl.sidebranden.common.workspace.MemberMapping;
 import com.pspotl.sidebranden.common.workspace.Workspace;
 import com.pspotl.sidebranden.common.workspace.WorkspaceService;
 import com.pspotl.sidebranden.manager.client.ClientHandler;
-import com.inswave.whive.headquater.enums.*;
 import com.pspotl.sidebranden.manager.enums.ClientMessageType;
 import com.pspotl.sidebranden.manager.enums.ManagerDirectoryType;
 import com.pspotl.sidebranden.manager.enums.PayloadKeyType;

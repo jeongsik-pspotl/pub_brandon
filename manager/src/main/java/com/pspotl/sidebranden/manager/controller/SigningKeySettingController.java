@@ -9,7 +9,6 @@ import com.pspotl.sidebranden.common.error.WHiveInvliadRequestException;
 import com.pspotl.sidebranden.common.member.MemberDetail;
 import com.pspotl.sidebranden.common.member.MemberLogin;
 import com.pspotl.sidebranden.common.member.MemberService;
-import com.inswave.whive.common.signingkeysetting.*;
 import com.pspotl.sidebranden.common.signingkeysetting.*;
 import com.pspotl.sidebranden.manager.enums.ClientMessageType;
 import com.pspotl.sidebranden.manager.enums.PayloadKeyType;

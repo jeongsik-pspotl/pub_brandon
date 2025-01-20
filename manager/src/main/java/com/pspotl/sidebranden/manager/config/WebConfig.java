@@ -47,13 +47,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     //regist websquare dispatcher
-    @Bean
-    public ServletRegistrationBean<websquare.http.DefaultRequestDispatcher> getServletRegistrationBean()
-    {
-        ServletRegistrationBean<websquare.http.DefaultRequestDispatcher> websquareDispatcher = new ServletRegistrationBean<>(new websquare.http.DefaultRequestDispatcher());
-        websquareDispatcher.addUrlMappings("*.wq");
-        return websquareDispatcher;
-    }
 
     @Bean
     public ContentNegotiatingViewResolver contentNegotiatingViewResolver(ContentNegotiationManager contentNegotiationManager) {

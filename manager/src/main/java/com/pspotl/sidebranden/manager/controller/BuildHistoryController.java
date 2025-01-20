@@ -41,7 +41,6 @@ import com.pspotl.sidebranden.manager.handler.WHiveWebSocketHandler;
 import com.pspotl.sidebranden.manager.model.BuilderLoginSessionData;
 import com.pspotl.sidebranden.manager.model.LoginSessionData;
 import com.pspotl.sidebranden.manager.service.ClusterWebSocketBuilderService;
-import com.inswave.whive.headquater.util.*;
 import com.pspotl.sidebranden.manager.util.*;
 import com.pspotl.sidebranden.manager.util.common.Common;
 import lombok.extern.slf4j.Slf4j;
@@ -239,55 +238,46 @@ public class BuildHistoryController extends BaseUtility {
 
         //TODO  onpremiss 일경우 whive 라이센스 체크
         if(springProfile.equals("onpremiss")){
-            try {
-                // license key 상에 Android, iOS AppID List 가져오기
-                utility.checkHybridLicense(AndroidAppIDList, iOSAppIDList, platformTypeList);
+            // license key 상에 Android, iOS AppID List 가져오기
+//                utility.checkHybridLicense(AndroidAppIDList, iOSAppIDList, platformTypeList);
 
-                if(!Utility.getIsDemoLicense()) {
-                    if (AppID != null && platform != null) {
+            if(!Utility.getIsDemoLicense()) {
+                if (AppID != null && platform != null) {
 
-                        if(!platformTypeList.contains(platform)){
-                            System.err.println("Platform does not match to license file. please reissue license.");
-                            // throw new PostControllerException("Utility", "Invalid license file..");
+                    if(!platformTypeList.contains(platform)){
+                        System.err.println("Platform does not match to license file. please reissue license.");
+                        // throw new PostControllerException("Utility", "Invalid license file..");
 
-                            // platform 에러 관련 문구 추가
-                            jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_PLATFORM.getMessage());
+                        // platform 에러 관련 문구 추가
+                        jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_PLATFORM.getMessage());
+                        return responseUtility.checkFailedResponse(jsonentity);
+                    }
+
+                    if(platform.toLowerCase().equals(PayloadKeyType.android.name())){
+                        if (!AndroidAppIDList.contains(AppID)) {
+                            System.err.println("Real Android AppID does not match to license file. please reissue license.");
+
+                            // appID 에러 관련 문구 추가
+                            jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_ANDROID_APPID.getMessage());
                             return responseUtility.checkFailedResponse(jsonentity);
                         }
 
-                        if(platform.toLowerCase().equals(PayloadKeyType.android.name())){
-                            if (!AndroidAppIDList.contains(AppID)) {
-                                System.err.println("Real Android AppID does not match to license file. please reissue license.");
+                    }else if(platform.toLowerCase().equals("ios")){
+                        if (!iOSAppIDList.contains(AppID)) {
+                            System.err.println("Real iOS AppID does not match to license file. please reissue license.");
 
-                                // appID 에러 관련 문구 추가
-                                jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_ANDROID_APPID.getMessage());
-                                return responseUtility.checkFailedResponse(jsonentity);
-                            }
-
-                        }else if(platform.toLowerCase().equals("ios")){
-                            if (!iOSAppIDList.contains(AppID)) {
-                                System.err.println("Real iOS AppID does not match to license file. please reissue license.");
-
-                                // appID 에러 관련 문구 추가
-                                jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_iOS_APPID.getMessage());
-                                return responseUtility.checkFailedResponse(jsonentity);
-                            }
-
+                            // appID 에러 관련 문구 추가
+                            jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_iOS_APPID.getMessage());
+                            return responseUtility.checkFailedResponse(jsonentity);
                         }
 
-                    } else {
-                        // null이면 pass (client legacy)
                     }
-                }else {
-                    // Demo License이면 appID Check pass
+
+                } else {
+                    // null이면 pass (client legacy)
                 }
-
-            } catch (PostControllerException e) {
-
-                log.error("e.getMessage()");
-                log.error(e.getMessage());
-                jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_INVALID_TO_HIVE.getMessage());
-                return responseUtility.checkFailedResponse(jsonentity);
+            }else {
+                // Demo License이면 appID Check pass
             }
 
         }else {
@@ -1386,46 +1376,40 @@ public class BuildHistoryController extends BaseUtility {
         }
 
         if(springProfile.equals("onpremiss")){
-            try {
-                // license key 상에 Android, iOS AppID List 가져오기
-                utility.checkHybridLicense(AndroidAppIDList, iOSAppIDList, platformTypeList);
+            // license key 상에 Android, iOS AppID List 가져오기
+//                utility.checkHybridLicense(AndroidAppIDList, iOSAppIDList, platformTypeList);
 
-                if (!Utility.getIsDemoLicense()) {
-                    if (AppID != null && platform != null) {
-                        if (!platformTypeList.contains(platform)){
-                            System.err.println("Platform does not match to license file. please reissue license.");
+            if (!Utility.getIsDemoLicense()) {
+                if (AppID != null && platform != null) {
+                    if (!platformTypeList.contains(platform)){
+                        System.err.println("Platform does not match to license file. please reissue license.");
 
-                            // platform 에러 관련 문구 추가
-                            jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_PLATFORM.getMessage());
+                        // platform 에러 관련 문구 추가
+                        jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_PLATFORM.getMessage());
+                        return responseUtility.checkFailedResponse(jsonentity);
+                    }
+                    if (platform.toLowerCase().equals(PayloadKeyType.android.name())){
+                        if (!AndroidAppIDList.contains(AppID)) {
+                            System.err.println("Real Android AppID does not match to license file. please reissue license.");
+
+                            // appID 에러 관련 문구 추가
+                            jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_ANDROID_APPID.getMessage());
                             return responseUtility.checkFailedResponse(jsonentity);
                         }
-                        if (platform.toLowerCase().equals(PayloadKeyType.android.name())){
-                            if (!AndroidAppIDList.contains(AppID)) {
-                                System.err.println("Real Android AppID does not match to license file. please reissue license.");
+                    } else if(platform.toLowerCase().equals("ios")){
+                        if (!iOSAppIDList.contains(AppID)) {
+                            System.err.println("Real iOS AppID does not match to license file. please reissue license.");
 
-                                // appID 에러 관련 문구 추가
-                                jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_ANDROID_APPID.getMessage());
-                                return responseUtility.checkFailedResponse(jsonentity);
-                            }
-                        } else if(platform.toLowerCase().equals("ios")){
-                            if (!iOSAppIDList.contains(AppID)) {
-                                System.err.println("Real iOS AppID does not match to license file. please reissue license.");
-
-                                // appID 에러 관련 문구 추가
-                                jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_iOS_APPID.getMessage());
-                                return responseUtility.checkFailedResponse(jsonentity);
-                            }
+                            // appID 에러 관련 문구 추가
+                            jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_DOES_NOT_MATCH_iOS_APPID.getMessage());
+                            return responseUtility.checkFailedResponse(jsonentity);
                         }
-                    } else {
-                        // null이면 pass (client legacy)
                     }
-                }else {
-                    // Demo License이면 appID Check pass
+                } else {
+                    // null이면 pass (client legacy)
                 }
-            } catch (PostControllerException e) {
-                log.error(e.getMessage());
-                jsonentity.put(PayloadKeyType.error.name(),MessageString.LICENSE_INVALID_TO_HIVE.getMessage());
-                return responseUtility.checkFailedResponse(jsonentity);
+            }else {
+                // Demo License이면 appID Check pass
             }
         } else {
             try {

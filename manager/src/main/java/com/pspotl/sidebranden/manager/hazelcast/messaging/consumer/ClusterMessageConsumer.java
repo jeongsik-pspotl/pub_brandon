@@ -6,7 +6,6 @@ import com.hazelcast.topic.Message;
 import com.hazelcast.topic.MessageListener;
 import com.pspotl.sidebranden.manager.handler.WHiveIdentity;
 import com.pspotl.sidebranden.manager.hazelcast.HazelcastClusterManager;
-import com.inswave.whive.headquater.hazelcast.messaging.message.*;
 import com.pspotl.sidebranden.manager.hazelcast.messaging.message.*;
 import com.pspotl.sidebranden.manager.service.ClusterWebSocketService;
 import lombok.extern.slf4j.Slf4j;

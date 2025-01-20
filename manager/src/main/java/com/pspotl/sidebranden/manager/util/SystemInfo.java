@@ -1,6 +1,5 @@
 package com.pspotl.sidebranden.manager.util;
 
-import com.inswave.whive.headquater.util.systeminfo.*;
 import com.pspotl.sidebranden.manager.util.systeminfo.*;
 
 public class SystemInfo {

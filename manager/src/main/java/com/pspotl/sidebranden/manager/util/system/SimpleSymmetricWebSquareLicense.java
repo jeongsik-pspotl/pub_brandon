@@ -2,12 +2,13 @@ package com.pspotl.sidebranden.manager.util.system;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import websquare.util.BASE64;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+
+import static io.jsonwebtoken.impl.TextCodec.BASE64;
 
 public class SimpleSymmetricWebSquareLicense extends AbstractWebSquareLicense {
 
